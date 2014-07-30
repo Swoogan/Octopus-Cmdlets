@@ -1,0 +1,356 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Octopus.Platform</name>
+    </assembly>
+    <members>
+        <member name="T:Octopus.Platform.Model.Forms.VariableValue">
+            <summary>
+            An input area for variable values.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.Forms.Control">
+            <summary>
+            An visual component of a <see cref="T:Octopus.Platform.Model.Forms.Form"/>.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Model.Forms.Control.CoerceValue(System.String)">
+            <summary>
+            Convert a string into the native type supported
+            by the control. Only supported if <see cref="M:Octopus.Platform.Model.Forms.Control.GetNativeValueType"/>
+            returns a non-null type.
+            </summary>
+            <param name="value">The value to coerce. Must not be null or whitespace.</param>
+            <returns>The value.</returns>
+        </member>
+        <member name="M:Octopus.Platform.Model.Forms.Control.GetNativeValueType">
+            <summary>
+            Get the native value type supported by the control.
+            If the value returned is null, the control does not support values.
+            </summary>
+            <returns>The native type, or null.</returns>
+        </member>
+        <member name="T:Octopus.Platform.Model.Forms.Button">
+            <summary>
+            A button is essentially an 'option' that may be associated
+            with other form elements. <seealso cref="T:Octopus.Platform.Model.Forms.SubmitButtonGroup"/>
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.Forms.Checkbox">
+            <summary>
+            A Boolean option.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.Forms.Form">
+            <summary>
+            A form is a set of form elements, and the values that apply or may be provided for those elements.
+            </summary>
+        </member>
+        <member name="P:Octopus.Platform.Model.Forms.Form.Values">
+            <summary>
+            Values supplied for the form elements.
+            </summary>
+        </member>
+        <member name="P:Octopus.Platform.Model.Forms.Form.Elements">
+            <summary>
+            Elements of the form.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.Forms.FormElement">
+            <summary>
+            An item displayed or retrieved from a <see cref="T:Octopus.Platform.Model.Forms.Form"/>.
+            </summary>
+        </member>
+        <member name="P:Octopus.Platform.Model.Forms.FormElement.Name">
+            <summary>
+            The name of the element. Must be unique within the form.
+            </summary>
+        </member>
+        <member name="P:Octopus.Platform.Model.Forms.FormElement.Control">
+            <summary>
+            A control used to render the element.
+            </summary>
+        </member>
+        <member name="P:Octopus.Platform.Model.Forms.FormElement.IsValueRequired">
+            <summary>
+            If true, the receiver of the form expects that a value will be
+            provided for the element.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.Forms.Paragraph">
+            <summary>
+            A block of instructive text.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.Forms.SubmitButtonGroup">
+            <summary>
+            A group of options, represented as buttons. The value of the element is the
+            value of the selected button.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.Forms.TextArea">
+            <summary>
+            An input area for paragraphs of text.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.ReferenceCollection">
+            <summary>
+            A case-insensitive collection of unique strings used for holding document ID's. 
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.SemanticVersion">
+            <summary>
+            A hybrid implementation of SemVer that supports semantic versioning as described at http://semver.org while not strictly enforcing it to 
+            allow older 4-digit versioning schemes to continue working.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Model.SemanticVersion.Parse(System.String,System.Boolean)">
+            <summary>
+            Parses a version string using loose semantic versioning rules that allows 2-4 version components followed by an optional special version.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Model.SemanticVersion.TryParse(System.String,Octopus.Platform.Model.SemanticVersion@,System.Boolean)">
+            <summary>
+            Parses a version string using loose semantic versioning rules that allows 2-4 version components followed by an optional special version.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Model.SemanticVersion.TryParseStrict(System.String,Octopus.Platform.Model.SemanticVersion@,System.Boolean)">
+            <summary>
+            Parses a version string using strict semantic versioning rules that allows exactly 3 components and an optional special version.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Model.SemanticVersion.ParseOptionalVersion(System.String)">
+            <summary>
+            Attempts to parse the version token as a SemanticVersion.
+            </summary>
+            <returns>An instance of SemanticVersion if it parses correctly, null otherwise.</returns>
+        </member>
+        <member name="P:Octopus.Platform.Model.SemanticVersion.Version">
+            <summary>
+            Gets the normalized version portion.
+            </summary>
+        </member>
+        <member name="P:Octopus.Platform.Model.SemanticVersion.SpecialVersion">
+            <summary>
+            Gets the optional special version.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Model.TaskState">
+            <summary>
+            Represents the different states a task goes through.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Security.Permissions.Permission">
+            <summary>
+            Permissions are restricted via roles; a role may be restricted in a way that some of the
+            included permissions are not. So, when permission sets are loaded we only set up restrictions
+            that are supported by the permission type.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Util.AmazingConverter">
+            <summary>
+            The one and only <see cref="T:Octopus.Platform.Util.AmazingConverter"/>. Can convert from absolutely anything to absolutely 
+            anything.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Util.AmazingConverter.Convert(System.Object,System.Type)">
+            <summary>
+            If it can be converted, the <see cref="T:Octopus.Platform.Util.AmazingConverter"/> will figure out how. Given a source
+            object, tries its best to convert it to the target type.
+            </summary>
+            <param name="source">The source.</param>
+            <param name="targetType">The type to convert the source object to.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Octopus.Platform.Util.CleanId">
+            <summary>
+             A string guaranteed to hold a trimmed, lowercase, non-whitespace value.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Util.DateTimeExtensions.NormalFormatDateAndTime(System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Returns the date and time formatted as, for example, 'Thursday, 18 August 2011 3:46 PM'.
+            </summary>
+            <param name="dateAndTime">The date and time.</param>
+            <returns>The formatted date and time.</returns>
+        </member>
+        <member name="M:Octopus.Platform.Util.DateTimeExtensions.NormalFormatDateAndTime(System.DateTimeOffset)">
+            <summary>
+            Returns the date and time formatted as, for example, 'Thursday, 18 August 2011 3:46 PM'.
+            </summary>
+            <param name="dateAndTime">The date and time.</param>
+            <returns>The formatted date and time.</returns>
+        </member>
+        <member name="M:Octopus.Platform.Util.DateTimeExtensions.ShortFormatDate(System.DateTimeOffset)">
+            <summary>
+            Returns the date formatted as, for example, '18 August' or '18 August 2009' for prior years.
+            </summary>
+            <param name="date">The date to format.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Octopus.Platform.Util.DateTimeExtensions.ShortFormatTime(System.DateTimeOffset)">
+            <summary>
+            Returns the date formatted as, for example, '18 August' or '18 August 2009' for prior years.
+            </summary>
+            <param name="date">The date to format.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Octopus.Platform.Util.PasswordHasher">
+            <summary>
+            Secure password hasher using the inbuilt .NET implementation of PBKDF2 (<see cref="T:System.Security.Cryptography.Rfc2898DeriveBytes"/>). Simialr to BCrypt, the hash string returned
+            contains the number of iterations and the salt to use. If the number of iterations change in future, old passwords can still be verified.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Util.PasswordHasher.HashPassword(System.String)">
+            <summary>
+            Generates a new salt, and then hashes the salt and password. The resulting string contains the number of iterations used, the generated salt, and the hashed password. 
+            Do NOT use this function when comparing a password hash since it will get a new salt each time. Instead, use <see cref="M:Octopus.Platform.Util.PasswordHasher.VerifyPassword(System.String,System.String)"/>.
+            </summary>
+            <param name="plainTextPassword">The new plain text password to hash.</param>
+        </member>
+        <member name="M:Octopus.Platform.Util.PasswordHasher.VerifyPassword(System.String,System.String)">
+            <summary>
+            Verifies a password against the current password hash. Since the hash contains the number of iterations and the salt, this is all the information we need to compare.
+            </summary>
+            <param name="candidatePlainTextPassword">The user-provided password to check.</param>
+            <param name="knownHash">The hash of our existing password.</param>
+            <returns><c>true</c> if the password is valid; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="T:Octopus.Platform.Variables.Templates.Parser.Ast.ConditionalToken">
+            <summary>
+            Example: <code>#{if Octopus.IsCool}...#{/if}</code>
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Variables.Templates.Parser.Ast.ContentExpression">
+            <summary>
+            The top-level "thing that has a textual value" that
+            can be manipulated or inserted into the output.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Variables.Templates.Parser.Ast.SymbolExpressionStep">
+            <summary>
+            A segment of a <see cref="T:Octopus.Platform.Variables.Templates.Parser.Ast.SymbolExpression"/>,
+            e.g. <code>Octopus</code>, <code>[Foo]</code>.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Variables.Templates.Parser.Ast.FunctionCallExpression">
+            <summary>
+            Syntactically this appears as the <code>| FilterName</code> construct, where
+            the (single) argument is specified to the left of the bar. Under the hood this
+            same AST node will also represent classic <code>Function(Foo,Bar)</code> expressions.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Variables.Templates.Parser.Ast.SubstitutionToken">
+            <summary>
+            Example: <code>#{Octopus.Action[Foo].Name</code>.
+            </summary>
+        </member>
+        <member name="T:Octopus.Platform.Variables.Templates.Parser.Ast.SymbolExpression">
+            <summary>
+            A value, identified using dotted/bracketed notation, e.g.:
+            <code>Octopus.Action[Name].Foo</code>. This would classically
+            be represented using nesting "property expressions" rather than a path, but in the
+            current very simple language a path is more convenient to work with.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Variables.VariableDictionary.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Octopus.Platform.Variables.VariableDictionary"/> class.
+            </summary>
+        </member>
+        <member name="M:Octopus.Platform.Variables.VariableDictionary.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Octopus.Platform.Variables.VariableDictionary"/> class.
+            </summary>
+            <param name="variables"></param>
+        </member>
+        <member name="M:Octopus.Platform.Variables.VariableDictionary.#ctor(System.Collections.Generic.IEnumerable{Octopus.Platform.Variables.Variable})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Octopus.Platform.Variables.VariableDictionary"/> class.
+            </summary>
+            <param name="variables">The variables.</param>
+        </member>
+        <member name="M:Octopus.Platform.Variables.VariableDictionary.Get(System.String)">
+            <summary>
+            Performs a case-insensitive lookup of a variable by name, returning null if the variable is not defined.
+            </summary>
+            <param name="variableName">Name of the variable.</param>
+            <returns>The value of the variable, or null if one is not defined.</returns>
+        </member>
+        <member name="T:Octopus.Platform.Web.UrlTemplate">
+            <summary>
+              Modified implementation of the URI Template Spec RFC6570 for use in the Octopus Deploy RESTful API client.
+            </summary>
+            <remarks>
+              This implementation is from: https://github.com/darrelmiller/UriTemplates. The class was renamed so as not to conflict with 
+              the UriTemplate class built into .NET, and the static <see cref="M:Octopus.Platform.Web.UrlTemplate.Resolve(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})"/> methods 
+              were added.
+            </remarks>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.#ctor(System.String)">
+            <summary>
+              Initializes a new instance of the <see cref="T:Octopus.Platform.Web.UrlTemplate"/> class.
+            </summary>
+            <param name="template"> The template. </param>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.SetParameter(System.String,System.Object)">
+            <summary>
+              Sets the parameter.
+            </summary>
+            <param name="name"> The name. </param>
+            <param name="value"> The value. </param>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.SetParameter(System.String,System.String)">
+            <summary>
+              Sets the parameter.
+            </summary>
+            <param name="name"> The name. </param>
+            <param name="value"> The value. </param>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.SetParameter(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+              Sets the parameter.
+            </summary>
+            <param name="name"> The name. </param>
+            <param name="value"> The value. </param>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.SetParameter(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+              Sets the parameter.
+            </summary>
+            <param name="name"> The name. </param>
+            <param name="value"> The value. </param>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.GetParameterNames">
+            <summary>
+              Gets the parameter names.
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.Resolve">
+            <summary>
+              Resolves this instance.
+            </summary>
+            <returns> </returns>
+            <exception cref="T:System.ArgumentException">Malformed template :  + result
+              or
+              Malformed template :  + result</exception>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.Resolve(System.String,System.Object)">
+            <summary>
+              Resolves the specified template spec.
+            </summary>
+            <param name="templateSpec"> The template spec. </param>
+            <param name="parameters"> The parameters. </param>
+            <returns> </returns>
+        </member>
+        <member name="M:Octopus.Platform.Web.UrlTemplate.Resolve(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+              Resolves the specified template spec.
+            </summary>
+            <param name="templateSpec"> The template spec. </param>
+            <param name="parameters"> The parameters. </param>
+            <returns> </returns>
+        </member>
+    </members>
+</doc>
