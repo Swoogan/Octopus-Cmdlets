@@ -29,6 +29,6 @@ Add a variable to a project's VariableSet:
 > Add-Variable -Project <string> -Name <string> -Value <string> [-Environments <string[]>] [-Sensitive]
 
 Removes the first variable with a given name:
-Remove-Variable -Project <string> -Name <string>
+> Remove-Variable -Project <string> -Name <string>
 
 
