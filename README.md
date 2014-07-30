@@ -26,9 +26,9 @@ Lists all the variables in a given project
 > Get-OctoVariables -Project <string>
 
 Add a variable to a project's VariableSet:
-> Add-Variable -Project <string> -Name <string> -Value <string> [-Environments <string[]>] [-Sensitive]
+> Add-OctoVariable -Project <string> -Name <string> -Value <string> [-Environments <string[]>] [-Sensitive]
 
 Removes the first variable with a given name:
-> Remove-Variable -Project <string> -Name <string>
+> Remove-OctoVariable -Project <string> -Name <string>
 
 
