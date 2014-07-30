@@ -1,8 +1,11 @@
 Octopus-Cmdlets
 ===============
 
+Yo Dawg, I herd you like automation, so I put cmdlets in your PowerShell so you can automate while you automate.
+
 PowerShell cmdlets to simplify and automate working with an Octopus Deploy server.
 
+<sub>automate all the things!!!<sub>
 
 Installation
 ============
