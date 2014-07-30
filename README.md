@@ -8,6 +8,7 @@ Installation
 ============
 * Build the solution
 * Open PowerShell and run:
+
 > Import-Module "[Path to the build dll]"
 
 Usage
