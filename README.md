@@ -21,18 +21,23 @@ First you have to create a connection to the server. If you haven't already, cre
   Connect-OctoServer -Server \<string\> -ApiKey \<string\>
 
 List the environments defined on the octopus server:
+
   Get-OctoEnvironments
 
 Lists all the projects defined on the server:
+
   Get-OctoProjects
 
 Lists all the variables in a given project
+
   Get-OctoVariables -Project \<string\>
 
 Add a variable to a project's VariableSet:
+
   Add-OctoVariable -Project \<string\> -Name \<string\> -Value \<string\> \[-Environments \<string\[\]\>\] \[-Sensitive\]
 
 Removes the first variable with a given name:
+
   Remove-OctoVariable -Project \<string\> -Name \<string\>
 
 
