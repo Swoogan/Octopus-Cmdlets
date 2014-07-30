@@ -17,8 +17,9 @@ Installation
 Usage
 =====
 First you have to create a connection to the server. If you haven't already, create an ApiKey 
-(see: http://docs.octopusdeploy.com/display/OD/How+to+create+an+API+key). Then connect with
-  Connect-OctoServer -Server \<string\> -ApiKey \<string\>
+(see: http://docs.octopusdeploy.com/display/OD/How+to+create+an+API+key). Then connect with:
+
+    Connect-OctoServer -Server <string> -ApiKey <string>
 
 List the environments defined on the octopus server:
 
@@ -30,14 +31,14 @@ Lists all the projects defined on the server:
 
 Lists all the variables in a given project
 
-    Get-OctoVariables -Project \<string\>
+    Get-OctoVariables -Project <string>
 
 Add a variable to a project's VariableSet:
 
-    Add-OctoVariable -Project \<string\> -Name \<string\> -Value \<string\> \[-Environments \<string\[\]\>\] \[-Sensitive\]
+    Add-OctoVariable -Project <string> -Name <string> -Value <string> [-Environments <string[]>] [-Sensitive]
 
 Removes the first variable with a given name:
 
-    Remove-OctoVariable -Project \<string\> -Name \<string\>
+    Remove-OctoVariable -Project <string> -Name <string>
 
 
