@@ -9,7 +9,7 @@ Installation
 * Build the solution
 * Open PowerShell and run:
 
-> Import-Module "[Path to the build dll]"
+> Import-Module "[Path to the built dll]"
 
 Usage
 =====
