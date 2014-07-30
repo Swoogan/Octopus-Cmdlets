@@ -27,12 +27,12 @@ Lists all the projects defined on the server:
 > Get-OctoProjects
 
 Lists all the variables in a given project
-> Get-OctoVariables -Project <string>
+> Get-OctoVariables -Project \<string\>
 
 Add a variable to a project's VariableSet:
-> Add-OctoVariable -Project <string> -Name <string> -Value <string> [-Environments <string[]>] [-Sensitive]
+> Add-OctoVariable -Project \<string\> -Name \<string\> -Value \<string\> \[-Environments \<string\[\]\>\] \[-Sensitive\]
 
 Removes the first variable with a given name:
-> Remove-OctoVariable -Project <string> -Name <string>
+> Remove-OctoVariable -Project \<string\> -Name \<string\>
 
 
