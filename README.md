@@ -5,7 +5,7 @@ Yo Dawg, I herd you like automation, so I put cmdlets in your PowerShell so you 
 
 PowerShell cmdlets to simplify and automate working with an Octopus Deploy server.
 
-<sub>automate all the things!!!<sub>
+<sub>Automate all the things!!!<sub>
 
 Installation
 ============
@@ -27,7 +27,7 @@ Lists all the projects defined on the server:
 > Get-OctoProjects
 
 Lists all the variables in a given project
-> Get-OctoVariables -Project <string>
+> Get-OctoVariables -Project <<string>>
 
 Add a variable to a project's VariableSet:
 > Add-OctoVariable -Project <string> -Name <string> -Value <string> [-Environments <string[]>] [-Sensitive]
