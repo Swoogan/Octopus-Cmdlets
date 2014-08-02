@@ -59,13 +59,14 @@
     <Compile Include="ConnectServer.cs" />
     <Compile Include="AddVariable.cs" />
     <Compile Include="RemoveVariable.cs" />
-    <Compile Include="GetVariables.cs" />
+    <Compile Include="GetVariable.cs" />
     <Compile Include="GetProjects.cs" />
     <Compile Include="GetEnvironments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Test.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

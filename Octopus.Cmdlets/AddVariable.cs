@@ -11,29 +11,31 @@ namespace Octopus.Cmdlets
     public class AddVariable : PSCmdlet
     {
         [Parameter(
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true,
             Position = 0,
+            Mandatory = true,
+            ParameterSetName = "Parts",
             HelpMessage = "The project to get the variables for."
             )]
         public string Project { get; set; }
 
         [Parameter(
+            Position = 1,
             Mandatory = true,
-            Position = 1
+            ParameterSetName = "Parts"
             )]
         public string Name { get; set; }
 
         [Parameter(
+            Position = 2,
             Mandatory = true,
-            Position = 2
+            ParameterSetName = "Parts"
             )]
         public string Value { get; set; }
 
         [Parameter(
+            Position = 3,
             Mandatory = false,
-            Position = 3
+            ParameterSetName = "Parts"
             )]
         public string[] Environments { get; set; }
 
@@ -56,10 +58,18 @@ namespace Octopus.Cmdlets
         //public string[] Steps { get; set; }
 
         [Parameter(
+            Position = 4,
             Mandatory = false,
-            Position = 4
+            ParameterSetName = "Parts"
             )]
         public bool Sensitive { get; set; }
+
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ParameterSetName = "InputObject"
+            )]
+        public VariableResource InputObject { get; set; }
 
         public AddVariable()
         {

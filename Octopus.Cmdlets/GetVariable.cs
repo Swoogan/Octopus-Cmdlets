@@ -4,17 +4,22 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "OctoVariables")]
-    public class GetVariables : PSCmdlet
+    [Cmdlet(VerbsCommon.Get, "OctoVariable")]
+    public class GetVariable : PSCmdlet
     {
         [Parameter(
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true,
             Position = 0,
+            Mandatory = true,
             HelpMessage = "The project to get the variables for."
             )]
         public string Project { get; set; }
+
+        [Parameter(
+            Position = 1,
+            Mandatory = true,
+            HelpMessage = "The name of the variable to look for."
+            )]
+        public string Name { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -36,10 +41,9 @@ namespace Octopus.Cmdlets
             // Get the variables for editing
             var variableSet = octopus.VariableSets.Get(project.Link("Variables"));
 
-            foreach (var environment in variableSet.Variables)
-            {
-                WriteObject(environment);                
-            }
+            foreach (var variable in variableSet.Variables)
+                if (string.IsNullOrWhiteSpace(Name) || variable.Name == Name)
+                    WriteObject(variable);                
         }
     }
 }
