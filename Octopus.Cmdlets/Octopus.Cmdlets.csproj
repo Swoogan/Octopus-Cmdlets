@@ -65,6 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Octopus.Cmdlets.psd1" />
     <None Include="packages.config" />
     <None Include="Test.ps1" />
   </ItemGroup>
