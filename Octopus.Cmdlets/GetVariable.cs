@@ -16,7 +16,7 @@ namespace Octopus.Cmdlets
 
         [Parameter(
             Position = 1,
-            Mandatory = true,
+            Mandatory = false,
             HelpMessage = "The name of the variable to look for."
             )]
         public string Name { get; set; }
