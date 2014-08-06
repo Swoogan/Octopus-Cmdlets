@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
@@ -17,11 +18,15 @@ namespace Octopus.Cmdlets
         [Parameter(
             Position = 1,
             Mandatory = false,
+            ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The name of the variable to look for."
             )]
-        public string Name { get; set; }
+        public string[] Name { get; set; }
 
-        protected override void ProcessRecord()
+        private VariableSetResource _variableSet;
+
+        protected override void BeginProcessing()
         {
             var octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
             if (octopus == null)
@@ -39,11 +44,15 @@ namespace Octopus.Cmdlets
             }
 
             // Get the variables for editing
-            var variableSet = octopus.VariableSets.Get(project.Link("Variables"));
+            _variableSet = octopus.VariableSets.Get(project.Link("Variables"));
+        }
 
-            foreach (var variable in variableSet.Variables)
-                if (string.IsNullOrWhiteSpace(Name) || variable.Name == Name)
-                    WriteObject(variable);                
+        protected override void ProcessRecord()
+        {
+            foreach (var name in Name)
+                foreach (var variable in _variableSet.Variables)
+                    if (string.IsNullOrWhiteSpace(name) || variable.Name == name)
+                        WriteObject(variable);                
         }
     }
 }
