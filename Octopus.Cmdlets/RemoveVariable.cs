@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
@@ -23,17 +24,20 @@ namespace Octopus.Cmdlets
             )]
         public string Name { get; set; }
 
-        protected override void ProcessRecord()
+        private OctopusRepository _octopus;
+        private VariableSetResource _variableSet;
+
+        protected override void BeginProcessing()
         {
-            var octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
-            if (octopus == null)
+            _octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
+            if (_octopus == null)
             {
                 throw new Exception(
                     "Connection not established. Please connect to you Octopus Deploy instance with Connect-OctoServer");
             }
 
             // Find the project that owns the variables we want to edit
-            var project = octopus.Projects.FindByName(Project);
+            var project = _octopus.Projects.FindByName(Project);
 
             if (project == null)
             {
@@ -42,13 +46,16 @@ namespace Octopus.Cmdlets
             }
 
             // Get the variables for editing
-            var variableSet = octopus.VariableSets.Get(project.Link("Variables"));
-            
+            _variableSet = _octopus.VariableSets.Get(project.Link("Variables"));
+        }
+
+        protected override void ProcessRecord()
+        {
             // This is debatable. If you have more than one of the same name,
             // it's going to remove one at random. On the other hand, if you 
             // get all matching the name, put pipe the name in multiple times 
             // (ie: find Test.*) you'll get an error on the successive attempts.
-            var variable = variableSet.Variables.FirstOrDefault(x => x.Name == Name);
+            var variable = _variableSet.Variables.FirstOrDefault(x => x.Name == Name);
 
             if (variable == null)
             {
@@ -58,11 +65,16 @@ namespace Octopus.Cmdlets
             }
             else
             {
-                variableSet.Variables.Remove(variable);
-
-                // Save the variables
-                octopus.VariableSets.Modify(variableSet);
+                _variableSet.Variables.Remove(variable);
             }
+        }
+
+        protected override void EndProcessing()
+        {
+            // Save the variables
+            _octopus.VariableSets.Modify(_variableSet);
+
+            WriteDebug("Modified the variable set");
         }
     }
 }
