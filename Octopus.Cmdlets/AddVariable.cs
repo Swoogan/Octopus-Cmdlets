@@ -103,7 +103,7 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Found variable set" + variableSet.Id);
 
-            var variable = new VariableResource {Name = Name, Value = Value};
+            var variable = new VariableResource {Name = Name, Value = Value, IsSensitive = Sensitive};
             var environments = octopus.Environments.FindByNames(Environments);
             var ids = environments.Select(environment => environment.Id).ToList();
 
