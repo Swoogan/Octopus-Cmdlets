@@ -8,7 +8,7 @@ using Octopus.Platform.Model;
 namespace Octopus.Cmdlets
 {
     [Cmdlet(VerbsCommon.Add, 
-        "OctoVariable", 
+        "Variable", 
         DefaultParameterSetName = "Parts")]
     public class AddVariable : PSCmdlet
     {

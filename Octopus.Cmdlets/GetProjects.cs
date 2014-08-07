@@ -4,7 +4,7 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "OctoProjects")]
+    [Cmdlet(VerbsCommon.Get, "Projects")]
     public class GetProjects : PSCmdlet
     {
         protected override void ProcessRecord()
@@ -15,9 +15,9 @@ namespace Octopus.Cmdlets
                 throw new Exception("Connection not established. Please connect to you Octopus Deploy instance with Connect-OctoServer");
             }
 
-            foreach (var environment in octopus.Projects.GetAll())
+            foreach (var project in octopus.Projects.GetAll())
             {
-                WriteObject(environment);                
+                WriteObject(project);                
             }
         }
     }

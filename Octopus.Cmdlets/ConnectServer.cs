@@ -3,7 +3,7 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommunications.Connect, "OctoServer")]
+    [Cmdlet(VerbsCommunications.Connect, "Server")]
     public class ConnectServer : PSCmdlet
     {
         [Parameter(

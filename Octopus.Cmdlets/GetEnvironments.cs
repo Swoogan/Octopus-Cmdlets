@@ -4,7 +4,7 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "OctoEnvironments")]
+    [Cmdlet(VerbsCommon.Get, "Environments")]
     public class GetEnvironments : PSCmdlet
     {
         protected override void ProcessRecord()

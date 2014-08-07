@@ -4,7 +4,7 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "OctoLibraryVariableSet")]
+    [Cmdlet(VerbsCommon.Get, "LibraryVariableSet")]
     public class GetLibraryVariableSet : PSCmdlet
     {
         [Parameter(

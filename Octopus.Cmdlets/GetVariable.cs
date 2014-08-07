@@ -5,7 +5,7 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "OctoVariable")]
+    [Cmdlet(VerbsCommon.Get, "Variable")]
     public class GetVariable : PSCmdlet
     {
         [Parameter(
@@ -49,10 +49,18 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            foreach (var name in Name)
+            if (Name == null)
+            {
                 foreach (var variable in _variableSet.Variables)
-                    if (string.IsNullOrWhiteSpace(name) || variable.Name == name)
-                        WriteObject(variable);                
+                    WriteObject(variable);
+            }
+            else
+            {
+                foreach (var name in Name)
+                    foreach (var variable in _variableSet.Variables)
+                        if (variable.Name == name)
+                            WriteObject(variable);                    
+            }
         }
     }
 }
