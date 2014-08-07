@@ -28,18 +28,19 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            foreach (var name in Name)
+            var variableSets = _octopus.LibraryVariableSets.FindAll();
+
+            if (Name == null)
             {
-                if (String.IsNullOrWhiteSpace(name))
-                {
-                    foreach (var variableSet in _octopus.LibraryVariableSets.FindAll())
-                        WriteObject(variableSet);
-                }
-                else
-                {
-                    var variableSet = _octopus.LibraryVariableSets.FindOne(x => x.Name == name);
+                foreach (var variableSet in variableSets)
                     WriteObject(variableSet);
-                }
+            }
+            else
+            {
+                foreach (var name in Name)
+                    foreach (var variableSet in variableSets)
+                        if (variableSet.Name == name)
+                            WriteObject(variableSet);
             }
         }
     }
