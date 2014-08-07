@@ -62,8 +62,8 @@
     <Compile Include="GetLibraryVariableSetVariable.cs" />
     <Compile Include="RemoveVariable.cs" />
     <Compile Include="GetVariable.cs" />
-    <Compile Include="GetProjects.cs" />
-    <Compile Include="GetEnvironments.cs" />
+    <Compile Include="GetProject.cs" />
+    <Compile Include="GetEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

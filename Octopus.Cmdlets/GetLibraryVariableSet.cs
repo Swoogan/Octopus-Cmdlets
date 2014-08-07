@@ -9,7 +9,7 @@ namespace Octopus.Cmdlets
     {
         [Parameter(
             Position = 0,
-            Mandatory = true,
+            Mandatory = false,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The name of the VariableSet to look for."
