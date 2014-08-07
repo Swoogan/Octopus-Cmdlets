@@ -12,7 +12,7 @@ Installation
 * Build the solution
 * Open PowerShell and run:
 
-    Import-Module "[Path to the built dll]"
+    Import-Module "[Path to the built dll]" -Prefix Octo
 
 Usage
 =====
@@ -23,15 +23,15 @@ First you have to create a connection to the server. If you haven't already, cre
 
 List the environments defined on the octopus server:
 
-    Get-OctoEnvironments
+    Get-OctoEnvironment [-Name <string[]>]
 
 Lists all the projects defined on the server:
 
-    Get-OctoProjects
+    Get-OctoProject [-Name <string[]>]
 
 Lists all the variables in a given project
 
-    Get-OctoVariables -Project <string>
+    Get-OctoVariable -Project <string> [-Name <string[]>]
 
 Add a variable to a project's VariableSet:
 
