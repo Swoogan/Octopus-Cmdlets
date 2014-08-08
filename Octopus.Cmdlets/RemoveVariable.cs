@@ -6,7 +6,7 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Remove, "OctoVariable")]
+    [Cmdlet(VerbsCommon.Remove, "Variable")]
     public class RemoveVariable : PSCmdlet
     {
         [Parameter(
