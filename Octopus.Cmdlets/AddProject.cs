@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "Project")]
-    public class GetProject : PSCmdlet
+    [Cmdlet(VerbsCommon.Add, "Project")]
+    public class AddProject : PSCmdlet
     {
         [Parameter(
             Position = 0,
-            Mandatory = false,
-            ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the VariableSet to look for.")]
-        public string[] Name { get; set; }
+            Mandatory = true)]
+        public string ProjectGroupId { get; set; }
+
+        [Parameter(
+            Position = 1,
+            Mandatory = true)]
+        public string Name { get; set; }
 
         private OctopusRepository _octopus;
 
@@ -29,12 +30,13 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            var projects = Name == null ? 
-                _octopus.Projects.FindAll() : 
-                _octopus.Projects.FindByNames(Name);
-
-            foreach (var project in projects)
-                WriteObject(project);
+            var project = new ProjectResource
+            {
+                Name = Name,
+                ProjectGroupId = ProjectGroupId
+            };
+            
+            _octopus.Projects.Create(project);
         }
     }
 }

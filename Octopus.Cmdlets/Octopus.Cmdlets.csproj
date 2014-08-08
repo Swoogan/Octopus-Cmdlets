@@ -60,11 +60,14 @@
     <Compile Include="AddVariable.cs" />
     <Compile Include="GetLibraryVariableSet.cs" />
     <Compile Include="GetLibraryVariableSetVariable.cs" />
+    <Compile Include="AddProject.cs" />
+    <Compile Include="GetProjectGroup.cs" />
     <Compile Include="RemoveVariable.cs" />
     <Compile Include="GetVariable.cs" />
     <Compile Include="GetProject.cs" />
     <Compile Include="GetEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdateVariable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Octopus.Cmdlets.psd1">
