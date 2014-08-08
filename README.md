@@ -19,27 +19,31 @@ Usage
 First you have to create a connection to the server. If you haven't already, create an ApiKey 
 (see: http://docs.octopusdeploy.com/display/OD/How+to+create+an+API+key). Then connect with:
 
-    Connect-OctoServer -Server <string> -ApiKey <string>
+    Connect-OctoServer [-Server] <string> [-ApiKey] <string>  [<CommonParameters>]
 
 List the environments defined on the octopus server:
 
-    Get-OctoEnvironment [-Name <string[]>]
+    Get-OctoEnvironment [[-Name] <string[]>]  [<CommonParameters>]
 
 Lists all the projects defined on the server:
 
-    Get-OctoProject [-Name <string[]>]
+    Get-OctoProject [[-Name] <string[]>]  [<CommonParameters>]
 
 Lists all the variables in a given project
 
-    Get-OctoVariable -Project <string> [-Name <string[]>]
+    Get-OctoVariable [-Project] <string> [[-Name] <string[]>]  [<CommonParameters>]v
 
 Add a variable to a project's VariableSet:
 
-    Add-OctoVariable -Project <string> -Name <string> -Value <string> [-Environments <string[]>] [-Sensitive]
+    Add-OctoVariable [-Project] <string> [-Name] <string> [-Value] <string> 
+    [[-Environments] <string[]>] [[-Sensitive] <bool>]  [<CommonParameters>]
+    
+    Add-OctoVariable [-Project] <string> [-InputObject] <VariableResource[]>  
+    [<CommonParameters>]
 
 Removes the first variable with a given name:
 
-    Remove-OctoVariable -Project <string> -Name <string>
+    Remove-OctoVariable [-Project] <string> [-Name] <string>  [<CommonParameters>]
 
 Licence
 =======
