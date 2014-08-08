@@ -21,6 +21,10 @@ First you have to create a connection to the server. If you haven't already, cre
 
     Connect-OctoServer [-Server] <string> [-ApiKey] <string>  [<CommonParameters>]
 
+List the project groups defined on the octopus server:
+
+	Get-OctoProjectGroup [[-Name] <string[]>]  [<CommonParameters>]
+
 List the environments defined on the octopus server:
 
     Get-OctoEnvironment [[-Name] <string[]>]  [<CommonParameters>]
@@ -28,6 +32,10 @@ List the environments defined on the octopus server:
 Lists all the projects defined on the server:
 
     Get-OctoProject [[-Name] <string[]>]  [<CommonParameters>]
+
+Add a new project to a project group:
+
+	Add-OctoProject [-ProjectGroupId] <string> [-Name] <string>  [<CommonParameters>]
 
 Lists all the variables in a given project
 
