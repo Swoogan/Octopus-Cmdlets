@@ -8,8 +8,28 @@ task Release {
   msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj /p:Configuration=Release
 }
 
-task Install -depends Release {
-	
+task Install -depends Install-ForMe, Release 
+
+task Install-ForMe -depends Release {
+	$paths = $env:PSModulePath.Split(';')
+	$personal = $paths[0]	# suppose it's not guaranteed to be the first, oh well...
+	$installPath = Join-Path $personal -ChildPath "Octopus.Cmdlets"
+	if (-not (Test-Path $installPath)) {
+		New-Item -Path $installPath -ItemType directory | Out-Null
+		Write-Host "Created directory '$installPath'" -ForegroundColor Green
+	}
+	Copy-Item -Path ./Octopus.Cmdlets/bin/Release/* -Destination $installPath
+}
+
+task Install-ForEveryone {
+	$paths = $env:PSModulePath.Split(';')
+	$personal = $paths[1]	# suppose it's not guaranteed to be the second, oh well...
+	$installPath = Join-Path $personal -ChildPath "Octopus.Cmdlets"
+	if (-not (Test-Path $installPath)) {
+		New-Item -Path $installPath -ItemType directory | Out-Null
+		Write-Host "Created directory '$installPath'" -ForegroundColor Green
+	}
+	Copy-Item -Path ./Octopus.Cmdlets/bin/Release/* -Destination $installPath
 }
 
 task Debug { 
