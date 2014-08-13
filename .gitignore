@@ -154,3 +154,7 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+# Random
+/packages/psake.4.3.2
+/Octopus.Cmdlets/Run-Test.ps1
