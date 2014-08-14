@@ -41,18 +41,7 @@ namespace Octopus.Cmdlets
                 {
                     var link = libraryVariableSet.Link("Variables");
                     WriteDebug(link);
-
-                    foreach (var variable in _octopus.VariableSets.Get(link).Variables)
-                    {
-                        WriteDebug(variable.Name);
-                        foreach (var name in Name)
-                        {
-                            WriteDebug(name);
-
-                            if (string.IsNullOrWhiteSpace(name) || variable.Name == name)
-                                WriteObject(variable);
-                        }
-                    }
+                    WriteObjects(link);
                 }
             }
             else
@@ -63,18 +52,22 @@ namespace Octopus.Cmdlets
                     throw new Exception(string.Format("LibraryVariableSet '{0}' was not found", VariableSetName));
 
                 var link = libraryVariableSet.Link("Variables");
+                WriteDebug(link);
+                WriteObjects(link);
+            }
+        }
 
-                foreach (var variable in _octopus.VariableSets.Get(link).Variables)
+        private void WriteObjects(string link)
+        {
+            foreach (var variable in _octopus.VariableSets.Get(link).Variables)
+            {
+                WriteDebug(variable.Name);
+                foreach (var name in Name)
                 {
-                    WriteDebug(variable.Name);
+                    WriteDebug(name);
 
-                    foreach (var name in Name)
-                    {
-                        WriteDebug(name);
-
-                        if (string.IsNullOrWhiteSpace(name) || variable.Name == name)
-                            WriteObject(variable);
-                    }
+                    if (string.IsNullOrWhiteSpace(name) || variable.Name == name)
+                        WriteObject(variable);
                 }
             }
         }
