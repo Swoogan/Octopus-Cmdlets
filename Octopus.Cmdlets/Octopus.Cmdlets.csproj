@@ -72,7 +72,12 @@
     <Compile Include="UpdateVariable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Octopus.Cmdlets.psd1" />
+    <Content Include="Octopus.Cmdlets.psd1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Octopus.Cmdlets.Types.ps1xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Test.ps1" />
   </ItemGroup>
