@@ -78,6 +78,10 @@
     <Content Include="Octopus.Cmdlets.Types.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Octopus.Cmdlets.Format.ps1xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="packages.config" />
     <None Include="Test.ps1" />
   </ItemGroup>
