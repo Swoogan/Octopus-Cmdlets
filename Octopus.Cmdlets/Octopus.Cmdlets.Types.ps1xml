@@ -71,6 +71,7 @@
       </MemberSet>
     </Members>
   </Type>
+  <!--
   <Type>
     <Name>Octopus.Client.Model.ReferenceDataItem</Name>
     <Members>
@@ -88,6 +89,7 @@
       </MemberSet>
     </Members>
   </Type>
+  -->
   <Type>
     <Name>Octopus.Client.Model.ReleaseResource</Name>
     <Members>
@@ -101,6 +103,23 @@
               <Name>Version</Name>
               <Name>ReleaseNotes</Name>
               <Name>ProjectId</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Octopus.Client.Model.EnvironmentResource</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Name</Name>
+              <Name>Id</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>
