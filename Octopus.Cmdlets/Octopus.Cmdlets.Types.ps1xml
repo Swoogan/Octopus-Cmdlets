@@ -98,8 +98,8 @@
             <Name>DefaultDisplayPropertySet</Name>
             <ReferencedProperties>
               <Name>Assembled</Name>
-              <Name>ReleaseNotes</Name>
               <Name>Version</Name>
+              <Name>ReleaseNotes</Name>
               <Name>ProjectId</Name>
             </ReferencedProperties>
           </PropertySet>

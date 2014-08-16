@@ -16,6 +16,12 @@ namespace Octopus.Cmdlets
             HelpMessage = "The project to get the release for.")]
         public string Project { get; set; }
 
+        [Parameter(
+            Position = 1,
+            Mandatory = false,
+            HelpMessage = "The version number of the release to lookup.")]
+        public string Version { get; set; }
+
         //[Parameter(
         //    Position = 1,
         //    Mandatory = false,
@@ -38,40 +44,26 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
+            ProjectResource project = null;
+
             if (Project != null)
             {
                 // Find the project that owns the variables we want to edit
-                var project = _octopus.Projects.FindByName(Project);
+                project = _octopus.Projects.FindByName(Project);
 
                 if (project == null)
                 {
                     const string msg = "Project '{0}' was found.";
                     throw new Exception(string.Format(msg, Project));
                 }
+            }
 
-                _releases = _octopus.Releases.FindMany(r => r.ProjectId == project.Id);
-            }
-            else
-            {
-                _releases = _octopus.Releases.FindAll();
-            }
+            _releases = _octopus.Releases.FindMany(r => 
+                (project == null || r.ProjectId == project.Id) &&
+                (Version == null || r.Version == Version));
 
             foreach (var release in _releases)
-            {
                 WriteObject(release);
-            }
-            //if (Name == null)
-            //{
-            //    foreach (var variable in _variableSet.Variables)
-            //        WriteObject(variable);
-            //}
-            //else
-            //{
-            //    foreach (var name in Name)
-            //        foreach (var variable in _variableSet.Variables)
-            //            if (variable.Name == name)
-            //                WriteObject(variable);
-            //}
         }
     }
 }
