@@ -16,6 +16,12 @@
           </PropertySet>
         </Members>
       </MemberSet>
+      <ScriptProperty>
+        <Name>Environment</Name>
+        <GetScriptBlock>
+          $this.Scope["Environment"] | % { (Get-OctoEnvironment -Id $_).Name }
+        </GetScriptBlock>
+      </ScriptProperty>
     </Members>
   </Type>
   <Type>
