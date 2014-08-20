@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
@@ -18,10 +21,11 @@ namespace Octopus.Cmdlets
 
         [Parameter(
             ParameterSetName = "ById",
-            Position = 0,
             Mandatory = true,
+            ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The id of the environment to look for.")]
-        public string Id { get; set; }
+        public string[] Id { get; set; }
 
         private OctopusRepository _octopus;
 
@@ -35,21 +39,36 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            if (Name != null)
+            switch (ParameterSetName)
             {
-                foreach (var environment in _octopus.Environments.FindByNames(Name))
-                    WriteObject(environment);
+                case "ByName":
+                    ProcessByName();
+                    break;
+                case "ById":
+                    ProcessById();
+                    break;
+                default:
+                    throw new Exception("Unknown ParameterSetName: " + ParameterSetName);
             }
-            else if (Id != null)
-            {
-                foreach (var environment in _octopus.Environments.FindMany(e => e.Id == Id))
-                    WriteObject(environment);
-            }
-            else
-            {
-                foreach (var environment in _octopus.Environments.FindAll())
-                    WriteObject(environment);
-            }
+        }
+
+        private void ProcessByName()
+        {
+            var environments = Name != null ? 
+                _octopus.Environments.FindByNames(Name) : 
+                _octopus.Environments.FindAll();
+
+            foreach (var environment in environments)
+                WriteObject(environment);
+        }
+
+        private void ProcessById()
+        {
+            var envs = from id in Id
+                       select _octopus.Environments.FindOne(p => p.Id == id);
+
+            foreach (var env in envs)
+                WriteObject(env);
         }
     }
 }

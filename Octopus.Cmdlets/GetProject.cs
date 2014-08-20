@@ -17,16 +17,15 @@ namespace Octopus.Cmdlets
             Mandatory = false,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the VariableSet to look for.")]
+            HelpMessage = "The name of the project to look for.")]
         public string[] Name { get; set; }
 
         [Parameter(
             ParameterSetName = "ById",
-            Position = 0,
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the VariableSet to look for.")]
+            HelpMessage = "The name of the project to look for.")]
         public string[] Id { get; set; }
 
         private OctopusRepository _octopus;
