@@ -108,11 +108,17 @@
               <Name>Assembled</Name>
               <Name>Version</Name>
               <Name>ReleaseNotes</Name>
-              <Name>ProjectId</Name>
+              <Name>Project</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>
       </MemberSet>
+      <ScriptProperty>
+        <Name>Project</Name>
+        <GetScriptBlock>
+          (Get-OctoProject -Id $this.ProjectId).Name
+        </GetScriptBlock>
+      </ScriptProperty>
     </Members>
   </Type>
   <Type>
