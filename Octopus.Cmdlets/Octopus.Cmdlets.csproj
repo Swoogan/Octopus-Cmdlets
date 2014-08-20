@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ConnectServer.cs" />
     <Compile Include="AddVariable.cs" />
+    <Compile Include="GetMachine.cs" />
     <Compile Include="GetLibraryVariableSet.cs" />
     <Compile Include="GetLibraryVariableSetVariable.cs" />
     <Compile Include="AddProject.cs" />

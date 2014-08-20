@@ -5,8 +5,8 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "Environment", DefaultParameterSetName = "ByName")]
-    public class GetEnvironment : PSCmdlet
+    [Cmdlet(VerbsCommon.Get, "Machine", DefaultParameterSetName = "ByName")]
+    public class GetMachine : PSCmdlet
     {
         [Parameter(
             ParameterSetName = "ByName",
@@ -14,7 +14,7 @@ namespace Octopus.Cmdlets
             Mandatory = false,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the environment to look for.")]
+            HelpMessage = "The name of the machine to look for.")]
         public string[] Name { get; set; }
 
         [Parameter(
@@ -22,7 +22,7 @@ namespace Octopus.Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the environment to look for.")]
+            HelpMessage = "The id of the machine to look for.")]
         public string[] Id { get; set; }
 
         private OctopusRepository _octopus;
@@ -52,21 +52,21 @@ namespace Octopus.Cmdlets
 
         private void ProcessByName()
         {
-            var environments = Name != null ? 
-                _octopus.Environments.FindByNames(Name) : 
-                _octopus.Environments.FindAll();
+            var machines = Name != null ? 
+                _octopus.Machines.FindByNames(Name) : 
+                _octopus.Machines.FindAll();
 
-            foreach (var environment in environments)
-                WriteObject(environment);
+            foreach (var machine in machines)
+                WriteObject(machine);
         }
 
         private void ProcessById()
         {
-            var envs = from id in Id
-                       select _octopus.Environments.FindOne(p => p.Id == id);
+            var machines = from id in Id
+                       select _octopus.Machines.FindOne(p => p.Id == id);
 
-            foreach (var env in envs)
-                WriteObject(env);
+            foreach (var machine in machines)
+                WriteObject(machine);
         }
     }
 }

@@ -131,11 +131,36 @@
             <Name>DefaultDisplayPropertySet</Name>
             <ReferencedProperties>
               <Name>Name</Name>
-              <Name>Id</Name>
+              <Name>Description</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>
       </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Octopus.Client.Model.MachineResource</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Name</Name>
+              <Name>Uri</Name>
+              <Name>Environments</Name>
+              <Name>Status</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+      <ScriptProperty>
+        <Name>Environments</Name>
+        <GetScriptBlock>
+          $this.EnvironmentIds | % { (Get-OctoEnvironment -Id $_).Name }
+        </GetScriptBlock>
+      </ScriptProperty>
     </Members>
   </Type>
 </Types>
