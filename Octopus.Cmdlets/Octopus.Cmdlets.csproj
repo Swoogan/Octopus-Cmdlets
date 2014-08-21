@@ -60,8 +60,9 @@
     <Compile Include="ConnectServer.cs" />
     <Compile Include="AddVariable.cs" />
     <Compile Include="GetMachine.cs" />
-    <Compile Include="GetLibraryVariableSet.cs" />
-    <Compile Include="GetLibraryVariableSetVariable.cs" />
+    <Compile Include="AddVariableSet.cs" />
+    <Compile Include="GetVariableSet.cs" />
+    <Compile Include="FindVariableSetVariable.cs" />
     <Compile Include="AddProject.cs" />
     <Compile Include="GetProjectGroup.cs" />
     <Compile Include="GetRelease.cs" />
