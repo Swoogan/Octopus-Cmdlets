@@ -4,8 +4,8 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "LibraryVariableSet")]
-    public class GetLibraryVariableSet : PSCmdlet
+    [Cmdlet(VerbsCommon.Get, "VariableSet")]
+    public class GetVariableSet : PSCmdlet
     {
         [Parameter(
             Position = 0,
@@ -17,6 +17,7 @@ namespace Octopus.Cmdlets
         public string[] Name { get; set; }
 
         private OctopusRepository _octopus;
+
         protected override void BeginProcessing()
         {
             _octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
@@ -32,6 +33,7 @@ namespace Octopus.Cmdlets
 
             if (Name == null)
             {
+                
                 foreach (var variableSet in variableSets)
                     WriteObject(variableSet);
             }
