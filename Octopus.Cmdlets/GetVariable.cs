@@ -64,7 +64,7 @@ namespace Octopus.Cmdlets
             if (variableSet == null)
             {
                 const string msg = "Library variable set '{0}' was not found.";
-                throw new Exception(string.Format(msg, Project));
+                throw new Exception(string.Format(msg, VariableSet));
             }
 
             // Get the variable set
@@ -97,7 +97,7 @@ namespace Octopus.Cmdlets
             {
                 foreach (var name in Name)
                     foreach (var variable in _variableSet.Variables)
-                        if (variable.Name == name)
+                        if (variable.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
                             WriteObject(variable);                    
             }
         }
