@@ -32,11 +32,15 @@ task Install-ForEveryone {
 	Copy-Item -Path ./Octopus.Cmdlets/bin/Release/* -Destination $installPath
 }
 
-task Debug { 
-  msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj /p:Configuration=Debug
+task Clean { 
+  msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj  /p:Configuration=Release /target:Clean
 }
 
-task Clean { 
+task Debug { 
+  msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj
+}
+
+task DebugClean { 
   msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj /target:Clean
 }
 

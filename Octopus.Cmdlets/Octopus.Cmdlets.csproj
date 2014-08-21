@@ -66,6 +66,7 @@
     <Compile Include="AddProject.cs" />
     <Compile Include="GetProjectGroup.cs" />
     <Compile Include="GetRelease.cs" />
+    <Compile Include="RemoveVariableSet.cs" />
     <Compile Include="RemoveVariable.cs" />
     <Compile Include="GetVariable.cs" />
     <Compile Include="GetProject.cs" />
