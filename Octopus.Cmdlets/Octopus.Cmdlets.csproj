@@ -59,6 +59,8 @@
   <ItemGroup>
     <Compile Include="ConnectServer.cs" />
     <Compile Include="AddVariable.cs" />
+    <Compile Include="GetMachine - Copy.cs" />
+    <Compile Include="GetMachineRole.cs" />
     <Compile Include="GetMachine.cs" />
     <Compile Include="AddVariableSet.cs" />
     <Compile Include="GetVariableSet.cs" />
