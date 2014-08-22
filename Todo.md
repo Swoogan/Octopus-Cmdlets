@@ -1,6 +1,5 @@
 Todo
 ----
-- Implement Get-MachineRole 
 - Implement Get-Action
 - Add ScopeName script property to Get-Variable
 - Add machines, steps and roles to Add-Variable
@@ -13,5 +12,5 @@ Todo
 
 Done
 ----
-
 - Add getting of library variables
+- Implement Get-MachineRole 
