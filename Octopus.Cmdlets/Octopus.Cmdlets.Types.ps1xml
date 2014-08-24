@@ -22,6 +22,26 @@
           $this.Scope["Environment"] | % { (Get-OctoEnvironment -Id $_).Name }
         </GetScriptBlock>
       </ScriptProperty>
+      <ScriptProperty>
+        <Name>Machine</Name>
+        <GetScriptBlock>
+          $this.Scope["Machine"] | % { (Get-OctoMachine -Id $_).Name }
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Role</Name>
+        <GetScriptBlock>
+          $this.Scope["Role"]
+        </GetScriptBlock>
+      </ScriptProperty>
+      <!--
+      <ScriptProperty>
+        <Name>Step</Name>
+        <GetScriptBlock>
+          $this.Scope["Action"] | % { (Get-OctoAction -Id $_).Name }
+        </GetScriptBlock>
+      </ScriptProperty>
+      -->
     </Members>
   </Type>
   <Type>
