@@ -20,7 +20,6 @@ namespace Octopus.Cmdlets
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
-            ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The id of the environment to look for.")]
         public string[] Id { get; set; }

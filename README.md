@@ -9,11 +9,15 @@ PowerShell cmdlets to simplify and automate working with an Octopus Deploy serve
 
 Installation
 ============
-* Build the solution
-* Open PowerShell and run:
+* Option 1:
+	* Open the solution in Visual Studio and build it.
+	* Open PowerShell and run:
 
-    Import-Module "[Path to the built dll]" -Prefix Octo
+		Import-Module "[Path to the built dll]" -Prefix Octo
 
+* Option 2 (if you have paske):	
+	* Open prompt and type `psake Install`
+	
 Usage
 =====
 First you have to create a connection to the server. If you haven't already, create an ApiKey 

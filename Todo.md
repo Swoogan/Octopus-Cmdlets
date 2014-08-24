@@ -1,6 +1,7 @@
 Todo
 ----
 - Add ScopeName script property to Get-Variable
+- Add Ability to get Step By Id without knowing the project (they're guids they should be globally unique)
 - Add machines, steps and roles to Add-Variable
 - Extend Add-Variable to add library vs variables
 - Warn if adding a duplicate variable

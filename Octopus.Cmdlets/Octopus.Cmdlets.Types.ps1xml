@@ -11,7 +11,7 @@
             <ReferencedProperties>
               <Name>Name</Name>
               <Name>Value</Name>
-              <Name>Scope</Name>
+              <Name>Breadth</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>
@@ -42,6 +42,22 @@
         </GetScriptBlock>
       </ScriptProperty>
       -->
+      <ScriptProperty>
+        <Name>Breadth</Name>
+        <GetScriptBlock>
+          $breadth = @()
+          if ($this.Scope["Environment"]) {
+          $breadth += ($this.Scope["Environment"] | % { (Get-OctoEnvironment -Id $_).Name })
+          }
+          if ($this.Scope["Machine"]) {
+          $breadth += ($this.Scope["Machine"] | % { (Get-OctoMachine -Id $_).Name })
+          }
+          if ($this.Scope["Role"]) {
+          $breadth += $this.Scope["Role"];
+          }
+          $breadth;
+        </GetScriptBlock>
+      </ScriptProperty>
     </Members>
   </Type>
   <Type>

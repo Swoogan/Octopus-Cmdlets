@@ -29,7 +29,7 @@
                 <PropertyName>Value</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>Scope</PropertyName>
+                <PropertyName>Breadth</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>

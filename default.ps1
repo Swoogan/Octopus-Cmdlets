@@ -1,11 +1,12 @@
 ﻿properties {
-  
+  $proj = "Octopus.Cmdlets/Octopus.Cmdlets.csproj"
+  $installPath = "Octopus.Cmdlets"
 }
 
 task default -depends Release
 
 task Release { 
-  msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj /p:Configuration=Release
+  msbuild $proj /p:Configuration=Release
 }
 
 task Install -depends Install-ForMe, Release 
@@ -13,7 +14,7 @@ task Install -depends Install-ForMe, Release
 task Install-ForMe -depends Release {
 	$paths = $env:PSModulePath.Split(';')
 	$personal = $paths[0]	# suppose it's not guaranteed to be the first, oh well...
-	$installPath = Join-Path $personal -ChildPath "Octopus.Cmdlets"
+	$installPath = Join-Path $personal -ChildPath $installPath
 	if (-not (Test-Path $installPath)) {
 		New-Item -Path $installPath -ItemType directory | Out-Null
 		Write-Host "Created directory '$installPath'" -ForegroundColor Green
@@ -24,7 +25,7 @@ task Install-ForMe -depends Release {
 task Install-ForEveryone {
 	$paths = $env:PSModulePath.Split(';')
 	$personal = $paths[1]	# suppose it's not guaranteed to be the second, oh well...
-	$installPath = Join-Path $personal -ChildPath "Octopus.Cmdlets"
+	$installPath = Join-Path $personal -ChildPath $installPath
 	if (-not (Test-Path $installPath)) {
 		New-Item -Path $installPath -ItemType directory | Out-Null
 		Write-Host "Created directory '$installPath'" -ForegroundColor Green
@@ -33,15 +34,15 @@ task Install-ForEveryone {
 }
 
 task Clean { 
-  msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj  /p:Configuration=Release /target:Clean
+  msbuild $proj  /p:Configuration=Release /target:Clean
 }
 
 task Debug { 
-  msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj
+  msbuild $proj
 }
 
 task DebugClean { 
-  msbuild Octopus.Cmdlets/Octopus.Cmdlets.csproj /target:Clean
+  msbuild $proj /target:Clean
 }
 
 task ? -Description "Helper to display task info" {
