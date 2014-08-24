@@ -15,17 +15,15 @@ namespace Octopus.Cmdlets
         [Parameter(
             Position = 0,
             Mandatory = true,
-            ParameterSetName = "Parts",
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The project to get the variables for."
             )]
-        [Parameter(Position = 0, 
-            Mandatory = true, 
-            ParameterSetName = "InputObject")]
         public string Project { get; set; }
 
         [Parameter(
             Position = 1,
             Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
             ParameterSetName = "Parts"
             )]
         public string Name { get; set; }
@@ -33,6 +31,7 @@ namespace Octopus.Cmdlets
         [Parameter(
             Position = 2,
             Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
             ParameterSetName = "Parts"
             )]
         public string Value { get; set; }
@@ -40,15 +39,17 @@ namespace Octopus.Cmdlets
         [Parameter(
             Position = 3,
             Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
             ParameterSetName = "Parts"
             )]
         public string[] Environments { get; set; }
 
-        //[Parameter(
-        //    Mandatory = false,
-        //    Position = 4
-        //    )]
-        //public string[] Roles { get; set; }
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = "Parts"
+            )]
+        public string[] Roles { get; set; }
 
         //[Parameter(
         //    Mandatory = false,
@@ -63,11 +64,10 @@ namespace Octopus.Cmdlets
         //public string[] Steps { get; set; }
 
         [Parameter(
-            Position = 4,
             Mandatory = false,
             ParameterSetName = "Parts"
             )]
-        public bool Sensitive { get; set; }
+        public SwitchParameter Sensitive { get; set; }
 
         [Parameter(
             Position = 1,
@@ -134,8 +134,14 @@ namespace Octopus.Cmdlets
             var variable = new VariableResource { Name = Name, Value = Value, IsSensitive = Sensitive };
             var environments = _octopus.Environments.FindByNames(Environments);
             var ids = environments.Select(environment => environment.Id).ToList();
+            
+            if (ids.Count > 0)
+                variable.Scope.Add(ScopeField.Environment, new ScopeValue(ids));
 
-            variable.Scope.Add(ScopeField.Environment, new ScopeValue(ids));
+            if (Roles.Length > 0)
+                variable.Scope.Add(ScopeField.Role, new ScopeValue(Roles));
+
+
             _variableSet.Variables.Add(variable);
         }
 
