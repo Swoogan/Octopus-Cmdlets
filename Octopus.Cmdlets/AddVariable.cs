@@ -138,9 +138,8 @@ namespace Octopus.Cmdlets
             if (ids.Count > 0)
                 variable.Scope.Add(ScopeField.Environment, new ScopeValue(ids));
 
-            if (Roles.Length > 0)
+            if (Roles != null && Roles.Length > 0)
                 variable.Scope.Add(ScopeField.Role, new ScopeValue(Roles));
-
 
             _variableSet.Variables.Add(variable);
         }
