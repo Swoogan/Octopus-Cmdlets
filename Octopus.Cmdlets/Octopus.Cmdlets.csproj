@@ -90,6 +90,12 @@
     <None Include="packages.config" />
     <None Include="Test.ps1" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Octopus.Extensions\Octopus.Extensions.csproj">
+      <Project>{60bfab51-da2b-46ce-89d9-652691d6fe54}</Project>
+      <Name>Octopus.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
