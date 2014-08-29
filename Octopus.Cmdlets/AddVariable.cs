@@ -51,11 +51,12 @@ namespace Octopus.Cmdlets
             )]
         public string[] Roles { get; set; }
 
-        //[Parameter(
-        //    Mandatory = false,
-        //    Position = 5
-        //    )]
-        //public string[] Machines { get; set; }
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = "Parts"
+            )]
+        public string[] Machines { get; set; }
 
         //[Parameter(
         //    Mandatory = false,
@@ -76,11 +77,6 @@ namespace Octopus.Cmdlets
             ParameterSetName = "InputObject"
             )]
         public VariableResource[] InputObject { get; set; }
-
-        public AddVariable()
-        {
-            Sensitive = false;
-        }
 
         private OctopusRepository _octopus;
         private VariableSetResource _variableSet;
@@ -140,6 +136,9 @@ namespace Octopus.Cmdlets
 
             if (Roles != null && Roles.Length > 0)
                 variable.Scope.Add(ScopeField.Role, new ScopeValue(Roles));
+
+            if (Machines != null && Machines.Length > 0)
+                variable.Scope.Add(ScopeField.Machine, new ScopeValue(Machines));
 
             _variableSet.Variables.Add(variable);
         }
