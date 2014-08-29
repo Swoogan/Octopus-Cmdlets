@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
@@ -58,11 +59,11 @@ namespace Octopus.Cmdlets
             )]
         public string[] Machines { get; set; }
 
-        //[Parameter(
-        //    Mandatory = false,
-        //    Position = 6
-        //    )]
-        //public string[] Steps { get; set; }
+        [Parameter(
+            Mandatory = false,
+            Position = 6
+            )]
+        public string[] Steps { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -80,6 +81,7 @@ namespace Octopus.Cmdlets
 
         private OctopusRepository _octopus;
         private VariableSetResource _variableSet;
+        private DeploymentProcessResource _deploymentProcess;
 
         protected override void BeginProcessing()
         {
@@ -105,6 +107,11 @@ namespace Octopus.Cmdlets
             _variableSet = _octopus.VariableSets.Get(project.Link("Variables"));
 
             WriteDebug("Found variable set" + _variableSet.Id);
+
+            var id = project.DeploymentProcessId;
+            _deploymentProcess = _octopus.DeploymentProcesses.Get(id);
+
+            WriteDebug("Loaded the deployment process");
         }
 
         protected override void ProcessRecord()
@@ -128,19 +135,44 @@ namespace Octopus.Cmdlets
         private void ProcessByParts()
         {
             var variable = new VariableResource { Name = Name, Value = Value, IsSensitive = Sensitive };
-            var environments = _octopus.Environments.FindByNames(Environments);
-            var ids = environments.Select(environment => environment.Id).ToList();
             
-            if (ids.Count > 0)
-                variable.Scope.Add(ScopeField.Environment, new ScopeValue(ids));
+            AddEnvironments(variable);
+            AddMachines(variable);
+            AddSteps(variable);
 
             if (Roles != null && Roles.Length > 0)
                 variable.Scope.Add(ScopeField.Role, new ScopeValue(Roles));
 
-            if (Machines != null && Machines.Length > 0)
-                variable.Scope.Add(ScopeField.Machine, new ScopeValue(Machines));
-
             _variableSet.Variables.Add(variable);
+        }
+
+        private void AddEnvironments(VariableResource variable)
+        {
+            var environments = _octopus.Environments.FindByNames(Environments);
+            var ids = environments.Select(environment => environment.Id).ToList();
+
+            if (ids.Count > 0)
+                variable.Scope.Add(ScopeField.Environment, new ScopeValue(ids));
+        }
+
+        private void AddMachines(VariableResource variable)
+        {
+            var machines = _octopus.Machines.FindByNames(Machines);
+            var ids = machines.Select(m => m.Id).ToList();
+
+            if (ids.Count > 0)
+                variable.Scope.Add(ScopeField.Machine, new ScopeValue(ids));
+        }
+
+        private void AddSteps(VariableResource variable)
+        {
+            var steps = (from step in _deploymentProcess.Steps
+                        from s in Steps
+                        where step.Name.Equals(s, StringComparison.InvariantCultureIgnoreCase)
+                        select step.Id).ToList();
+
+            if (steps.Any())
+                variable.Scope.Add(ScopeField.Machine, new ScopeValue(steps));
         }
 
         protected override void EndProcessing()
