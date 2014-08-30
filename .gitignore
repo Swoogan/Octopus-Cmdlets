@@ -158,3 +158,5 @@ $RECYCLE.BIN/
 # Random
 /packages/psake.4.3.2
 /Octopus.Cmdlets/Run-Test.ps1
+/packages/Newtonsoft.Json.6.0.4
+/packages/Octopus.Client.2.5.8.447
