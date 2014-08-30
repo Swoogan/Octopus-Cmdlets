@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
-using Octopus.Client.Model;
 using Octopus.Extensions;
 
 namespace Octopus.Cmdlets
@@ -20,10 +19,13 @@ namespace Octopus.Cmdlets
         [Parameter(
             Position = 1,
             Mandatory = false,
+            ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The version number of the release to lookup.")]
-        public string Version { get; set; }
+        public string[] Version { get; set; }
 
         private OctopusRepository _octopus;
+        private string _projectId;
 
         protected override void BeginProcessing()
         {
@@ -31,10 +33,7 @@ namespace Octopus.Cmdlets
             if (_octopus == null)
                 throw new Exception(
                     "Connection not established. Please connect to you Octopus Deploy instance with Connect-OctoServer");
-        }
 
-        protected override void ProcessRecord()
-        {
             // Find the project that owns the variables we want to edit
             var project = _octopus.Projects.FindByName(Project);
 
@@ -44,14 +43,20 @@ namespace Octopus.Cmdlets
                 throw new Exception(string.Format(msg, Project));
             }
 
+            _projectId = project.Id;
+        }
+
+        protected override void ProcessRecord()
+        {
             if (Version != null)
             {
-                var release = Release.FindByVersion(_octopus, project.Id, Version);
-                WriteObject(release);
+                var releases = Version.Select(v => Release.FindByVersion(_octopus, _projectId, v));
+                foreach (var release in releases)
+                    WriteObject(release);
             }
             else
             {
-                var releases = _octopus.Releases.FindMany(r => r.ProjectId == project.Id);
+                var releases = _octopus.Releases.FindMany(r => r.ProjectId == _projectId);
 
                 foreach (var release in releases)
                     WriteObject(release);                
