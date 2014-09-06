@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddEnvironment.cs" />
     <Compile Include="AddProjectGroup.cs" />
     <Compile Include="ConnectServer.cs" />
     <Compile Include="AddVariable.cs" />

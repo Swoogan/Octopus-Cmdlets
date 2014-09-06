@@ -6,8 +6,8 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Add, "ProjectGroup")]
-    public class AddProjectGroup : PSCmdlet
+    [Cmdlet(VerbsCommon.Add, "Environment")]
+    public class AddEnvironment : PSCmdlet
     {
         [Parameter(
             Position = 0,
@@ -28,10 +28,10 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            var groups = Name.Select(name => new ProjectGroupResource {Name = name});
+            var envs = Name.Select(name => new EnvironmentResource {Name = name});
 
-            foreach (var group in groups)
-                _octopus.ProjectGroups.Create(group);
+            foreach (var env in envs)
+                _octopus.Environments.Create(env);
         }
     }
 }

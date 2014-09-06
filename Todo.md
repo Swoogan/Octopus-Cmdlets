@@ -1,7 +1,7 @@
 Todo
 ----
+- *Add-Step*, Add-Machine, Add-Release
 - Extend Add-Variable to add library vs variables
-- Add-Environment, *Add-Step*, Add-Machine, Add-Release
 - Write help file
 - Improve online documentation and move to wiki
 - Improve the caching to be per value
@@ -18,6 +18,7 @@ Hold
 
 Done
 ----
+- Add-Environment
 - Have a shared cache?
 - Add-ProjectGroup
 - Added ability to add projects with a project group name instead of Id
