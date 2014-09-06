@@ -47,13 +47,13 @@
         <GetScriptBlock>
           $breadth = @()
           if ($this.Scope["Environment"]) {
-          $breadth += ($this.Scope["Environment"] | % { (Get-OctoEnvironment -Id $_).Name })
+            $breadth += ($this.Scope["Environment"] | % { (Get-OctoEnvironment -Id $_).Name })
           }
           if ($this.Scope["Machine"]) {
-          $breadth += ($this.Scope["Machine"] | % { (Get-OctoMachine -Id $_).Name })
+            $breadth += ($this.Scope["Machine"] | % { (Get-OctoMachine -Id $_).Name })
           }
           if ($this.Scope["Role"]) {
-          $breadth += $this.Scope["Role"];
+            $breadth += $this.Scope["Role"];
           }
           $breadth;
         </GetScriptBlock>
@@ -195,6 +195,29 @@
         <Name>Environments</Name>
         <GetScriptBlock>
           $this.EnvironmentIds | % { (Get-OctoEnvironment -Id $_).Name }
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Octopus.Client.Model.DeploymentProcessResource</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Project</Name>
+              <Name>Steps</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+      <ScriptProperty>
+        <Name>Project</Name>
+        <GetScriptBlock>
+          (Get-OctoProject -Id $this.ProjectId).Name
         </GetScriptBlock>
       </ScriptProperty>
     </Members>
