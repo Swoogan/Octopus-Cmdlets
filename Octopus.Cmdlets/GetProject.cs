@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using System.Text.RegularExpressions;
 using Octopus.Client;
-using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
