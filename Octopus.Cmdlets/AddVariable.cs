@@ -30,7 +30,7 @@ namespace Octopus.Cmdlets
 
         [Parameter(
             Position = 2,
-            Mandatory = true,
+            Mandatory = false,
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = "Parts"
             )]
