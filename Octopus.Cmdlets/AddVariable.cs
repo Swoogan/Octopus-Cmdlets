@@ -165,6 +165,8 @@ namespace Octopus.Cmdlets
 
         private void AddSteps(VariableResource variable)
         {
+            if (Steps == null) return;
+
             var steps = (from step in _deploymentProcess.Steps
                         from s in Steps
                         where step.Name.Equals(s, StringComparison.InvariantCultureIgnoreCase)
