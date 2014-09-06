@@ -1,7 +1,8 @@
 Todo
 ----
 - Extend Add-Variable to add library vs variables
-- Add-Environment, Add-Step, Add-Machine, Add-Release
+- Add-Environment, *Add-Step*, Add-Machine, Add-Release
+- Add cmdlet to Clone projects
 - Warn if adding a duplicate variable
 - Add switch(es) to Add-Variable to -nowarn -skip and -error on duplicates
 - Write help file
@@ -15,6 +16,7 @@ Hold
 
 Done
 ----
+- Add-ProjectGroup
 - Added ability to add projects with a project group name instead of Id
 - Add extension method to Release object to get by version
 - Add machines and steps to Add-Variable
