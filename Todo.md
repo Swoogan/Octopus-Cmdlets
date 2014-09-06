@@ -15,6 +15,7 @@ Hold
 
 Done
 ----
+- Added ability to add projects with a project group name instead of Id
 - Add extension method to Release object to get by version
 - Add machines and steps to Add-Variable
 - Add roles to Add-Variable
