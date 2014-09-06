@@ -1,10 +1,12 @@
 Todo
 ----
+- Remove-ProjectGroup, Remove-Project, Remove-Step, Remove-Machine, Remove-Environment, Remove-Release
 - *Add-Step*, Add-Machine, Add-Release
 - Extend Add-Variable to add library vs variables
 - Write help file
 - Improve online documentation and move to wiki
-- Improve the caching to be per value
+- Fix removing duplicates from Remove-Variable
+- Improve the caching to be per value (Give some more thought to this whole caching thing)
 - Need some test. People are starting to use this thing.
 - Add cmdlet to Clone projects
 - Add cmdlet to Add Step from Template

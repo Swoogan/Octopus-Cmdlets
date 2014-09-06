@@ -10,18 +10,17 @@ namespace Octopus.Cmdlets
     public class RemoveVariable : PSCmdlet
     {
         [Parameter(
-            Mandatory = true,
             Position = 0,
-            HelpMessage = "The project to get the variables for."
-            )]
+            Mandatory = true,
+            HelpMessage = "The project to remove the variables from.")]
         public string Project { get; set; }
 
         [Parameter(
+            Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
-            Position = 1
-            )]
+            HelpMessage = "The name of the variable to remove.")]
         public string Name { get; set; }
 
         private OctopusRepository _octopus;

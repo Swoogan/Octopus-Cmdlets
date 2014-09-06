@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddEnvironment.cs" />
+    <Compile Include="AddMachine.cs" />
     <Compile Include="AddProjectGroup.cs" />
     <Compile Include="ConnectServer.cs" />
     <Compile Include="AddVariable.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="AddProject.cs" />
     <Compile Include="GetProjectGroup.cs" />
     <Compile Include="GetRelease.cs" />
+    <Compile Include="RemoveProject.cs" />
     <Compile Include="RemoveVariableSet.cs" />
     <Compile Include="RemoveVariable.cs" />
     <Compile Include="GetVariable.cs" />
