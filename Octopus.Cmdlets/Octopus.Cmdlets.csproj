@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddEnvironment.cs" />
-    <Compile Include="AddMachine.cs" />
+    <None Include="AddMachine.cs" />
     <Compile Include="AddProjectGroup.cs" />
     <Compile Include="ConnectServer.cs" />
     <Compile Include="AddVariable.cs" />

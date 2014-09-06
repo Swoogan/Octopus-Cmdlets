@@ -10,52 +10,22 @@ PowerShell cmdlets to simplify and automate working with an Octopus Deploy serve
 Installation
 ============
 * Option 1:
-	* Open the solution in Visual Studio and build it.
-	* Open PowerShell and run:
+	* Open the solution in Visual Studio and build it (this will restore the psake nuget package).
+	* Open the Package Manager Console and run:
 
-		Import-Module "[Path to the built dll]" -Prefix Octo
+		`psake Install`
 
-* Option 2 (if you have paske):	
-	* Open prompt and type `psake Install`
+* Option 2 (if you have psake):	
+	* Open a prompt in the solution folder and type `psake Install`
+
+* Option 3 (if psake has already been restored):	
+	* Open a PowerShell prompt in the solution folder and type 
+	
+	packages\psake.[version]\tools\psake.ps1 Install
 	
 Usage
 =====
-First you have to create a connection to the server. If you haven't already, create an ApiKey 
-(see: http://docs.octopusdeploy.com/display/OD/How+to+create+an+API+key). Then connect with:
-
-    Connect-OctoServer [-Server] <string> [-ApiKey] <string>  [<CommonParameters>]
-
-List the project groups defined on the octopus server:
-
-	Get-OctoProjectGroup [[-Name] <string[]>]  [<CommonParameters>]
-
-List the environments defined on the octopus server:
-
-    Get-OctoEnvironment [[-Name] <string[]>]  [<CommonParameters>]
-
-Lists all the projects defined on the server:
-
-    Get-OctoProject [[-Name] <string[]>]  [<CommonParameters>]
-
-Add a new project to a project group:
-
-	Add-OctoProject [-ProjectGroupId] <string> [-Name] <string>  [<CommonParameters>]
-
-Lists all the variables in a given project
-
-    Get-OctoVariable [-Project] <string> [[-Name] <string[]>]  [<CommonParameters>]v
-
-Add a variable to a project's VariableSet:
-
-    Add-OctoVariable [-Project] <string> [-Name] <string> [-Value] <string> 
-    [[-Environments] <string[]>] [[-Sensitive] <bool>]  [<CommonParameters>]
-    
-    Add-OctoVariable [-Project] <string> [-InputObject] <VariableResource[]>  
-    [<CommonParameters>]
-
-Removes the first variable with a given name:
-
-    Remove-OctoVariable [-Project] <string> [-Name] <string>  [<CommonParameters>]
+Please see the [wiki][https://github.com/Swoogan/Octopus-Cmdlets/wiki]
 
 Licence
 =======
