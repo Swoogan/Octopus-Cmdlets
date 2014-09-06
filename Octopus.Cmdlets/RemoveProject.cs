@@ -18,7 +18,6 @@ namespace Octopus.Cmdlets
 
         [Parameter(
             ParameterSetName = "ById",
-            Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
