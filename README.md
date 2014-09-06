@@ -25,7 +25,7 @@ Installation
 	
 Usage
 =====
-Please see the [wiki](https://github.com/Swoogan/Octopus-Cmdlets/wiki)
+Please see the [wiki](https://github.com/Swoogan/Octopus-Cmdlets/wiki).
 
 Licence
 =======
