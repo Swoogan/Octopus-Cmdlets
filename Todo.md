@@ -2,12 +2,14 @@ Todo
 ----
 - Extend Add-Variable to add library vs variables
 - Add-Environment, *Add-Step*, Add-Machine, Add-Release
-- Add cmdlet to Clone projects
-- Warn if adding a duplicate variable
-- Add switch(es) to Add-Variable to -nowarn -skip and -error on duplicates
 - Write help file
 - Improve online documentation and move to wiki
-- Have a shared cache?
+- Improve the caching to be per value
+- Need some test. People are starting to use this thing.
+- Add cmdlet to Clone projects
+- Add cmdlet to Add Step from Template
+- Warn if adding a duplicate variable
+- Add switch(es) to Add-Variable to -nowarn -skip and -error on duplicates
 
 Hold
 ----
@@ -16,6 +18,7 @@ Hold
 
 Done
 ----
+- Have a shared cache?
 - Add-ProjectGroup
 - Added ability to add projects with a project group name instead of Id
 - Add extension method to Release object to get by version

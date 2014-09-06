@@ -4,6 +4,7 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
+using Octopus.Extensions;
 
 namespace Octopus.Cmdlets
 {
@@ -31,11 +32,7 @@ namespace Octopus.Cmdlets
         public SwitchParameter NoCache { get; set; }
 
         private OctopusRepository _octopus;
-
-        private const int CacheDuration = 60;
-        private static DateTime _age = DateTime.MinValue;
-        private static List<EnvironmentResource> _environments;
-
+        
         protected override void BeginProcessing()
         {
             _octopus = (OctopusRepository) SessionState.PSVariable.GetValue("OctopusRepository");
@@ -45,10 +42,9 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Connection established");
 
-            if (_environments == null || _age < DateTime.Now.AddSeconds(-CacheDuration) || NoCache)
+            if (Cache.Environments.IsExpired || NoCache)
             {
-                _age = DateTime.Now;
-                _environments = _octopus.Environments.FindAll();
+                Cache.Environments.Set(_octopus.Environments.FindAll());
                 WriteDebug("Cache miss");
             }
             else
@@ -80,11 +76,11 @@ namespace Octopus.Cmdlets
 
             if (Name == null)
             {
-                envs = _environments;
+                envs = Cache.Environments.Values;
             }
             else
             {
-                envs = from e in _environments
+                envs = from e in Cache.Environments.Values
                     from n in Name
                     where e.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
                     select e;
@@ -96,7 +92,7 @@ namespace Octopus.Cmdlets
 
         private void ProcessById()
         {
-            var envs = from e in _environments
+            var envs = from e in Cache.Environments.Values
                        from id in Id
                        where id == e.Id
                        select e;

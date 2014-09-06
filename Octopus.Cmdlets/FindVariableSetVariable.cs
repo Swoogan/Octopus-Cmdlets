@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Extensions;
 
 namespace Octopus.Cmdlets
 {
@@ -37,7 +38,10 @@ namespace Octopus.Cmdlets
         {
             if (String.IsNullOrWhiteSpace(VariableSetName))
             {
-                foreach (var libraryVariableSet in _octopus.LibraryVariableSets.FindAll())
+                if (Cache.LibraryVariableSets.IsExpired)
+                    Cache.LibraryVariableSets.Set(_octopus.LibraryVariableSets.FindAll());
+
+                foreach (var libraryVariableSet in Cache.LibraryVariableSets.Values)
                 {
                     var link = libraryVariableSet.Link("Variables");
                     WriteDebug(link);

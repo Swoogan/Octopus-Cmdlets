@@ -6,7 +6,7 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Add, "Project", DefaultParameterSetName = "ByName")]
+    [Cmdlet(VerbsCommon.Add, "ProjectGroup", DefaultParameterSetName = "ByName")]
     public class AddProjectGroup : PSCmdlet
     {
         [Parameter(

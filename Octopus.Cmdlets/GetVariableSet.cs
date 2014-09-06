@@ -4,6 +4,7 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
+using Octopus.Extensions;
 
 namespace Octopus.Cmdlets
 {
@@ -33,10 +34,6 @@ namespace Octopus.Cmdlets
 
         private OctopusRepository _octopus;
 
-        private const int CacheDuration = 60;
-        private static DateTime _age = DateTime.MinValue;
-        private static List<LibraryVariableSetResource> _variableSets;
-
         protected override void BeginProcessing()
         {
             _octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
@@ -47,10 +44,9 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Connection established");
 
-            if (_variableSets == null || _age < DateTime.Now.AddSeconds(-CacheDuration) || NoCache)
+            if (Cache.LibraryVariableSets.IsExpired || NoCache)
             {
-                _age = DateTime.Now;
-                _variableSets = _octopus.LibraryVariableSets.FindAll();
+                Cache.LibraryVariableSets.Set(_octopus.LibraryVariableSets.FindAll());
                 WriteDebug("Cache miss");
             }
             else
@@ -79,7 +75,7 @@ namespace Octopus.Cmdlets
         private void ProcessById()
         {
             var variableSets = from id in Id
-                               from v in _variableSets 
+                               from v in Cache.LibraryVariableSets.Values 
                                where v.Id == id
                                select v;
 
@@ -93,12 +89,12 @@ namespace Octopus.Cmdlets
 
             if (Name == null)
             {
-                variableSets = _variableSets;
+                variableSets = Cache.LibraryVariableSets.Values;
             }
             else
             {
-                variableSets = from name in Name 
-                               from v in _variableSets 
+                variableSets = from name in Name
+                               from v in Cache.LibraryVariableSets.Values 
                                where v.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
                                select v;
             }

@@ -10,9 +10,9 @@ namespace Octopus.Extensions
             return repo.Client.Get<ActionTemplateResource>("/api/actiontemplates/{id}", id);
         }
 
-        public static ActionTemplateResource GetActionTemplates(OctopusRepository repo)
+        public static ResourceCollection<ActionTemplateResource> GetActionTemplates(OctopusRepository repo)
         {
-            return repo.Client.Get<ActionTemplateResource>("/api/actiontemplates/");
+            return repo.Client.List<ActionTemplateResource>("/api/actiontemplates/");
         }
     }
 }
