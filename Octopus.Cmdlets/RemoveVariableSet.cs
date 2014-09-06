@@ -70,7 +70,7 @@ namespace Octopus.Cmdlets
 
         private void ProcessById()
         {
-            var set = _octopus.LibraryVariableSets.FindOne(vs => vs.Id == Id);
+            var set = _octopus.LibraryVariableSets.Get(Id);
             _octopus.LibraryVariableSets.Delete(set);
         }
 

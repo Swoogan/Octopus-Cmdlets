@@ -52,9 +52,9 @@ namespace Octopus.Cmdlets
 
         private void ProcessByName()
         {
-            var machines = Name != null ? 
-                _octopus.Machines.FindByNames(Name) : 
-                _octopus.Machines.FindAll();
+            var machines = Name != null
+                ? _octopus.Machines.FindByNames(Name)
+                : _octopus.Machines.FindAll();
 
             foreach (var machine in machines)
                 WriteObject(machine);
@@ -63,7 +63,7 @@ namespace Octopus.Cmdlets
         private void ProcessById()
         {
             var machines = from id in Id
-                       select _octopus.Machines.FindOne(p => p.Id == id);
+                select _octopus.Machines.Get(id);
 
             foreach (var machine in machines)
                 WriteObject(machine);

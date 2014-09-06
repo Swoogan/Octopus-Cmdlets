@@ -50,7 +50,7 @@ namespace Octopus.Cmdlets
             }
             else
             {
-                var libraryVariableSet = _octopus.LibraryVariableSets.FindOne(x => x.Name == VariableSetName);
+                var libraryVariableSet = _octopus.LibraryVariableSets.FindOne(x => x.Name.Equals(VariableSetName, StringComparison.InvariantCultureIgnoreCase));
 
                 if (libraryVariableSet == null)
                     throw new Exception(string.Format("LibraryVariableSet '{0}' was not found", VariableSetName));
