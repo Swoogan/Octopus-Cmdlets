@@ -66,6 +66,7 @@
     <Compile Include="ConnectServer.cs" />
     <Compile Include="AddVariable.cs" />
     <Compile Include="GetAction.cs" />
+    <Compile Include="GetDeploymentProcess.cs" />
     <Compile Include="GetMachineRole.cs" />
     <Compile Include="GetMachine.cs" />
     <Compile Include="AddVariableSet.cs" />
