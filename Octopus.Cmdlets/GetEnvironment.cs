@@ -5,6 +5,7 @@ using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
 using Octopus.Extensions;
+using Octopus.Platform.Model;
 
 namespace Octopus.Cmdlets
 {
@@ -17,18 +18,25 @@ namespace Octopus.Cmdlets
             Mandatory = false,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the environment to look for.")]
+            HelpMessage = "The name of the environment to retrieve.")]
         public string[] Name { get; set; }
 
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the environment to look for.")]
-        public string[] Id { get; set; }
+            HelpMessage = "The id of the environment to retrieve.")]
+        [Alias("Id")]
+        public string[] EnvironmentId { get; set; }
 
         [Parameter(
-            Mandatory = false)]
+            ParameterSetName = "ByScope",
+            Mandatory = true,
+            HelpMessage = "The environment to retrieve by ScopeValue.")]
+        [Alias("Scope")]
+        public ScopeValue ScopeValue { get; set; }
+
+        [Parameter(Mandatory = false)]
         public SwitchParameter NoCache { get; set; }
 
         private OctopusRepository _octopus;
@@ -65,26 +73,35 @@ namespace Octopus.Cmdlets
                 case "ById":
                     ProcessById();
                     break;
+                case "ByScope":
+                    ProcessByScope();
+                    break;
                 default:
                     throw new Exception("Unknown ParameterSetName: " + ParameterSetName);
             }
         }
 
+        private void ProcessByScope()
+        {
+            var envs = ScopeValue == null
+                ? Cache.Environments.Values
+                : (from e in Cache.Environments.Values
+                   from sv in ScopeValue
+                   where e.Id == sv
+                   select e);
+
+            foreach (var env in envs)
+                WriteObject(env);
+        }
+
         private void ProcessByName()
         {
-            IEnumerable<EnvironmentResource> envs;
-
-            if (Name == null)
-            {
-                envs = Cache.Environments.Values;
-            }
-            else
-            {
-                envs = from e in Cache.Environments.Values
+            var envs = Name == null
+                ? Cache.Environments.Values
+                : (from e in Cache.Environments.Values
                     from n in Name
                     where e.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
-                    select e;
-            }
+                    select e);
 
             foreach (var env in envs)
                 WriteObject(env);
@@ -93,7 +110,7 @@ namespace Octopus.Cmdlets
         private void ProcessById()
         {
             var envs = from e in Cache.Environments.Values
-                       from id in Id
+                       from id in EnvironmentId
                        where id == e.Id
                        select e;
 

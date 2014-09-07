@@ -13,8 +13,16 @@ namespace Octopus.Cmdlets
             Position = 0,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true)]
-        public string[] Name { get; set; }
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Name of the project group to create.")]
+        public string Name { get; set; }
+
+        [Parameter(
+            Position = 1,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Description of the project group to create.")]
+        public string Description { get; set; }
 
         private OctopusRepository _octopus;
 
@@ -28,10 +36,11 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            var groups = Name.Select(name => new ProjectGroupResource {Name = name});
-
-            foreach (var group in groups)
-                _octopus.ProjectGroups.Create(group);
+            _octopus.ProjectGroups.Create(new ProjectGroupResource
+            {
+                Name = Name,
+                Description = Description
+            });
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
@@ -12,21 +11,33 @@ namespace Octopus.Cmdlets
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
-            Mandatory = true)]
-        public string GroupName { get; set; }
+            Mandatory = true,
+            HelpMessage = "Name of the ProjectGroup to create the project in.")]
+        [Alias("GroupName", "ProjectGroup")]
+        public string ProjectGroupName { get; set; }
 
         [Parameter(
             ParameterSetName = "ById",
             Position = 0,
-            Mandatory = true)]
-        public string GroupId { get; set; }
+            Mandatory = true,
+            HelpMessage = "Id of the ProjectGroup to create the project in.")]
+        [Alias("GroupId")]
+        public string ProjectGroupId { get; set; }
 
         [Parameter(
             Position = 1,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true)]
-        public string[] Name { get; set; }
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Name of the project to create.")]
+        public string Name { get; set; }
+
+        [Parameter(
+            Position = 2,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Description of the project to create.")]
+        public string Description { get; set; }
 
         private OctopusRepository _octopus;
         private string _projectGroupId;
@@ -40,9 +51,9 @@ namespace Octopus.Cmdlets
 
             if (ParameterSetName != "ByName") return;
 
-            var projectGroup = _octopus.ProjectGroups.FindByName(GroupName);
+            var projectGroup = _octopus.ProjectGroups.FindByName(ProjectGroupName);
             if (projectGroup == null)
-                throw new Exception(string.Format("Project '{0}' was not found.", GroupName));
+                throw new Exception(string.Format("Project '{0}' was not found.", ProjectGroupName));
 
             _projectGroupId = projectGroup.Id;
         }
@@ -52,38 +63,24 @@ namespace Octopus.Cmdlets
             switch (ParameterSetName)
             {
                 case "ByName":
-                    ProcessByName();
+                    CreateProject(_projectGroupId);
                     break;
                 case "ById":
-                    ProcessById();
+                    CreateProject(ProjectGroupId);
                     break;
                 default:
                     throw new Exception("Unknown ParameterSetName: " + ParameterSetName);
             }
         }
 
-        private void ProcessByName()
+        private void CreateProject(string projectGroupId)
         {
-            var projects = Name.Select(name => new ProjectResource
+            _octopus.Projects.Create(new ProjectResource
             {
-                Name = name,
-                ProjectGroupId = _projectGroupId
+                Name = Name,
+                Description = Description,
+                ProjectGroupId = projectGroupId
             });
-
-            foreach (var project in projects)
-                _octopus.Projects.Create(project);
-        }
-
-        private void ProcessById()
-        {
-            var projects = Name.Select(name => new ProjectResource
-            {
-                Name = name,
-                ProjectGroupId = GroupId
-            });
-
-            foreach (var project in projects)
-                _octopus.Projects.Create(project);
         }
     }
 }

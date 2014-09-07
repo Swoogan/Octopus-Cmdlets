@@ -19,7 +19,7 @@
       <ScriptProperty>
         <Name>Environment</Name>
         <GetScriptBlock>
-          $this.Scope["Environment"] | % { (Get-OctoEnvironment -Id $_).Name }
+          (Get-OctoEnvironment -ScopeValue $this.Scope["Environment"]).Name
         </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>

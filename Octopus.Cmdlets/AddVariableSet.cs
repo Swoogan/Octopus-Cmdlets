@@ -11,15 +11,16 @@ namespace Octopus.Cmdlets
         [Parameter(
             Position = 0,
             Mandatory = true,
-            HelpMessage = "The name of the VariableSet to create."
-            )]
+            ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name of the VariableSet to create.")]
         public string Name { get; set; }
 
         [Parameter(
             Position = 1,
             Mandatory = false,
-            HelpMessage = "The name of the VariableSet to look for."
-            )]
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The description of the VariableSet to create.")]
         public string Description { get; set; }
 
         private OctopusRepository _octopus;

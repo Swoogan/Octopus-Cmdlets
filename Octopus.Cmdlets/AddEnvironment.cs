@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
@@ -13,8 +12,16 @@ namespace Octopus.Cmdlets
             Position = 0,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true)]
-        public string[] Name { get; set; }
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Name of the environment to create")]
+        public string Name { get; set; }
+
+        [Parameter(
+            Position = 1,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Description of the environment to create")]
+        public string Description { get; set; }
 
         private OctopusRepository _octopus;
 
@@ -28,10 +35,11 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            var envs = Name.Select(name => new EnvironmentResource {Name = name});
-
-            foreach (var env in envs)
-                _octopus.Environments.Create(env);
+            _octopus.Environments.Create(new EnvironmentResource
+            {
+                Name = Name,
+                Description = Description
+            });
         }
     }
 }

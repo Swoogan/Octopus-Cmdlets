@@ -22,7 +22,8 @@ namespace Octopus.Cmdlets
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The name of the project to look for.")]
-        public string[] Id { get; set; }
+        [Alias("Id")]
+        public string[] ProjectGroupId { get; set; }
 
         private OctopusRepository _octopus;
 
@@ -51,7 +52,7 @@ namespace Octopus.Cmdlets
 
         private void ProcessById()
         {
-            var groups = from id in Id
+            var groups = from id in ProjectGroupId
                 select _octopus.ProjectGroups.Get(id);
 
             foreach (var group in groups)
