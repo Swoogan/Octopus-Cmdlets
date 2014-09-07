@@ -12,7 +12,7 @@ namespace Octopus.Cmdlets
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = true,
-            HelpMessage = "Name of the ProjectGroup to create the project in.")]
+            HelpMessage = "The name of the ProjectGroup to create the project in.")]
         [Alias("GroupName", "ProjectGroup")]
         public string ProjectGroupName { get; set; }
 
@@ -20,7 +20,7 @@ namespace Octopus.Cmdlets
             ParameterSetName = "ById",
             Position = 0,
             Mandatory = true,
-            HelpMessage = "Id of the ProjectGroup to create the project in.")]
+            HelpMessage = "The id of the ProjectGroup to create the project in.")]
         [Alias("GroupId")]
         public string ProjectGroupId { get; set; }
 
@@ -29,14 +29,14 @@ namespace Octopus.Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Name of the project to create.")]
+            HelpMessage = "The name of the project to create.")]
         public string Name { get; set; }
 
         [Parameter(
             Position = 2,
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Description of the project to create.")]
+            HelpMessage = "The description of the project to create.")]
         public string Description { get; set; }
 
         private OctopusRepository _octopus;

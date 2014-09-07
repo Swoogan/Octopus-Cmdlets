@@ -7,6 +7,7 @@ Todo
 - Improve online documentation
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
+- Add Environments and Retention policy to Add-ProjectGroup
 - Improve the caching to be per value (Give some more thought to this whole caching thing)
 - Need some tests. People are starting to use this thing.
 - Get-DeploymentProcess by project name or id
@@ -14,6 +15,8 @@ Todo
 - Add cmdlet to Add Step from Template
 - Warn if adding a duplicate variable
 - Add switch(es) to Add-Variable to -nowarn -skip and -error on duplicates
+- Add username/password fields for Connect-Server
+- Add way to connect to more than one server at once?
 
 Hold
 ----

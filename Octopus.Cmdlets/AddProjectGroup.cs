@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
@@ -14,14 +13,14 @@ namespace Octopus.Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Name of the project group to create.")]
+            HelpMessage = "The name of the project group to create.")]
         public string Name { get; set; }
 
         [Parameter(
             Position = 1,
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Description of the project group to create.")]
+            HelpMessage = "The description of the project group to create.")]
         public string Description { get; set; }
 
         private OctopusRepository _octopus;

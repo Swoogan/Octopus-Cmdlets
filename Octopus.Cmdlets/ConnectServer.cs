@@ -8,19 +8,18 @@ namespace Octopus.Cmdlets
     {
         [Parameter(
             Mandatory = true,
-            Position = 0
-            )]
+            Position = 0,
+            HelpMessage = "The address of the Octopus Deploy server you want to connect to.")]
         public string Server { get; set; }
 
         [Parameter(
             Mandatory = true,
-            Position = 1
-            )]
+            Position = 1,
+            HelpMessage = "The generated ApiKey for the profile you wish to connect as.")]
         public string ApiKey { get; set; }
 
         protected override void ProcessRecord()
         {
-            //var octopusServerEndpoint = new OctopusServerEndpoint("http://aprdappvm030:81/", "API-IQJURANHERTYDKLAZG9CKUBQHY");
             var octopusServerEndpoint = new OctopusServerEndpoint(Server, ApiKey);
             var octopus = new OctopusRepository(octopusServerEndpoint);
 

@@ -13,14 +13,14 @@ namespace Octopus.Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Name of the environment to create")]
+            HelpMessage = "The name of the environment to create")]
         public string Name { get; set; }
 
         [Parameter(
             Position = 1,
             Mandatory = false,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Description of the environment to create")]
+            HelpMessage = "The description of the environment to create")]
         public string Description { get; set; }
 
         private OctopusRepository _octopus;
