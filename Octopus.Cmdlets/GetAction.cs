@@ -41,7 +41,7 @@ namespace Octopus.Cmdlets
             _octopus = (OctopusRepository) SessionState.PSVariable.GetValue("OctopusRepository");
             if (_octopus == null)
                 throw new Exception(
-                    "Connection not established. Please connect to you Octopus Deploy instance with Connect-OctoServer");
+                    "Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
 
             // Find the project that owns the variables we want to get
             var project = _octopus.Projects.FindByName(Project);

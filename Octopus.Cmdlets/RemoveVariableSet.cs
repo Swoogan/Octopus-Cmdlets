@@ -41,7 +41,7 @@ namespace Octopus.Cmdlets
             if (_octopus == null)
             {
                 throw new Exception(
-                    "Connection not established. Please connect to you Octopus Deploy instance with Connect-OctoServer");
+                    "Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
             }
         }
 

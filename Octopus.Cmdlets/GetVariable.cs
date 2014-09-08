@@ -40,7 +40,7 @@ namespace Octopus.Cmdlets
             var octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
             if (octopus == null)
             {
-                throw new Exception("Connection not established. Please connect to you Octopus Deploy instance with Connect-OctoServer");
+                throw new Exception("Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
             }
 
             switch (ParameterSetName)
