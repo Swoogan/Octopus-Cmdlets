@@ -3,18 +3,21 @@ Todo
 - *Add-Step*, Add-Machine, Add-Release
 - Remove-Step, Remove-Machine, Remove-Release
 - Extend Add-Variable to add library vs variables
+- Add project caching to Get-Project
 - Write help file
 - Improve online documentation
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
 - Add Environments and Retention policy to Add-ProjectGroup
-- Improve the caching to be per value (Give some more thought to this whole caching thing)
+- Improve the caching to be per value 
+	- Actually, give some more thought to this whole caching thing
 - Need some tests. People are starting to use this thing.
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Clone projects
 - Add cmdlet to Add Step from Template
-- Warn if adding a duplicate variable
-- Add switch(es) to Add-Variable to -nowarn -skip and -error on duplicates
+- Implement duplicate variable finding algorithm
+	- Warn if adding a duplicate variable
+	- Add switch(es) to Add-Variable to -nowarn -skip and -error on duplicates
 - Add verbose output
 - Add username/password fields for Connect-Server
 - Add way to connect to more than one server at once?
@@ -26,6 +29,7 @@ Hold
 
 Done
 ----
+- Add project caching
 - Remove-Environment
 - Remove-ProjectGroup
 - Move documentation to wiki
