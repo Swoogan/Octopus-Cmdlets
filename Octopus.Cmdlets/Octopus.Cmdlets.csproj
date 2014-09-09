@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RemoveEnvironment.cs" />
     <Compile Include="AddEnvironment.cs" />
     <None Include="AddMachine.cs" />
     <Compile Include="AddProjectGroup.cs" />

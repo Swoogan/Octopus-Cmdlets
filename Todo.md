@@ -1,7 +1,7 @@
 Todo
 ----
 - *Add-Step*, Add-Machine, Add-Release
-- Remove-Step, Remove-Machine, Remove-Environment, Remove-Release
+- Remove-Step, Remove-Machine, Remove-Release
 - Extend Add-Variable to add library vs variables
 - Write help file
 - Improve online documentation
@@ -26,6 +26,7 @@ Hold
 
 Done
 ----
+- Remove-Environment
 - Remove-ProjectGroup
 - Move documentation to wiki
 - Get-DeploymentProcess
