@@ -217,7 +217,7 @@
       <ScriptProperty>
         <Name>Project</Name>
         <GetScriptBlock>
-          (Get-OctoProject -Id $this.ProjectId).Name
+          (Get-OctoProject -Id $this.ProjectId -Cache).Name
         </GetScriptBlock>
       </ScriptProperty>
     </Members>

@@ -9,13 +9,13 @@ namespace Octopus.Extensions
         public const int Duration = 60;
         public static readonly CacheNode<EnvironmentResource> Environments;
         public static readonly CacheNode<LibraryVariableSetResource> LibraryVariableSets;
-        public static readonly CacheNode<LibraryVariableSetResource> Projects;
+        public static readonly CacheNode<ProjectResource> Projects;
 
         static Cache()
         {
             LibraryVariableSets = new CacheNode<LibraryVariableSetResource>();
             Environments = new CacheNode<EnvironmentResource>();
-            Projects = new CacheNode<LibraryVariableSetResource>();
+            Projects = new CacheNode<ProjectResource>();
         }
     }
 

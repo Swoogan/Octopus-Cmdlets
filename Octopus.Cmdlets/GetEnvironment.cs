@@ -51,14 +51,7 @@ namespace Octopus.Cmdlets
             WriteDebug("Connection established");
 
             if (Cache.Environments.IsExpired || NoCache)
-            {
                 Cache.Environments.Set(_octopus.Environments.FindAll());
-                WriteDebug("Cache miss");
-            }
-            else
-            {
-                WriteDebug("Cache hit");
-            }
 
             WriteDebug("Loaded environments");
         }

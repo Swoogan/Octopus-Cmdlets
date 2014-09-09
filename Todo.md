@@ -3,7 +3,6 @@ Todo
 - *Add-Step*, Add-Machine, Add-Release
 - Remove-Step, Remove-Machine, Remove-Release
 - Extend Add-Variable to add library vs variables
-- Add project caching to Get-Project
 - Write help file
 - Improve online documentation
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
@@ -36,6 +35,7 @@ Hold
 
 Done
 ----
+- Add project caching to Get-Project
 - Add project caching
 - Remove-Environment
 - Remove-ProjectGroup

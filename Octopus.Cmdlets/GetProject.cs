@@ -31,6 +31,10 @@ namespace Octopus.Cmdlets
             HelpMessage = "The id of the project to retrieve.")]
         public string[] Id { get; set; }
 
+        [Parameter(Mandatory = false,
+            HelpMessage = "Tells the command to load and cache all the projects")]
+        public SwitchParameter Cache { get; set; }
+
         private OctopusRepository _octopus;
 
         protected override void BeginProcessing()
@@ -39,6 +43,9 @@ namespace Octopus.Cmdlets
             if (_octopus == null)
                 throw new Exception(
                     "Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
+
+            if (Cache && Extensions.Cache.Projects.IsExpired)
+                Extensions.Cache.Projects.Set(_octopus.Projects.FindAll());
         }
 
         protected override void ProcessRecord()
@@ -58,8 +65,12 @@ namespace Octopus.Cmdlets
 
         private void ProcessById()
         {
-            var projects = from id in Id
-                select _octopus.Projects.Get(id);
+            var projects = Cache
+                ? (from id in Id
+                    from p in Extensions.Cache.Projects.Values
+                    where p.Id == id
+                    select p)
+                : Id.Select(id => _octopus.Projects.Get(id));
 
             foreach (var project in projects)
                 WriteObject(project);
