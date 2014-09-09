@@ -21,7 +21,7 @@ namespace Octopus.Cmdlets
             Mandatory = false,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The version number of the release to lookup.")]
+            HelpMessage = "The version number of the release to retrieve.")]
         public string[] Version { get; set; }
 
         private OctopusRepository _octopus;

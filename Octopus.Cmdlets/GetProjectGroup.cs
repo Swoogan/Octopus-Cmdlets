@@ -13,7 +13,7 @@ namespace Octopus.Cmdlets
             Mandatory = false,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the VariableSet to look for.")]
+            HelpMessage = "The name of the project group to retrieve.")]
         public string[] Name { get; set; }
 
         [Parameter(
@@ -21,7 +21,7 @@ namespace Octopus.Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the project to look for.")]
+            HelpMessage = "The id of the project group to retrieve.")]
         [Alias("Id")]
         public string[] ProjectGroupId { get; set; }
 
@@ -53,7 +53,7 @@ namespace Octopus.Cmdlets
         private void ProcessById()
         {
             var groups = from id in ProjectGroupId
-                select _octopus.ProjectGroups.Get(id);
+                         select _octopus.ProjectGroups.Get(id);
 
             foreach (var group in groups)
                 WriteObject(group);
@@ -61,8 +61,8 @@ namespace Octopus.Cmdlets
 
         protected void ProcessByName()
         {
-            var groups = Name == null ? 
-                _octopus.ProjectGroups.FindAll() : 
+            var groups = Name == null ?
+                _octopus.ProjectGroups.FindAll() :
                 _octopus.ProjectGroups.FindByNames(Name);
 
             foreach (var group in groups)

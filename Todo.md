@@ -1,7 +1,7 @@
 Todo
 ----
 - *Add-Step*, Add-Machine, Add-Release
-- Remove-ProjectGroup, Remove-Step, Remove-Machine, Remove-Environment, Remove-Release
+- Remove-Step, Remove-Machine, Remove-Environment, Remove-Release
 - Extend Add-Variable to add library vs variables
 - Write help file
 - Improve online documentation
@@ -15,6 +15,7 @@ Todo
 - Add cmdlet to Add Step from Template
 - Warn if adding a duplicate variable
 - Add switch(es) to Add-Variable to -nowarn -skip and -error on duplicates
+- Add verbose output
 - Add username/password fields for Connect-Server
 - Add way to connect to more than one server at once?
 
@@ -25,6 +26,7 @@ Hold
 
 Done
 ----
+- Remove-ProjectGroup
 - Move documentation to wiki
 - Get-DeploymentProcess
 - Remove-Project

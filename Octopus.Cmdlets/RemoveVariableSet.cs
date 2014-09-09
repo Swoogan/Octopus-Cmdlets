@@ -77,6 +77,7 @@ namespace Octopus.Cmdlets
         private void ProcessByName()
         {
             var set = _octopus.LibraryVariableSets.FindOne(vs => vs.Name.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
+            WriteVerbose("Deleting variableset: " + set.Name);
             _octopus.LibraryVariableSets.Delete(set);
         }
     }

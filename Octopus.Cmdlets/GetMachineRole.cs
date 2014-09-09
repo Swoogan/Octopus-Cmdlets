@@ -15,7 +15,7 @@ namespace Octopus.Cmdlets
             Mandatory = false,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the machine to look for.")]
+            HelpMessage = "The name of the machine role to retrieve.")]
         public string[] Name { get; set; }
 
         private OctopusRepository _octopus;

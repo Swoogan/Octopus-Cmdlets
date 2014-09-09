@@ -6,13 +6,15 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Remove, "Variable")]
+    [Cmdlet(VerbsCommon.Remove, "Variable", DefaultParameterSetName = "ByProjectName")]
     public class RemoveVariable : PSCmdlet
     {
         [Parameter(
+            ParameterSetName = "ByProjectName",
             Position = 0,
             Mandatory = true,
             HelpMessage = "The project to remove the variables from.")]
+        [Alias("ProjectName")]
         public string Project { get; set; }
 
         [Parameter(
@@ -64,6 +66,8 @@ namespace Octopus.Cmdlets
             }
             else
             {
+                const string msg = "Removing variable '{0}' from project '{1}'";
+                WriteVerbose(string.Format(msg, variable.Name, Project));
                 _variableSet.Variables.Remove(variable);
             }
         }

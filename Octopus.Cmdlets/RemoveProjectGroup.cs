@@ -5,26 +5,25 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Remove, "Project", DefaultParameterSetName = "ByName")]
-    public class RemoveProject : PSCmdlet
+    [Cmdlet(VerbsCommon.Remove, "ProjectGroup")]
+    public class RemovedProjectGroup : PSCmdlet
     {
         [Parameter(
-            ParameterSetName = "ByName",
             Position = 0,
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
+            Mandatory = false,
             ValueFromPipeline = true,
-            HelpMessage = "The name of the project to remove.")]
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name of the VariableSet to retrieve.")]
         public string[] Name { get; set; }
 
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
-            HelpMessage = "The id of the project to remove.")]
-        [Alias("ProjectId")]
-        public string[] Id { get; set; }
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name of the project to retrieve.")]
+        [Alias("Id")]
+        public string[] ProjectGroupId { get; set; }
 
         private OctopusRepository _octopus;
 
@@ -53,24 +52,24 @@ namespace Octopus.Cmdlets
 
         private void ProcessById()
         {
-             var projects = from id in Id
-                         select _octopus.Projects.Get(id);
+            var groups = from id in ProjectGroupId
+                         select _octopus.ProjectGroups.Get(id);
 
-            foreach (var project in projects)
+            foreach (var group in groups)
             {
-                WriteVerbose("Deleting project: " + project.Name);
-                _octopus.Projects.Delete(project);
+                WriteVerbose("Deleting project group: " + group.Name);
+                _octopus.ProjectGroups.Delete(group);
             }
         }
 
-        private void ProcessByName()
+        protected void ProcessByName()
         {
-            var projects = _octopus.Projects.FindByNames(Name);
+            var groups = _octopus.ProjectGroups.FindByNames(Name);
 
-            foreach (var project in projects)
+            foreach (var group in groups)
             {
-                WriteVerbose("Deleting project: " + project.Name);
-                _octopus.Projects.Delete(project);
+                WriteVerbose("Deleting project group: " + group.Name);
+                _octopus.ProjectGroups.Delete(group);
             }
         }
     }

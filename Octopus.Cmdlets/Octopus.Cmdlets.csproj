@@ -70,6 +70,7 @@
     <Compile Include="GetMachineRole.cs" />
     <Compile Include="GetMachine.cs" />
     <Compile Include="AddVariableSet.cs" />
+    <Compile Include="RemoveProjectGroup.cs" />
     <Compile Include="GetVariableSet.cs" />
     <Compile Include="FindVariableSetVariable.cs" />
     <Compile Include="AddProject.cs" />

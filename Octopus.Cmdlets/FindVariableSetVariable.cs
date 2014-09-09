@@ -13,7 +13,7 @@ namespace Octopus.Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the variable to look for."
+            HelpMessage = "The name of the variable to retrieve."
             )]
         public string[] Name { get; set; }
 

@@ -14,7 +14,7 @@ namespace Octopus.Cmdlets
             Mandatory = false,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the project to look for.")]
+            HelpMessage = "The name of the project to retrieve.")]
         public string[] Name { get; set; }
 
         [Parameter(
@@ -28,7 +28,7 @@ namespace Octopus.Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the project to look for.")]
+            HelpMessage = "The id of the project to retrieve.")]
         public string[] Id { get; set; }
 
         private OctopusRepository _octopus;
