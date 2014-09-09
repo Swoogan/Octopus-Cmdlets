@@ -9,8 +9,6 @@ Todo
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
 - Add Environments and Retention policy to Add-ProjectGroup
-- Improve the caching to be per value 
-	- Actually, give some more thought to this whole caching thing
 - Need some tests. People are starting to use this thing.
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Clone projects
@@ -21,6 +19,15 @@ Todo
 - Add verbose output
 - Add username/password fields for Connect-Server
 - Add way to connect to more than one server at once?
+- How do we get all deployment processes (just Get-OctoProject | Get-OctoDeploymentProcess ?)
+
+Caching
+-------
+- Improve the caching to be per value?
+- Actually, give some more thought to this whole caching thing, would per value be an improvement?
+- Per value doesn't work when you want a list. How do you know if the whole list is stale?
+- Caching by default is probably the problem. Only really need it for ScriptProperties. Change NoCache? to Cache?
+- Very annoying to add a new environment, Get-OctoEnvironment and not see it.
 
 Hold
 ----

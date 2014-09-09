@@ -194,7 +194,7 @@
       <ScriptProperty>
         <Name>Environments</Name>
         <GetScriptBlock>
-          $this.EnvironmentIds | % { (Get-OctoEnvironment -Id $_).Name }
+          (Get-OctoEnvironment -Id $this.EnvironmentIds).Name
         </GetScriptBlock>
       </ScriptProperty>
     </Members>

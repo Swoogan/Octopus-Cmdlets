@@ -67,5 +67,33 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    <View>
+      <Name>ProjectAndSteps</Name>
+      <ViewSelectedBy>
+        <TypeName>Octopus.Client.Model.DeploymentProcessResource</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Width>25</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>60</Width>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Project</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Steps</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
