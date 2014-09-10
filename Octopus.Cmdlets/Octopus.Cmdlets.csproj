@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CopyProject.cs" />
     <Compile Include="RemoveEnvironment.cs" />
     <Compile Include="AddEnvironment.cs" />
     <None Include="AddMachine.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="GetProject.cs" />
     <Compile Include="GetEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session.cs" />
     <Compile Include="UpdateVariable.cs" />
   </ItemGroup>
   <ItemGroup>

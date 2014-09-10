@@ -10,7 +10,6 @@ Todo
 - Add Environments and Retention policy to Add-ProjectGroup
 - Need some tests. People are starting to use this thing.
 - Get-DeploymentProcess by project name or id
-- Add cmdlet to Clone projects
 - Add cmdlet to Add Step from Template
 - Implement duplicate variable finding algorithm
 	- Warn if adding a duplicate variable
@@ -19,6 +18,8 @@ Todo
 - Add username/password fields for Connect-Server
 - Add way to connect to more than one server at once?
 - How do we get all deployment processes (just Get-OctoProject | Get-OctoDeploymentProcess ?)
+- Chocolaty package
+- Add module to PSGet
 
 Caching
 -------
@@ -35,6 +36,7 @@ Hold
 
 Done
 ----
+- Add cmdlet to Clone projects (Copy-Project)
 - Add project caching to Get-Project
 - Add project caching
 - Remove-Environment

@@ -84,10 +84,7 @@ namespace Octopus.Cmdlets
 
         protected override void BeginProcessing()
         {
-            _octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
-            if (_octopus == null)
-                throw new Exception(
-                    "Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
+            _octopus = Session.RetrieveSession(this);
 
             WriteDebug("Got connection");
 
@@ -95,10 +92,7 @@ namespace Octopus.Cmdlets
             var project = _octopus.Projects.FindByName(Project);
 
             if (project == null)
-            {
-                const string msg = "Project '{0}' was found.";
-                throw new Exception(string.Format(msg, Project));
-            }
+                throw new Exception(string.Format("Project '{0}' was not found.", Project));
 
             WriteDebug("Found project" + project.Id);
 

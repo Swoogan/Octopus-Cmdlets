@@ -30,12 +30,7 @@ namespace Octopus.Cmdlets
 
         protected override void BeginProcessing()
         {
-            _octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
-            if (_octopus == null)
-            {
-                throw new Exception(
-                    "Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
-            }
+            _octopus = Session.RetrieveSession(this);
 
             // Find the project that owns the variables we want to edit
             var project = _octopus.Projects.FindByName(Project);

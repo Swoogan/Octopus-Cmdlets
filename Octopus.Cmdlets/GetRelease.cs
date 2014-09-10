@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
-using Octopus.Extensions;
+using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
@@ -25,14 +25,11 @@ namespace Octopus.Cmdlets
         public string[] Version { get; set; }
 
         private OctopusRepository _octopus;
-        private string _projectId;
+        private ProjectResource _project;
 
         protected override void BeginProcessing()
         {
-            _octopus = (OctopusRepository) SessionState.PSVariable.GetValue("OctopusRepository");
-            if (_octopus == null)
-                throw new Exception(
-                    "Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
+            _octopus = Session.RetrieveSession(this);
 
             // Find the project that owns the variables we want to edit
             var project = _octopus.Projects.FindByName(Project);
@@ -43,20 +40,20 @@ namespace Octopus.Cmdlets
                 throw new Exception(string.Format(msg, Project));
             }
 
-            _projectId = project.Id;
+            _project = project;
         }
 
         protected override void ProcessRecord()
         {
             if (Version != null)
             {
-                var releases = Version.Select(v => Release.FindByVersion(_octopus, _projectId, v));
+                var releases = Version.Select(v => _octopus.Projects.GetReleaseByVersion(_project, v));
                 foreach (var release in releases)
                     WriteObject(release);
             }
             else
             {
-                var releases = _octopus.Releases.FindMany(r => r.ProjectId == _projectId);
+                var releases = _octopus.Releases.FindMany(r => r.ProjectId == _project.Id);
 
                 foreach (var release in releases)
                     WriteObject(release);                
