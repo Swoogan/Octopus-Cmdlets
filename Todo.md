@@ -1,10 +1,15 @@
-Todo
-----
+Todo v0.1.0
+-----------
+- Write help file
+- Improve online documentation
+- Chocolaty package
+- Add module to PSGet
+
+Todo vNext
+----------
 - *Add-Step*, Add-Machine, Add-Release
 - Remove-Step, Remove-Machine, Remove-Release
 - Extend Add-Variable to add library vs variables
-- Write help file
-- Improve online documentation
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
 - Add Environments and Retention policy to Add-ProjectGroup
@@ -18,8 +23,7 @@ Todo
 - Add username/password fields for Connect-Server
 - Add way to connect to more than one server at once?
 - How do we get all deployment processes (just Get-OctoProject | Get-OctoDeploymentProcess ?)
-- Chocolaty package
-- Add module to PSGet
+
 
 Caching
 -------
