@@ -21,7 +21,7 @@ namespace Octopus.Cmdlets
             ParameterSetName = "ByName",
             Mandatory = false,
             HelpMessage = "The name of the project groups to look in.")]
-        public string[] GroupName { get; set; }
+        public string[] ProjectGroup { get; set; }
 
         [Parameter(
             ParameterSetName = "ById",
@@ -79,7 +79,7 @@ namespace Octopus.Cmdlets
                 _octopus.Projects.FindAll() :
                 _octopus.Projects.FindByNames(Name);
 
-            var groups = _octopus.ProjectGroups.FindByNames(GroupName);
+            var groups = _octopus.ProjectGroups.FindByNames(ProjectGroup);
 
             var projects = groups.Count > 0
                 ? (from p in projectResources
