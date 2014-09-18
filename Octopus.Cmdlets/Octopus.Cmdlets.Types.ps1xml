@@ -93,6 +93,12 @@
           </PropertySet>
         </Members>
       </MemberSet>
+      <ScriptProperty>
+        <Name>ProjectGroup</Name>
+        <GetScriptBlock>
+          (Get-OctoProjectGroup -ProjectGroupId $this.ProjectGroupId).Name
+        </GetScriptBlock>
+      </ScriptProperty>
     </Members>
   </Type>
   <Type>
