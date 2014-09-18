@@ -5,10 +5,11 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get, "ProjectGroup")]
+    [Cmdlet(VerbsCommon.Get, "ProjectGroup", DefaultParameterSetName = "ByName")]
     public class GetProjectGroup : PSCmdlet
     {
         [Parameter(
+            ParameterSetName = "ByName",
             Position = 0,
             Mandatory = false,
             ValueFromPipeline = true,
