@@ -1,3 +1,7 @@
+Todo
+----
+- Extend Add-Variable to add library vs variables
+
 Todo v0.1.0
 -----------
 - Write help file
@@ -9,7 +13,6 @@ Todo vNext
 ----------
 - *Add-Step*, Add-Machine, Add-Release
 - Remove-Step, Remove-Machine, Remove-Release
-- Extend Add-Variable to add library vs variables
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
 - Add Environments and Retention policy to Add-ProjectGroup
