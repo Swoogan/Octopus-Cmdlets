@@ -89,11 +89,15 @@
     <Compile Include="UpdateVariable.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Octopus.Cmdlets.dll-Help.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Octopus.Cmdlets.psd1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Octopus.Cmdlets.Types.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Octopus.Cmdlets.Format.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

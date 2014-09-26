@@ -1,7 +1,9 @@
-﻿using System;
-using System.Management.Automation;
-using Octopus.Client;
+﻿using Octopus.Client;
 using Octopus.Client.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
 
 namespace Octopus.Cmdlets
 {
@@ -31,16 +33,25 @@ namespace Octopus.Cmdlets
             Mandatory = true,
             HelpMessage = "The library variable set to get the variables for."
             )]
-        public string VariableSet { get; set; }
+        public string[] VariableSet { get; set; }
 
-        private VariableSetResource _variableSet;
+        [Parameter(
+            ParameterSetName = "VariableSetId",
+            Position = 0,
+            Mandatory = true,
+            HelpMessage = "The library variable set to get the variables for."
+            )]
+        public string[] VariableSetId { get; set; }
+
+        private readonly List<VariableSetResource> _variableSets = new List<VariableSetResource>();
 
         protected override void BeginProcessing()
         {
-            var octopus = (OctopusRepository)SessionState.PSVariable.GetValue("OctopusRepository");
+            var octopus = (OctopusRepository) SessionState.PSVariable.GetValue("OctopusRepository");
             if (octopus == null)
             {
-                throw new Exception("Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
+                throw new Exception(
+                    "Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
             }
 
             switch (ParameterSetName)
@@ -49,57 +60,74 @@ namespace Octopus.Cmdlets
                     LoadProjectVariableSet(octopus);
                     break;
                 case "VariableSet":
-                    LoadLibraryVariableSet(octopus);
+                    LoadLibraryVariableSetByNames(octopus);
+                    break;
+                case "VariableSetId":
+                    LoadLibraryVariableSetByIds(octopus);
                     break;
                 default:
                     throw new Exception("Unknown ParameterSetName: " + ParameterSetName);
             }
         }
 
-        private void LoadLibraryVariableSet(OctopusRepository octopus)
+        private void LoadLibraryVariableSetByIds(IOctopusRepository octopus)
         {
-            // Find the library variable set that owns the variables we want to get
-            var variableSet = octopus.LibraryVariableSets.FindOne(vs => vs.Name.Equals(VariableSet, StringComparison.InvariantCultureIgnoreCase));
-
-            if (variableSet == null)
+            // Find the library variable sets that owns the variables we want to get
+            foreach (var id in VariableSetId)
             {
-                const string msg = "Library variable set '{0}' was not found.";
-                throw new Exception(string.Format(msg, VariableSet));
-            }
+                var idForClosure = id;
+                var variableSet = octopus.LibraryVariableSets.FindOne(vs =>
+                    vs.Id == idForClosure);
 
-            // Get the variable set
-            _variableSet = octopus.VariableSets.Get(variableSet.Link("Variables"));
+                if (variableSet == null)
+                    WriteWarning(string.Format("Library variable set '{0}' was not found.", id));
+                else
+                    _variableSets.Add(octopus.VariableSets.Get(variableSet.Link("Variables")));
+            }
         }
 
-        private void LoadProjectVariableSet(OctopusRepository octopus)
+        private void LoadLibraryVariableSetByNames(IOctopusRepository octopus)
+        {
+            // Find the library variable sets that owns the variables we want to get
+            foreach (var name in VariableSet)
+            {
+                var nameForClosure = name;
+                var variableSet = octopus.LibraryVariableSets.FindOne(vs =>
+                    vs.Name.Equals(nameForClosure, StringComparison.InvariantCultureIgnoreCase));
+
+                if (variableSet == null)
+                    WriteWarning(string.Format("Library variable set '{0}' was not found.", name));
+                else
+                    _variableSets.Add(octopus.VariableSets.Get(variableSet.Link("Variables")));
+            }
+        }
+
+        private void LoadProjectVariableSet(IOctopusRepository octopus)
         {
             // Find the project that owns the variables we want to get
             var project = octopus.Projects.FindByName(Project);
 
             if (project == null)
             {
-                const string msg = "Project '{0}' was not found.";
-                throw new Exception(string.Format(msg, Project));
+                throw new Exception(string.Format("Project '{0}' was not found.", Project));
             }
 
             // Get the variable set
-            _variableSet = octopus.VariableSets.Get(project.Link("Variables"));
+            _variableSets.Add(octopus.VariableSets.Get(project.Link("Variables")));
         }
 
         protected override void ProcessRecord()
         {
-            if (Name == null)
-            {
-                foreach (var variable in _variableSet.Variables)
-                    WriteObject(variable);
-            }
-            else
-            {
-                foreach (var name in Name)
-                    foreach (var variable in _variableSet.Variables)
-                        if (variable.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
-                            WriteObject(variable);                    
-            }
+            var variables = Name == null
+                ? _variableSets.SelectMany(variableSet => variableSet.Variables)
+                : (from name in Name
+                    from variableSet in _variableSets
+                    from variable in variableSet.Variables
+                    where variable.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
+                    select variable);
+
+            foreach (var variable in variables)
+                WriteObject(variable);
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command
+    xmlns:maml="http://schemas.microsoft.com/maml/2004/10"
+    xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10"
+    xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Get-OctoProject</command:name>
+      <command:noun>Project</command:noun>
+      <command:verb>Get</command:verb>
+      <maml:description>
+        <maml:para>Gets one or more Octopus Deploy projects.</maml:para>
+      </maml:description>
+    </command:details>
+  </command:command>
+</helpItems>

@@ -3,6 +3,15 @@
   $installPath = "Octopus.Cmdlets"
 }
 
+function Copy-Files([string]$path) {
+	Copy-Item -Path ./Octopus.Cmdlets/Octopus.Cmdlets.Format.ps1xml -Destination $path
+	Copy-Item -Path ./Octopus.Cmdlets/Octopus.Cmdlets.psd1 -Destination $path
+	Copy-Item -Path ./Octopus.Cmdlets/Octopus.Cmdlets.Types.ps1xml -Destination $path
+
+	New-Item -ItemType directory -Path $path/en-US
+	Copy-Item -Path ./Octopus.Cmdlets/Octopus.Cmdlets.dll-help.xml -Destination $path
+}
+
 task default -depends Release
 
 task Release { 
@@ -20,6 +29,7 @@ task Install-ForMe -depends Release {
 		Write-Host "Created directory '$installPath'" -ForegroundColor Green
 	}
 	Copy-Item -Path ./Octopus.Cmdlets/bin/Release/* -Destination $installPath
+	Copy-Files $installPath
 }
 
 task Install-ForEveryone {
@@ -31,6 +41,7 @@ task Install-ForEveryone {
 		Write-Host "Created directory '$installPath'" -ForegroundColor Green
 	}
 	Copy-Item -Path ./Octopus.Cmdlets/bin/Release/* -Destination $installPath
+	Copy-Files $installPath
 }
 
 task Clean { 
