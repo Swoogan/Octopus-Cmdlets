@@ -13,74 +13,120 @@ namespace Octopus.Cmdlets
     public class AddVariable : PSCmdlet
     {
         [Parameter(
+            ParameterSetName = "ProjectByParts",
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The project to get the variables for."
-            )]
+            HelpMessage = "The project to add the variable to.")]
+        [Parameter(
+            ParameterSetName = "ProjectByInputObject",
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The project to add the variable to.")]
         public string Project { get; set; }
 
         [Parameter(
-            Position = 1,
+            ParameterSetName = "VsByParts",
+            Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = "Parts"
-            )]
+            HelpMessage = "The Library VariableSet to add the variable to.")]
+        [Parameter(
+            ParameterSetName = "VsByInputObject",
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Library VariableSet to add the variable to.")]
+        public string VariableSet { get; set; }
+
+        [Parameter(
+            ParameterSetName = "ProjectByParts",
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            ParameterSetName = "VsByParts",
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
         [Parameter(
+            ParameterSetName = "ProjectByParts",
             Position = 2,
             Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = "Parts"
-            )]
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            ParameterSetName = "VsByParts",
+            Position = 2,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
         public string Value { get; set; }
 
         [Parameter(
-            Position = 3,
+            ParameterSetName = "ProjectByParts",
             Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = "Parts"
-            )]
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            ParameterSetName = "VsByParts",
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
         public string[] Environments { get; set; }
 
         [Parameter(
+            ParameterSetName = "ProjectByParts",
             Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = "Parts"
-            )]
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            ParameterSetName = "VsByParts",
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
         public string[] Roles { get; set; }
 
         [Parameter(
+            ParameterSetName = "ProjectByParts",
             Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = "Parts"
-            )]
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            ParameterSetName = "VsByParts",
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
         public string[] Machines { get; set; }
 
         [Parameter(
+            ParameterSetName = "ProjectByParts",
             Mandatory = false,
-            Position = 6
-            )]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Steps { get; set; }
 
         [Parameter(
+            ParameterSetName = "ProjectByParts",
             Mandatory = false,
-            ParameterSetName = "Parts"
-            )]
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            ParameterSetName = "VsByParts",
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
         public SwitchParameter Sensitive { get; set; }
 
         [Parameter(
+            ParameterSetName = "VsByInputObject",
             Position = 1,
             Mandatory = true,
-            ValueFromPipeline = true,
-            ParameterSetName = "InputObject"
-            )]
+            ValueFromPipeline = true)]
+        [Parameter(
+            ParameterSetName = "ProjectByInputObject",
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipeline = true)]
         public VariableResource[] InputObject { get; set; }
 
         private OctopusRepository _octopus;
         private VariableSetResource _variableSet;
         private DeploymentProcessResource _deploymentProcess;
+
+        #region BeginProcessing
 
         protected override void BeginProcessing()
         {
@@ -88,6 +134,48 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Got connection");
 
+            // Get the variables for editing
+            switch (ParameterSetName)
+            {
+                case "VsByParts":
+                    InitVsByParts();
+                    break;
+                case "VsByInputObject":
+                    LoadLibraryVariableSet();
+                    break;
+                case "ProjectByParts":
+                    InitProjectByParts();
+                    break;
+                case "ProjectByInputObject":
+                    var project = LoadProject();
+                    LoadVariableSet(project.Link("Variables"));
+                    break;
+
+                default:
+                    throw new ArgumentException("Bad ParameterSet Name");
+            }
+        }
+
+        private void InitVsByParts()
+        {
+            LoadLibraryVariableSet();
+            var project = LoadProject();
+
+            if (Steps != null)
+                LoadDeploymentProcess(project);
+        }
+
+        private void InitProjectByParts()
+        {
+            var project = LoadProject();
+            LoadVariableSet(project.Link("Variables"));
+
+            if (Steps != null)
+                LoadDeploymentProcess(project);
+        }
+
+        private ProjectResource LoadProject()
+        {
             // Find the project that owns the variables we want to edit
             var project = _octopus.Projects.FindByName(Project);
 
@@ -96,26 +184,50 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Found project" + project.Id);
 
-            // Get the variables for editing
-            _variableSet = _octopus.VariableSets.Get(project.Link("Variables"));
+            return project;
+        }
 
+        private void LoadVariableSet(string link)
+        {
+            _variableSet = _octopus.VariableSets.Get(link);
             WriteDebug("Found variable set" + _variableSet.Id);
+        }
 
+        private void LoadDeploymentProcess(ProjectResource project)
+        {
             var id = project.DeploymentProcessId;
             _deploymentProcess = _octopus.DeploymentProcesses.Get(id);
 
             WriteDebug("Loaded the deployment process");
         }
 
+        private void LoadLibraryVariableSet()
+        {
+            var libraryVariableSet =
+                _octopus.LibraryVariableSets.FindOne(
+                    v => v.Name.Equals(VariableSet, StringComparison.InvariantCultureIgnoreCase));
+
+            if (libraryVariableSet == null)
+                throw new Exception(string.Format("Library variable set '{0}' was not found.", VariableSet));
+
+            LoadVariableSet(libraryVariableSet.Link("Variables"));
+        }
+
+        #endregion
+
+        #region ProcessRecord
+
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)
             {
-                case "Parts":
+                case "VsByParts":
+                case "ProjectByParts":
                     ProcessByParts();
                     break;
 
-                case "InputObject":
+                case "VsByInputObject":
+                case "ProjectByInputObject":
                     foreach (var variable in InputObject)
                         _variableSet.Variables.Add(variable);
                     break;
@@ -170,11 +282,11 @@ namespace Octopus.Cmdlets
                 variable.Scope.Add(ScopeField.Machine, new ScopeValue(steps));
         }
 
+        #endregion
+
         protected override void EndProcessing()
         {
-            // Save the variables
             _octopus.VariableSets.Modify(_variableSet);
-
             WriteDebug("Modified the variable set");
         }
     }

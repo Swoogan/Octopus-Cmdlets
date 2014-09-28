@@ -28,8 +28,7 @@ namespace Octopus.Cmdlets
             HelpMessage = "The id of the machine to retrieve.")]
         public string[] Id { get; set; }
 
-        [Parameter(
-            Mandatory = false)]
+        [Parameter(Mandatory = false)]
         public SwitchParameter NoCache { get; set; }
 
         private OctopusRepository _octopus;

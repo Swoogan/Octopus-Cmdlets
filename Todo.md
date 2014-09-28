@@ -1,7 +1,3 @@
-Todo
-----
-- Extend Add-Variable to add library vs variables
-
 Todo v0.1.0
 -----------
 - Write help file
@@ -43,6 +39,7 @@ Hold
 
 Done
 ----
+- Extend Add-Variable to add library vs variables
 - Add cmdlet to Clone projects (Copy-Project)
 - Add project caching to Get-Project
 - Add project caching
