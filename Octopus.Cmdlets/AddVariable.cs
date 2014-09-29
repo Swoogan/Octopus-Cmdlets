@@ -9,7 +9,7 @@ namespace Octopus.Cmdlets
 {
     [Cmdlet(VerbsCommon.Add, 
         "Variable", 
-        DefaultParameterSetName = "Parts")]
+        DefaultParameterSetName = "ProjectByParts")]
     public class AddVariable : PSCmdlet
     {
         [Parameter(
