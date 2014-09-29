@@ -8,8 +8,8 @@ function Copy-Files([string]$path) {
 	Copy-Item -Path ./Octopus.Cmdlets/Octopus.Cmdlets.psd1 -Destination $path
 	Copy-Item -Path ./Octopus.Cmdlets/Octopus.Cmdlets.Types.ps1xml -Destination $path
 
-	New-Item -ItemType directory -Path $path/en-US
-	Copy-Item -Path ./Octopus.Cmdlets/Octopus.Cmdlets.dll-help.xml -Destination $path
+	#if (-not (Test-Path $path/en-US)) { mkdir $path/en-US }
+	#Copy-Item -Path ./Octopus.Cmdlets/Octopus.Cmdlets.dll-help.xml -Destination $path
 }
 
 task default -depends Release
