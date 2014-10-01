@@ -6,11 +6,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Remove, "Variable", DefaultParameterSetName = "ByProjectName")]
+    [Cmdlet(VerbsCommon.Remove, "Variable", DefaultParameterSetName = "ByName")]
     public class RemoveVariable : PSCmdlet
     {
         [Parameter(
-            ParameterSetName = "ByProjectName",
             Position = 0,
             Mandatory = true,
             HelpMessage = "The project to remove the variables from.")]
@@ -18,12 +17,21 @@ namespace Octopus.Cmdlets
         public string Project { get; set; }
 
         [Parameter(
+            ParameterSetName = "ByName",
             Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             ValueFromPipeline = true,
             HelpMessage = "The name of the variable to remove.")]
-        public string Name { get; set; }
+        public string[] Name { get; set; }
+
+        [Parameter(
+            ParameterSetName = "ByObject",
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipeline = true,
+            HelpMessage = "The variable to remove.")]
+        public VariableResource[] InputObject{ get; set; }
 
         private OctopusRepository _octopus;
         private VariableSetResource _variableSet;
@@ -36,10 +44,7 @@ namespace Octopus.Cmdlets
             var project = _octopus.Projects.FindByName(Project);
 
             if (project == null)
-            {
-                const string msg = "Project '{0}' was found.";
-                throw new Exception(string.Format(msg, Project));
-            }
+                throw new Exception(string.Format("Project '{0}' was found.", Project));
 
             // Get the variables for editing
             _variableSet = _octopus.VariableSets.Get(project.Link("Variables"));
@@ -47,19 +52,39 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            // This is debatable. If you have more than one of the same name,
-            // it's going to remove one at random. On the other hand, if you 
-            // get all matching the name, put pipe the name in multiple times 
-            // (ie: find Test.*) you'll get an error on the successive attempts.
-            var variable = _variableSet.Variables.FirstOrDefault(x => x.Name == Name);
+            WriteDebug("ParameterSetName: " + ParameterSetName);
 
-            if (variable == null)
+            switch (ParameterSetName)
             {
-                const string msg = "No variable with the name '{0}' in the project '{1}' was found.";
-                //throw new Exception(string.Format(msg, Name, Project));
-                WriteWarning(string.Format(msg, Name, Project));
+                case "ByName":
+                    ProcessByName();
+                    break;
+                case "ById":
+                    ProcessByObject();
+                    break;
+                default:
+                    throw new ArgumentException("Unknown ParameterSetName: " + ParameterSetName);
             }
-            else
+        }
+
+        private void ProcessByName()
+        {
+            var variables = (from v in _variableSet.Variables
+                            from n in Name
+                            where v.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
+                            select v).ToArray();
+            
+            foreach (var variable in variables)
+            {
+                const string msg = "Removing variable '{0}' from project '{1}'";
+                WriteVerbose(string.Format(msg, variable.Name, Project));
+                _variableSet.Variables.Remove(variable);
+            }
+        }
+
+        private void ProcessByObject()
+        {
+            foreach (var variable in InputObject)
             {
                 const string msg = "Removing variable '{0}' from project '{1}'";
                 WriteVerbose(string.Format(msg, variable.Name, Project));
@@ -71,8 +96,7 @@ namespace Octopus.Cmdlets
         {
             // Save the variables
             _octopus.VariableSets.Modify(_variableSet);
-
-            WriteDebug("Modified the variable set");
+            WriteVerbose("Saved changes");
         }
     }
 }

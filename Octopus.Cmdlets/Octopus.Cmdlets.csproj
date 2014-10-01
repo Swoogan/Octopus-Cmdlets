@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddLibraryVariable.cs" />
     <Compile Include="CopyProject.cs" />
     <Compile Include="RemoveEnvironment.cs" />
     <Compile Include="AddEnvironment.cs" />
@@ -91,6 +92,7 @@
   <ItemGroup>
     <Content Include="Octopus.Cmdlets.dll-Help.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Octopus.Cmdlets.psd1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -7,17 +7,17 @@ using Octopus.Platform.Model;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Add, "Variable",
+    [Cmdlet(VerbsCommon.Add, "LibraryVariable", 
         DefaultParameterSetName = "ByObject")]
-    public class AddVariable : PSCmdlet
+    public class AddLibraryVariable : PSCmdlet
     {
         [Parameter(
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The project to add the variable to.")]
-        public string Project { get; set; }
-      
+            HelpMessage = "The Library VariableSet to add the variable to.")]
+        public string VariableSet { get; set; }
+
         [Parameter(
             ParameterSetName = "ByParts",
             Position = 1,
@@ -54,12 +54,6 @@ namespace Octopus.Cmdlets
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
-        public string[] Steps { get; set; }
-
-        [Parameter(
-            ParameterSetName = "ByParts",
-            Mandatory = false,
-            ValueFromPipelineByPropertyName = true)]
         public SwitchParameter Sensitive { get; set; }
 
         [Parameter(
@@ -71,40 +65,20 @@ namespace Octopus.Cmdlets
 
         private OctopusRepository _octopus;
         private VariableSetResource _variableSet;
-        private DeploymentProcessResource _deploymentProcess;
 
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
 
-            var project = LoadProject();
+            var libraryVariableSet =
+                _octopus.LibraryVariableSets.FindOne(
+                    v => v.Name.Equals(VariableSet, StringComparison.InvariantCultureIgnoreCase));
 
-            _variableSet = _octopus.VariableSets.Get(project.Link("Variables"));
+            if (libraryVariableSet == null)
+                throw new Exception(string.Format("Library variable set '{0}' was not found.", VariableSet));
+
+            _variableSet = _octopus.VariableSets.Get(libraryVariableSet.Link("Variables"));
             WriteDebug("Found variable set" + _variableSet.Id);
-
-            if (Steps != null)
-                LoadDeploymentProcess(project);
-        }
-
-        private ProjectResource LoadProject()
-        {
-            // Find the project that owns the variables we want to edit
-            var project = _octopus.Projects.FindByName(Project);
-
-            if (project == null)
-                throw new Exception(string.Format("Project '{0}' was not found.", Project));
-
-            WriteDebug("Found project" + project.Id);
-
-            return project;
-        }
-
-        private void LoadDeploymentProcess(ProjectResource project)
-        {
-            var id = project.DeploymentProcessId;
-            _deploymentProcess = _octopus.DeploymentProcesses.Get(id);
-
-            WriteDebug("Loaded the deployment process");
         }
 
         protected override void ProcessRecord()
@@ -133,7 +107,6 @@ namespace Octopus.Cmdlets
             
             AddEnvironments(variable);
             AddMachines(variable);
-            AddSteps(variable);
 
             if (Roles != null && Roles.Length > 0)
                 variable.Scope.Add(ScopeField.Role, new ScopeValue(Roles));
@@ -157,19 +130,6 @@ namespace Octopus.Cmdlets
 
             if (ids.Count > 0)
                 variable.Scope.Add(ScopeField.Machine, new ScopeValue(ids));
-        }
-
-        private void AddSteps(VariableResource variable)
-        {
-            if (Steps == null) return;
-
-            var steps = (from step in _deploymentProcess.Steps
-                        from s in Steps
-                        where step.Name.Equals(s, StringComparison.InvariantCultureIgnoreCase)
-                        select step.Id).ToList();
-
-            if (steps.Any())
-                variable.Scope.Add(ScopeField.Machine, new ScopeValue(steps));
         }
 
         protected override void EndProcessing()

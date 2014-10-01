@@ -63,7 +63,7 @@ namespace Octopus.Cmdlets
                     ProcessById();
                     break;
                 default:
-                    throw new Exception("Unknown ParameterSetName: " + ParameterSetName);
+                    throw new ArgumentException("Unknown ParameterSetName: " + ParameterSetName);
             }
         }
 
