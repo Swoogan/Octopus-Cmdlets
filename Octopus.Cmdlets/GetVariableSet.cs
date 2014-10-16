@@ -4,7 +4,6 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
-using Octopus.Extensions;
 
 namespace Octopus.Cmdlets
 {
@@ -29,9 +28,10 @@ namespace Octopus.Cmdlets
         public string[] Id { get; set; }
 
         [Parameter(Mandatory = false)]
-        public SwitchParameter NoCache { get; set; }
+        public SwitchParameter Cache { get; set; }
 
         private OctopusRepository _octopus;
+        private List<LibraryVariableSetResource> _variableSets;
 
         protected override void BeginProcessing()
         {
@@ -39,14 +39,15 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Connection established");
 
-            if (Cache.LibraryVariableSets.IsExpired || NoCache)
+            if (!Cache || Extensions.Cache.LibraryVariableSets.IsExpired)
+                _variableSets = _octopus.LibraryVariableSets.FindAll();
+
+            if (Cache)
             {
-                Cache.LibraryVariableSets.Set(_octopus.LibraryVariableSets.FindAll());
-                WriteDebug("Cache miss");
-            }
-            else
-            {
-                WriteDebug("Cache hit");
+                if (Extensions.Cache.LibraryVariableSets.IsExpired)
+                    Extensions.Cache.LibraryVariableSets.Set(_variableSets);
+                else
+                    _variableSets = Extensions.Cache.LibraryVariableSets.Values;
             }
 
             WriteDebug("Loaded environments");
@@ -70,7 +71,7 @@ namespace Octopus.Cmdlets
         private void ProcessById()
         {
             var variableSets = from id in Id
-                               from v in Cache.LibraryVariableSets.Values 
+                               from v in _variableSets
                                where v.Id == id
                                select v;
 
@@ -84,12 +85,12 @@ namespace Octopus.Cmdlets
 
             if (Name == null)
             {
-                variableSets = Cache.LibraryVariableSets.Values;
+                variableSets = _variableSets;
             }
             else
             {
                 variableSets = from name in Name
-                               from v in Cache.LibraryVariableSets.Values 
+                               from v in _variableSets 
                                where v.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
                                select v;
             }
