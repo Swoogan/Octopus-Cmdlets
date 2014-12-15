@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
+using Octopus.Platform.Model;
 using Octopus.Platform.Util;
 
 namespace Octopus.Cmdlets
@@ -48,6 +51,10 @@ namespace Octopus.Cmdlets
         public string ProjectGroup { get; set; }
 
         private OctopusRepository _octopus;
+        private ProjectResource _oldProject;
+        private ProjectResource _newProject;
+        private DeploymentProcessResource _oldProcess;
+        private DeploymentProcessResource _newProcess;
 
         protected override void BeginProcessing()
         {
@@ -56,9 +63,9 @@ namespace Octopus.Cmdlets
 
         protected override void ProcessRecord()
         {
-            var oldProject = _octopus.Projects.FindByName(Name);
+            _oldProject = _octopus.Projects.FindByName(Name);
 
-            if (oldProject == null)
+            if (_oldProject == null)
                 throw new Exception(string.Format("Project '{0}' was not found.", Name));
 
             var group = _octopus.ProjectGroups.FindByName(ProjectGroup);
@@ -66,39 +73,54 @@ namespace Octopus.Cmdlets
             if (group == null)
                 throw new Exception(string.Format("Project Group '{0}' was not found.", ProjectGroup));
 
-            var newProject = new ProjectResource
-            {
-                Name = Destination,
-                Description = oldProject.Description,
-                ProjectGroupId = group.Id,
-                DefaultToSkipIfAlreadyInstalled = oldProject.DefaultToSkipIfAlreadyInstalled,
-                IncludedLibraryVariableSetIds = oldProject.IncludedLibraryVariableSetIds,
-                VersioningStrategy = oldProject.VersioningStrategy,
-                IsDisabled = oldProject.IsDisabled
-            };
+            CreateNewProject(group.Id);
 
-            WriteVerbose("Creating the project.");
-            var result = _octopus.Projects.Create(newProject);
-            
-            CopyVariables(oldProject, result);
-            CopyProcess(oldProject, result);
+            _oldProcess = _octopus.DeploymentProcesses.Get(_oldProject.DeploymentProcessId);
+            _newProcess = _octopus.DeploymentProcesses.Get(_newProject.DeploymentProcessId);
+
+            CopyProcess();
+            CopyVariables();
         }
 
-        private void CopyVariables(ProjectResource oldProject, ProjectResource result)
+        private void CreateNewProject(string groupId)
         {
-            var oldSet = _octopus.VariableSets.Get(oldProject.VariableSetId);
-            var newSet = _octopus.VariableSets.Get(result.VariableSetId);
+            WriteVerbose(string.Format("Creating the project '{0}'...", Destination));
+
+            _newProject = _octopus.Projects.Create(new ProjectResource
+            {
+                Name = Destination,
+                Description = _oldProject.Description,
+                ProjectGroupId = groupId,
+                DefaultToSkipIfAlreadyInstalled = _oldProject.DefaultToSkipIfAlreadyInstalled,
+                IncludedLibraryVariableSetIds = _oldProject.IncludedLibraryVariableSetIds,
+                VersioningStrategy = _oldProject.VersioningStrategy,
+                IsDisabled = _oldProject.IsDisabled
+            });
+
+            WriteVerbose(string.Format("Project '{0}' created.", Destination));
+        }
+
+        private void CopyVariables()
+        {
+            var oldSet = _octopus.VariableSets.Get(_oldProject.VariableSetId);
+            var newSet = _octopus.VariableSets.Get(_newProject.VariableSetId);
 
             foreach (var variable in oldSet.Variables)
             {
+                if (variable.IsSensitive)
+                {
+                    const string warning = "Variable '{0}' was sensitive. Sensitive flag has been removed and the value has been set to an empty string.";
+                    WriteWarning(string.Format(warning, variable.Name));
+                }
+
                 newSet.Variables.Add(new VariableResource
                 {
                     Name = variable.Name,
                     IsEditable = variable.IsEditable,
-                    IsSensitive = variable.IsSensitive,
+                    IsSensitive = false,
                     Prompt = variable.Prompt,
-                    Value = variable.Value,
-                    Scope = variable.Scope
+                    Value = variable.IsSensitive ? "" : variable.Value,
+                    Scope = CopyScopeSpec(variable.Scope)
                 });
             }
 
@@ -106,20 +128,50 @@ namespace Octopus.Cmdlets
             _octopus.VariableSets.Modify(newSet);
         }
 
-        private void CopyProcess(ProjectResource oldProject, ProjectResource result)
+        private ScopeSpecification CopyScopeSpec(ScopeSpecification scopeSpec)
         {
-            var process = _octopus.DeploymentProcesses.Get(oldProject.DeploymentProcessId);
-            var newProcess = _octopus.DeploymentProcesses.Get(result.DeploymentProcessId);
+            var newScopeSpec = new ScopeSpecification();
 
-            CopySteps(process, newProcess);
+            foreach (var scope in scopeSpec)
+                newScopeSpec.Add(scope.Key, CopyScope(scope));
 
-            WriteVerbose("Saving the deployment process.");
-            _octopus.DeploymentProcesses.Modify(newProcess);
+            return newScopeSpec;
         }
 
-        private static void CopySteps(DeploymentProcessResource process, DeploymentProcessResource newProcess)
+        private ScopeValue CopyScope(KeyValuePair<ScopeField, ScopeValue> scope)
         {
-            foreach (var step in process.Steps)
+            if (scope.Key != ScopeField.Action) 
+                return new ScopeValue(scope.Value);
+
+            var results = new List<string>();
+
+            foreach (var value in scope.Value)
+            {
+                var innerValue = value;
+
+                // find old action name
+                var actionNames = 
+                    from step in _oldProcess.Steps
+                    from action in step.Actions
+                    where action.Id == innerValue
+                    select action.Name;
+
+                // should only ever be zero or one
+                var ids = from name in actionNames
+                    from step in _newProcess.Steps
+                    from action in step.Actions
+                    where action.Name == name
+                    select action.Id;
+
+                results.AddRange(ids);
+            }
+
+            return new ScopeValue(results);
+        }
+
+        private void CopyProcess()
+        {
+            foreach (var step in _oldProcess.Steps)
             {
                 var newStep = new DeploymentStepResource
                 {
@@ -133,8 +185,12 @@ namespace Octopus.Cmdlets
 
                 CopyActions(step, newStep);
 
-                newProcess.Steps.Add(newStep);
+                _newProcess.Steps.Add(newStep);
             }
+
+            WriteVerbose("Saving the deployment process...");
+            _newProcess = _octopus.DeploymentProcesses.Modify(_newProcess);
+            WriteVerbose("Deployment process saved.");
         }
 
         private static void CopyActions(DeploymentStepResource step, DeploymentStepResource newStep)

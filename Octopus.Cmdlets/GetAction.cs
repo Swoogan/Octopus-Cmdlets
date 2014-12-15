@@ -72,15 +72,17 @@ namespace Octopus.Cmdlets
         {
             if (Name == null)
             {
-                foreach (var step in _deploymentProcess.Steps)
-                    WriteObject(step);
+                var actions = _deploymentProcess.Steps.SelectMany(step => step.Actions);
+                foreach (var action in actions)
+                    WriteObject(action);
             }
             else
             {
                 var steps = from step in _deploymentProcess.Steps
-                    from name in Name
-                    where step.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
-                    select step;
+                            from action in step.Actions
+                            from name in Name
+                            where action.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
+                            select action;
 
                 foreach (var step in steps)
                     WriteObject(step);
@@ -91,18 +93,20 @@ namespace Octopus.Cmdlets
         {
             if (Id == null)
             {
-                foreach (var step in _deploymentProcess.Steps)
-                    WriteObject(step);
+                var actions = _deploymentProcess.Steps.SelectMany(step => step.Actions);
+                foreach (var action in actions)
+                    WriteObject(action);
             }
             else
             {
-                var steps = from step in _deploymentProcess.Steps
+                var actions = from step in _deploymentProcess.Steps
+                            from action in step.Actions
                             from id in Id
-                            where step.Id == id
-                            select step;
+                            where action.Id == id
+                            select action;
 
-                foreach (var step in steps)
-                    WriteObject(step);
+                foreach (var action in actions)
+                    WriteObject(action);
             }
         }
     }
