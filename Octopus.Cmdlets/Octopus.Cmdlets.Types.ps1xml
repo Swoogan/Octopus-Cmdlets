@@ -19,7 +19,7 @@
       <ScriptProperty>
         <Name>Environment</Name>
         <GetScriptBlock>
-          (Get-OctoEnvironment -ScopeValue $this.Scope["Environment"]).Name
+          (Get-OctoEnvironment -ScopeValue $this.Scope["Environment"] -Cache).Name
         </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
@@ -34,20 +34,12 @@
           $this.Scope["Role"]
         </GetScriptBlock>
       </ScriptProperty>
-      <!--
-      <ScriptProperty>
-        <Name>Step</Name>
-        <GetScriptBlock>
-          $this.Scope["Action"] | % { (Get-OctoAction -Id $_).Name }
-        </GetScriptBlock>
-      </ScriptProperty>
-      -->
       <ScriptProperty>
         <Name>Breadth</Name>
         <GetScriptBlock>
           $breadth = @()
           if ($this.Scope["Environment"]) {
-            $breadth += ($this.Scope["Environment"] | % { (Get-OctoEnvironment -Id $_).Name })
+            $breadth += ($this.Scope["Environment"] | % { (Get-OctoEnvironment -Id $_ -Cache).Name })
           }
           if ($this.Scope["Machine"]) {
             $breadth += ($this.Scope["Machine"] | % { (Get-OctoMachine -Id $_).Name })
@@ -131,25 +123,6 @@
       </MemberSet>
     </Members>
   </Type>
-  <!--
-  <Type>
-    <Name>Octopus.Client.Model.ReferenceDataItem</Name>
-    <Members>
-      <MemberSet>
-        <Name>PSStandardMembers</Name>
-        <Members>
-          <PropertySet>
-            <Name>DefaultDisplayPropertySet</Name>
-            <ReferencedProperties>
-              <Name>Name</Name>
-              <Name>Id</Name>
-            </ReferencedProperties>
-          </PropertySet>
-        </Members>
-      </MemberSet>
-    </Members>
-  </Type>
-  -->
   <Type>
     <Name>Octopus.Client.Model.ReleaseResource</Name>
     <Members>
@@ -212,7 +185,7 @@
       <ScriptProperty>
         <Name>Environments</Name>
         <GetScriptBlock>
-          (Get-OctoEnvironment -Id $this.EnvironmentIds).Name
+          (Get-OctoEnvironment -Id $this.EnvironmentIds -Cache).Name
         </GetScriptBlock>
       </ScriptProperty>
     </Members>

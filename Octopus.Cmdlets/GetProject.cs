@@ -24,6 +24,12 @@ namespace Octopus.Cmdlets
         public string[] ProjectGroup { get; set; }
 
         [Parameter(
+            ParameterSetName = "ByName",
+            Mandatory = false,
+            HelpMessage = "The name of the projects to exclude from the results.")]
+        public string[] Exclude { get; set; }
+
+        [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipeline = true,
@@ -79,6 +85,8 @@ namespace Octopus.Cmdlets
                 _octopus.Projects.FindAll() :
                 _octopus.Projects.FindByNames(Name);
 
+
+            // Filter by project group
             var groups = _octopus.ProjectGroups.FindByNames(ProjectGroup);
 
             var projects = groups.Count > 0
@@ -88,7 +96,13 @@ namespace Octopus.Cmdlets
                     select p)
                 : projectResources;
 
-            foreach (var project in projects)
+            // Filter excludes
+            var final = Exclude == null
+                ? projects
+                : projects.Where(p =>
+                    !Exclude.Any(e => p.Name.Equals(e, StringComparison.InvariantCultureIgnoreCase))); 
+
+            foreach (var project in final)
                 WriteObject(project);
         }
     }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
-using Octopus.Extensions;
 using Octopus.Platform.Model;
 
 namespace Octopus.Cmdlets
@@ -37,18 +36,27 @@ namespace Octopus.Cmdlets
         public ScopeValue ScopeValue { get; set; }
 
         [Parameter(Mandatory = false)]
-        public SwitchParameter NoCache { get; set; }
+        public SwitchParameter Cache { get; set; }
 
         private OctopusRepository _octopus;
-        
+        private List<EnvironmentResource> _environments;
+
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
 
             WriteDebug("Connection established");
 
-            if (Cache.Environments.IsExpired || NoCache)
-                Cache.Environments.Set(_octopus.Environments.FindAll());
+            if (!Cache || Extensions.Cache.Environments.IsExpired)
+                _environments = _octopus.Environments.FindAll();
+
+            if (Cache)
+            {
+                if (Extensions.Cache.Environments.IsExpired)
+                    Extensions.Cache.Environments.Set(_environments);
+                else
+                    _environments = Extensions.Cache.Environments.Values;
+            }
 
             WriteDebug("Loaded environments");
         }
@@ -74,8 +82,8 @@ namespace Octopus.Cmdlets
         private void ProcessByScope()
         {
             var envs = ScopeValue == null
-                ? Cache.Environments.Values
-                : (from e in Cache.Environments.Values
+                ? _environments
+                : (from e in _environments
                    from sv in ScopeValue
                    where e.Id == sv
                    select e);
@@ -87,8 +95,8 @@ namespace Octopus.Cmdlets
         private void ProcessByName()
         {
             var envs = Name == null
-                ? Cache.Environments.Values
-                : (from e in Cache.Environments.Values
+                ? _environments
+                : (from e in _environments
                     from n in Name
                     where e.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
                     select e);
@@ -99,7 +107,7 @@ namespace Octopus.Cmdlets
 
         private void ProcessById()
         {
-            var envs = from e in Cache.Environments.Values
+            var envs = from e in _environments
                        from id in EnvironmentId
                        where id == e.Id
                        select e;

@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="AddLibraryVariable.cs" />
     <Compile Include="CopyProject.cs" />
+    <Compile Include="UseVariableSet.cs" />
     <Compile Include="RemoveEnvironment.cs" />
     <Compile Include="AddEnvironment.cs" />
     <None Include="AddMachine.cs" />
