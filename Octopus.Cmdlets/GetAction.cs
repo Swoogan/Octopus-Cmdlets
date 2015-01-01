@@ -78,14 +78,14 @@ namespace Octopus.Cmdlets
             }
             else
             {
-                var steps = from step in _deploymentProcess.Steps
+                var actions = from step in _deploymentProcess.Steps
                             from action in step.Actions
                             from name in Name
                             where action.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
                             select action;
 
-                foreach (var step in steps)
-                    WriteObject(step);
+                foreach (var action in actions)
+                    WriteObject(action);
             }
         }
 

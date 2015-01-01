@@ -7,7 +7,8 @@ Todo v0.1.0
 
 Todo vNext
 ----------
-- *Add-Step*, Add-Machine, Add-Release
+- Get-Step
+- Add-Step, Add-Machine, Add-Release
 - Remove-Step, Remove-Machine, Remove-Release
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
@@ -22,7 +23,6 @@ Todo vNext
 - Add username/password fields for Connect-Server
 - Add way to connect to more than one server at once?
 - How do we get all deployment processes (just Get-OctoProject | Get-OctoDeploymentProcess ?)
-
 
 Caching
 -------
@@ -39,6 +39,7 @@ Hold
 
 Done
 ----
+- Add cmdlet to clone deployment step (Copy-Step)
 - Extend Add-Variable to add library vs variables
 - Add cmdlet to Clone projects (Copy-Project)
 - Add project caching to Get-Project

@@ -187,10 +187,6 @@ namespace Octopus.Cmdlets
 
                 _newProcess.Steps.Add(newStep);
             }
-
-            WriteVerbose("Saving the deployment process...");
-            _newProcess = _octopus.DeploymentProcesses.Modify(_newProcess);
-            WriteVerbose("Deployment process saved.");
         }
 
         private static void CopyActions(DeploymentStepResource step, DeploymentStepResource newStep)
@@ -209,6 +205,13 @@ namespace Octopus.Cmdlets
 
                 newStep.Actions.Add(newAction);
             }
+        }
+
+        protected override void EndProcessing()
+        {
+            WriteVerbose("Saving the deployment process...");
+            _newProcess = _octopus.DeploymentProcesses.Modify(_newProcess);
+            WriteVerbose("Deployment process saved.");
         }
     }
 }
