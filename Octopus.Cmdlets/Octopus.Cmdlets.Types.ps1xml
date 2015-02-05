@@ -47,12 +47,6 @@
           if ($this.Scope["Role"]) {
             $breadth += $this.Scope["Role"];
           }
-          <!--
-          ### This doesn't work because we need to know the project, but there's no way to reverse that lookup ###
-          if ($this.Scope["Action"]) {
-            $breadth += ($this.Scope["Action"] | % { (Get-OctoAction -Id $_).Name })
-          }
-          -->
           $breadth;
         </GetScriptBlock>
       </ScriptProperty>
