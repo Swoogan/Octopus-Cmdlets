@@ -94,7 +94,8 @@ namespace Octopus.Cmdlets
                 DefaultToSkipIfAlreadyInstalled = _oldProject.DefaultToSkipIfAlreadyInstalled,
                 IncludedLibraryVariableSetIds = _oldProject.IncludedLibraryVariableSetIds,
                 VersioningStrategy = _oldProject.VersioningStrategy,
-                IsDisabled = _oldProject.IsDisabled
+                IsDisabled = _oldProject.IsDisabled,
+                LifecycleId = _oldProject.LifecycleId
             });
 
             WriteVerbose(string.Format("Project '{0}' created.", Destination));
