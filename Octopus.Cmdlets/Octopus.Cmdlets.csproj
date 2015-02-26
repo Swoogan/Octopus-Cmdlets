@@ -64,6 +64,7 @@
     <Compile Include="AddLibraryVariable.cs" />
     <Compile Include="CopyStep.cs" />
     <Compile Include="CopyProject.cs" />
+    <Compile Include="GetDeployment.cs" />
     <Compile Include="UseVariableSet.cs" />
     <Compile Include="RemoveEnvironment.cs" />
     <Compile Include="AddEnvironment.cs" />
