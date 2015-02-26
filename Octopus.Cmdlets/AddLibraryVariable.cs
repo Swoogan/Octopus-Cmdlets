@@ -3,6 +3,7 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
+using Octopus.Extensions;
 using Octopus.Platform.Model;
 
 namespace Octopus.Cmdlets
@@ -92,13 +93,18 @@ namespace Octopus.Cmdlets
                     break;
 
                 case "ByObject":
-                    foreach (var variable in InputObject)
-                        _variableSet.Variables.Add(variable);
+                    ProcessByObject();
                     break;
 
                 default:
                     throw new ArgumentException("Unknown ParameterSetName: " + ParameterSetName);
             }
+        }
+
+        private void ProcessByObject()
+        {
+            var copier = new Variables(_variableSet.Variables, WriteWarning);
+            copier.CopyVariables(InputObject);
         }
 
         private void ProcessByParts()

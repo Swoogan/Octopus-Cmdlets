@@ -4,6 +4,7 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
+using Octopus.Extensions;
 using Octopus.Platform.Model;
 using Octopus.Platform.Util;
 
@@ -106,44 +107,15 @@ namespace Octopus.Cmdlets
             var oldSet = _octopus.VariableSets.Get(_oldProject.VariableSetId);
             var newSet = _octopus.VariableSets.Get(_newProject.VariableSetId);
 
-            foreach (var variable in oldSet.Variables)
-            {
-                if (variable.IsSensitive)
-                {
-                    const string warning = "Variable '{0}' was sensitive. Sensitive flag has been removed and the value has been set to an empty string.";
-                    WriteWarning(string.Format(warning, variable.Name));
-                }
-
-                newSet.Variables.Add(new VariableResource
-                {
-                    Name = variable.Name,
-                    IsEditable = variable.IsEditable,
-                    IsSensitive = false,
-                    Prompt = variable.Prompt,
-                    Value = variable.IsSensitive ? "" : variable.Value,
-                    Scope = CopyScopeSpec(variable.Scope)
-                });
-            }
+            var copier = new Variables(newSet.Variables, WriteWarning);
+            copier.CopyVariables(oldSet.Variables, CopyAction);
 
             WriteVerbose("Saving the variable set.");
             _octopus.VariableSets.Modify(newSet);
         }
 
-        private ScopeSpecification CopyScopeSpec(ScopeSpecification scopeSpec)
+        private ScopeValue CopyAction(KeyValuePair<ScopeField, ScopeValue> scope)
         {
-            var newScopeSpec = new ScopeSpecification();
-
-            foreach (var scope in scopeSpec)
-                newScopeSpec.Add(scope.Key, CopyScope(scope));
-
-            return newScopeSpec;
-        }
-
-        private ScopeValue CopyScope(KeyValuePair<ScopeField, ScopeValue> scope)
-        {
-            if (scope.Key != ScopeField.Action) 
-                return new ScopeValue(scope.Value);
-
             var results = new List<string>();
 
             foreach (var value in scope.Value)
