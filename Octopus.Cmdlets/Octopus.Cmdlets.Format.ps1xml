@@ -96,6 +96,40 @@
       </TableControl>
     </View>
     <View>
+      <Name>Releases</Name>
+      <ViewSelectedBy>
+        <TypeName>Octopus.Client.Model.ReleaseResource</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Width>12</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>32</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>100</Width>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Version</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Assembled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ReleaseNotes</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>Action</Name>
       <ViewSelectedBy>
         <TypeName>Octopus.Client.Model.DeploymentActionResource</TypeName>
