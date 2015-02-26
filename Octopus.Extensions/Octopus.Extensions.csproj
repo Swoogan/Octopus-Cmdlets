@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="ActionTemplate.cs" />
     <Compile Include="Cache.cs" />
-    <Compile Include="ProcessSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Release.cs" />
     <Compile Include="Variables.cs" />
