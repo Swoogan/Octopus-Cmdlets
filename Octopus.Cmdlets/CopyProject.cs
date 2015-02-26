@@ -95,6 +95,8 @@ namespace Octopus.Cmdlets
                 DefaultToSkipIfAlreadyInstalled = _oldProject.DefaultToSkipIfAlreadyInstalled,
                 IncludedLibraryVariableSetIds = _oldProject.IncludedLibraryVariableSetIds,
                 VersioningStrategy = _oldProject.VersioningStrategy,
+                AutoCreateRelease = _oldProject.AutoCreateRelease,
+                ReleaseCreationStrategy = _oldProject.ReleaseCreationStrategy,
                 IsDisabled = _oldProject.IsDisabled,
                 LifecycleId = _oldProject.LifecycleId
             });
