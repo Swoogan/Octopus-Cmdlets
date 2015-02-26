@@ -3,11 +3,12 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
+using Octopus.Extensions;
+using Octopus.Platform.Web;
 
 namespace Octopus.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Get,
-        "Release")]
+    [Cmdlet(VerbsCommon.Get, "Release")]
     public class GetRelease : PSCmdlet
     {
         [Parameter(
@@ -53,10 +54,9 @@ namespace Octopus.Cmdlets
             }
             else
             {
-                var releases = _octopus.Releases.FindMany(r => r.ProjectId == _project.Id);
-
-                foreach (var release in releases)
-                    WriteObject(release);                
+                var releases = _octopus.Projects.GetReleases(_project);
+                foreach (var release in releases.Items)
+                    WriteObject(release);
             }
         }
     }

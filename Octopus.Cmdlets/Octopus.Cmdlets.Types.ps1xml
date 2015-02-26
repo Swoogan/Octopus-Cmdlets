@@ -126,10 +126,9 @@
           <PropertySet>
             <Name>DefaultDisplayPropertySet</Name>
             <ReferencedProperties>
-              <Name>Assembled</Name>
               <Name>Version</Name>
+              <Name>Assembled</Name>
               <Name>ReleaseNotes</Name>
-              <Name>Project</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>
