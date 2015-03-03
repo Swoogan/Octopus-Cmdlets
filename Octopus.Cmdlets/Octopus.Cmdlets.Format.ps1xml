@@ -15,9 +15,7 @@
           <TableColumnHeader>
             <Width>60</Width>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Width>30</Width>
-          </TableColumnHeader>
+          <TableColumnHeader/>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -49,9 +47,7 @@
           <TableColumnHeader>
             <Width>25</Width>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Width>60</Width>
-          </TableColumnHeader>
+          <TableColumnHeader/>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -77,9 +73,7 @@
           <TableColumnHeader>
             <Width>25</Width>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Width>60</Width>
-          </TableColumnHeader>
+          <TableColumnHeader/>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -108,9 +102,7 @@
           <TableColumnHeader>
             <Width>32</Width>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Width>100</Width>
-          </TableColumnHeader>
+          <TableColumnHeader />
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -139,9 +131,7 @@
           <TableColumnHeader>
             <Width>40</Width>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Width>60</Width>
-          </TableColumnHeader>
+          <TableColumnHeader/>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -156,6 +146,70 @@
           </TableRowEntry>
         </TableRowEntries>
       </TableControl>
-    </View>    
+    </View>
+    <View>
+      <Name>Deployment</Name>
+      <ViewSelectedBy>
+        <TypeName>Octopus.Client.Model.DeploymentResource</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Width>15</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>15</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>30</Width>
+          </TableColumnHeader>
+          <TableColumnHeader/>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Release</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Environment</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Created</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Comments</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>NameAndUrl</Name>
+      <ViewSelectedBy>
+        <TypeName>Octopus.Client.Model.FeedResource</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Width>35</Width>
+          </TableColumnHeader>
+          <TableColumnHeader/>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>FeedUri</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
   </ViewDefinitions>
 </Configuration>

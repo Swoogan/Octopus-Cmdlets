@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
@@ -42,13 +44,27 @@ namespace Octopus.Cmdlets
         public SwitchParameter Cache { get; set; }
 
         private OctopusRepository _octopus;
+        private List<ProjectResource> _projects;
 
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
 
-            if (Cache && Extensions.Cache.Projects.IsExpired)
-                Extensions.Cache.Projects.Set(_octopus.Projects.FindAll());
+            // FIXME: Loading all the projects when you might only
+            // be looking for one, isn't exactly efficient
+
+            if (!Cache || Extensions.Cache.Projects.IsExpired)
+                _projects = _octopus.Projects.FindAll();
+
+            if (Cache)
+            {
+                if (Extensions.Cache.Projects.IsExpired)
+                    Extensions.Cache.Projects.Set(_projects);
+                else
+                    _projects = Extensions.Cache.Projects.Values;
+            }
+
+            WriteDebug("Loaded projects");
         }
 
         protected override void ProcessRecord()
@@ -68,12 +84,17 @@ namespace Octopus.Cmdlets
 
         private void ProcessById()
         {
-            var projects = Cache
-                ? (from id in Id
-                    from p in Extensions.Cache.Projects.Values
-                    where p.Id == id
-                    select p)
-                : Id.Select(id => _octopus.Projects.Get(id));
+            //var projects = Cache
+            //    ? (from id in Id
+            //       from p in _projects
+            //        where p.Id == id
+            //        select p)
+            //    : Id.Select(id => _octopus.Projects.Get(id));
+
+            var projects = from id in Id
+                from p in _projects
+                where p.Id == id
+                select p;
 
             foreach (var project in projects)
                 WriteObject(project);
@@ -81,10 +102,9 @@ namespace Octopus.Cmdlets
 
         private void ProcessByName()
         {
-            var projectResources = Name == null ? 
-                _octopus.Projects.FindAll() :
+            var projectResources = Name == null ?
+                _projects :
                 _octopus.Projects.FindByNames(Name);
-
 
             // Filter by project group
             var groups = _octopus.ProjectGroups.FindByNames(ProjectGroup);

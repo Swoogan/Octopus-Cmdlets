@@ -7,9 +7,9 @@ Todo v0.1.0
 
 Todo vNext
 ----------
-- Get-Step
-- Add-Step, Add-Machine, Add-Release
-- Remove-Step, Remove-Machine, Remove-Release
+- Get-Step, Get-Feed
+- Add-Step, Add-Machine, Add-Release, Add-Feed
+- Remove-Step, Remove-Machine, Remove-Release, Remove-Feed
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
 - Add Environments and Retention policy to Add-ProjectGroup
@@ -28,9 +28,9 @@ Caching
 -------
 - Improve the caching to be per value?
 - Actually, give some more thought to this whole caching thing, would per value be an improvement?
+	- Not likely, getting all is one round trip to the server, getting per-value means N round trips
+	- So if N is small, getting all might be slower. If N is large or has lots of duplicates, getting all is faster
 - Per value doesn't work when you want a list. How do you know if the whole list is stale?
-- Caching by default is probably the problem. Only really need it for ScriptProperties. Change NoCache? to Cache?
-- Very annoying to add a new environment, Get-OctoEnvironment and not see it.
 
 Hold
 ----
@@ -39,6 +39,8 @@ Hold
 
 Done
 ----
+- Get-Deployment
+- Caching by default is probably the problem. Only really need it for ScriptProperties. Change NoCache? to Cache?
 - Add cmdlet to clone deployment step (Copy-Step)
 - Extend Add-Variable to add library vs variables
 - Add cmdlet to Clone projects (Copy-Project)

@@ -178,7 +178,9 @@
       <ScriptProperty>
         <Name>Environments</Name>
         <GetScriptBlock>
-          (Get-OctoEnvironment -Id $this.EnvironmentIds -Cache).Name
+          $this.EnvironmentIds | % {
+            Get-OctoEnvironment -Id $_ -Cache | select -ExpandProperty Name
+          }
         </GetScriptBlock>
       </ScriptProperty>
     </Members>
@@ -202,6 +204,39 @@
         <Name>Project</Name>
         <GetScriptBlock>
           (Get-OctoProject -Id $this.ProjectId -Cache).Name
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Octopus.Client.Model.DeploymentResource</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Release</Name>
+              <Name>Environment</Name>
+              <Name>Created</Name>
+              <Name>Comments</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+      <ScriptProperty>
+        <Name>Release</Name>
+        <GetScriptBlock>
+          (Get-OctoRelease -ReleaseId $this.ReleaseId).Version
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Environment</Name>
+        <GetScriptBlock>
+          $this.EnvironmentId | % {
+            Get-OctoEnvironment -Id $_ -Cache | select -ExpandProperty Name
+          }
         </GetScriptBlock>
       </ScriptProperty>
     </Members>

@@ -10,12 +10,14 @@ namespace Octopus.Extensions
         public static readonly CacheNode<EnvironmentResource> Environments;
         public static readonly CacheNode<LibraryVariableSetResource> LibraryVariableSets;
         public static readonly CacheNode<ProjectResource> Projects;
+        public static readonly CacheNode<ReleaseResource> Releases;
 
         static Cache()
         {
             LibraryVariableSets = new CacheNode<LibraryVariableSetResource>();
             Environments = new CacheNode<EnvironmentResource>();
             Projects = new CacheNode<ProjectResource>();
+            Releases = new CacheNode<ReleaseResource>();
         }
     }
 
