@@ -43,7 +43,7 @@ namespace Octopus.Cmdlets
             HelpMessage = "Tells the command to load and cache all the projects")]
         public SwitchParameter Cache { get; set; }
 
-        private OctopusRepository _octopus;
+        private IOctopusRepository _octopus;
         private List<ProjectResource> _projects;
 
         protected override void BeginProcessing()

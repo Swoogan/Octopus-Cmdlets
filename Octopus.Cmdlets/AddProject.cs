@@ -39,7 +39,7 @@ namespace Octopus.Cmdlets
             HelpMessage = "The description of the project to create.")]
         public string Description { get; set; }
 
-        private OctopusRepository _octopus;
+        private IOctopusRepository _octopus;
         private string _projectGroupId;
 
         protected override void BeginProcessing()

@@ -1,17 +1,19 @@
 Todo v0.1.0
------------
+===========
 - Write help file
-- Improve online documentation
-- Chocolaty package
 - Add module to PSGet
 
 Todo vNext
-----------
-- Get-Step, Get-Feed
+==========
+- Get-Step
 - Add-Step, Add-Machine, Add-Release, Add-Feed
 - Remove-Step, Remove-Machine, Remove-Release, Remove-Feed
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
+- Chocolaty package
+
+Backlog
+=======
 - Add Environments and Retention policy to Add-ProjectGroup
 - Need some tests. People are starting to use this thing.
 - Get-DeploymentProcess by project name or id
@@ -23,6 +25,7 @@ Todo vNext
 - Add username/password fields for Connect-Server
 - Add way to connect to more than one server at once?
 - How do we get all deployment processes (just Get-OctoProject | Get-OctoDeploymentProcess ?)
+
 
 Caching
 -------
@@ -38,7 +41,9 @@ Hold
 	- Doesn't look like the api supports this, would have to iterate over projects, then all actions in the process
 
 Done
-----
+====
+- Improve online documentation
+- Get-Feed
 - Get-Deployment
 - Caching by default is probably the problem. Only really need it for ScriptProperties. Change NoCache? to Cache?
 - Add cmdlet to clone deployment step (Copy-Step)
