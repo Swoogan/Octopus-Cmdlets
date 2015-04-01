@@ -24,9 +24,27 @@ using Octopus.Platform.Model;
 
 namespace Octopus.Cmdlets
 {
+    /*
+    
+    NOTES
+         -------------------------- EXAMPLE 1 --------------------------
+
+        PS C:\>get-octoenvironment
+
+
+         This command gets all the environments.
+    
+    */
+    /// <summary>
+    /// <para type="synopsis">Gets the environments in the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoEnvironment cmdlet gets the environments in the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "Environment", DefaultParameterSetName = "ByName")]
     public class GetEnvironment : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the environment to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
