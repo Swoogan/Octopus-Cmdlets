@@ -25,18 +25,23 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "MachineRole", DefaultParameterSetName = "ByName")]
     public class GetMachineRole : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the machine role to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = false,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the machine role to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
         private IOctopusRepository _octopus;
         private List<string> _roles;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -44,6 +49,9 @@ namespace Octopus.Cmdlets
             _roles = _octopus.MachineRoles.GetAllRoleNames();
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             if (Name == null)

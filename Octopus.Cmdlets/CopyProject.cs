@@ -29,12 +29,14 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Copy, "Project")]
     public class CopyProject : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to copy.</para>
+        /// </summary>
         [Parameter(
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true,
-            HelpMessage = "The name of the project to copy.")]
+            ValueFromPipeline = true)]
         public string Name { get; set; }
 
         //[Parameter(
@@ -53,18 +55,22 @@ namespace Octopus.Cmdlets
         //[Alias("GroupId")]
         //public string ProjectGroupId { get; set; }
 
+        /// <summary>
+        /// <para type="description">The destination name of the new project.</para>
+        /// </summary>
         [Parameter(
             Position = 1,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the project to create.")]
+            ValueFromPipelineByPropertyName = true)]
         public string Destination { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the ProjectGroup to create the project in.</para>
+        /// </summary>
         [Parameter(
           Position = 2,
-          Mandatory = true,
-          HelpMessage = "The name of the ProjectGroup to create the project in.")]
+          Mandatory = true)]
         public string ProjectGroup { get; set; }
 
         private IOctopusRepository _octopus;
@@ -73,11 +79,17 @@ namespace Octopus.Cmdlets
         private DeploymentProcessResource _oldProcess;
         private DeploymentProcessResource _newProcess;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             _oldProject = _octopus.Projects.FindByName(Name);
@@ -198,6 +210,9 @@ namespace Octopus.Cmdlets
             }
         }
 
+        /// <summary>
+        /// EndProcessing
+        /// </summary>
         protected override void EndProcessing()
         {
             WriteVerbose("Saving the deployment process...");

@@ -24,31 +24,41 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Remove, "Environment")]
     public class RemoveEnvironment : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the environment to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true,
-            HelpMessage = "The name of the environment to remove.")]
+            ValueFromPipeline = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the environment to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true,
-            HelpMessage = "The id of the environment to remove.")]
+            ValueFromPipeline = true)]
         [Alias("EnvironmentId")]
         public string[] Id { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)
@@ -76,7 +86,7 @@ namespace Octopus.Cmdlets
             }
         }
 
-        protected void ProcessByName()
+        private void ProcessByName()
         {
             var environments = _octopus.Environments.FindByNames(Name);
 

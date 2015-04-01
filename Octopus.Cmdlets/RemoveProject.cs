@@ -24,31 +24,41 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Remove, "Project", DefaultParameterSetName = "ByName")]
     public class RemoveProject : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true,
-            HelpMessage = "The name of the project to remove.")]
+            ValueFromPipeline = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the project to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true,
-            HelpMessage = "The id of the project to remove.")]
+            ValueFromPipeline = true)]
         [Alias("ProjectId")]
         public string[] Id { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

@@ -24,10 +24,12 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "DeploymentProcess", DefaultParameterSetName = "ById")]
     public class GetDeploymentProcess : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to retrieve the process for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByProjectName",
-            Mandatory = true,
-            HelpMessage = "The name of the project to retrieve the process for.")]
+            Mandatory = true)]
         public string[] ProjectName { get; set; }
 
         //[Parameter(
@@ -38,18 +40,23 @@ namespace Octopus.Cmdlets
         //    HelpMessage = "The id of the project to retrieve the process for.")]
         //public string[] ProjectId { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the deployment process to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Position = 0,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the deployment process to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         [Alias("Id")]
         public string[] DeploymentProcessId { get; set; }
 
         private IOctopusRepository _octopus;
-        
+
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -57,6 +64,9 @@ namespace Octopus.Cmdlets
             WriteDebug("Connection established");
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

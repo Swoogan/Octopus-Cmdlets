@@ -44,6 +44,9 @@ namespace Octopus.Cmdlets
         private IOctopusRepository _octopus;
         private ProjectResource _project;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -56,6 +59,9 @@ namespace Octopus.Cmdlets
             WriteDebug("Found project" + _project.Id);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             if (Cache.LibraryVariableSets.IsExpired)
@@ -70,6 +76,9 @@ namespace Octopus.Cmdlets
                 _project.IncludedLibraryVariableSetIds.Add(varSet.Id);
         }
 
+        /// <summary>
+        /// EndProcessing
+        /// </summary>
         protected override void EndProcessing()
         {
             _octopus.Projects.Modify(_project);

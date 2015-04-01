@@ -26,20 +26,27 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Copy, "Step")]
     public class CopyStep : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project containing the step to copy.</para>
+        /// </summary>
         [Parameter(
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The project to get the step for.")]
+            Mandatory = true)]
         public string Project { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the step to copy.</para>
+        /// </summary>
         [Parameter(
             Position = 1,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the step to copy.")]
+            ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The new name of the step.</para>
+        /// </summary>
         [Parameter(
             Position = 2,
             Mandatory = false,
@@ -51,6 +58,9 @@ namespace Octopus.Cmdlets
         private DeploymentProcessResource _deploymentProcess;
         private DeploymentStepResource _step;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -77,6 +87,9 @@ namespace Octopus.Cmdlets
                 throw new Exception(string.Format("Step with name '{0}' was not found.", Name));
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             var clone = new DeploymentStepResource
@@ -117,6 +130,9 @@ namespace Octopus.Cmdlets
             }
         }
 
+        /// <summary>
+        /// EndProcessing
+        /// </summary>
         protected override void EndProcessing()
         {
             WriteVerbose("Saving the deployment process...");

@@ -28,6 +28,9 @@ namespace Octopus.Cmdlets
         DefaultParameterSetName = "ByObject")]
     public class AddLibraryVariable : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the library variable set to add the variable to.</para>
+        /// </summary>
         [Parameter(
             Position = 0,
             Mandatory = true,
@@ -35,6 +38,9 @@ namespace Octopus.Cmdlets
             HelpMessage = "The Library VariableSet to add the variable to.")]
         public string VariableSet { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the variable to create.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Position = 1,
@@ -42,6 +48,9 @@ namespace Octopus.Cmdlets
             ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The value of the variable to create.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Position = 2,
@@ -49,30 +58,48 @@ namespace Octopus.Cmdlets
             ValueFromPipelineByPropertyName = true)]
         public string Value { get; set; }
 
+        /// <summary>
+        /// <para type="description">The environments to restrict the scope to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string[] Environments { get; set; }
 
+        /// <summary>
+        /// <para type="description">The roles to restrict the scope to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string[] Roles { get; set; }
 
+        /// <summary>
+        /// <para type="description">The machines to restrict the scope to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string[] Machines { get; set; }
 
+        /// <summary>
+        /// <para type="description">Specifies whether the variable is sensitive (value should be hidden).</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public SwitchParameter Sensitive { get; set; }
 
+        /// <summary>
+        /// <para type="description">
+        /// Specifies one or more variable objects. Enter a variable that contains the objects, 
+        /// or type a command or expressionthat gets the objects.
+        /// </para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByObject",
             Position = 1,
@@ -83,6 +110,9 @@ namespace Octopus.Cmdlets
         private IOctopusRepository _octopus;
         private VariableSetResource _variableSet;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -98,6 +128,9 @@ namespace Octopus.Cmdlets
             WriteDebug("Found variable set" + _variableSet.Id);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             WriteDebug("ParameterSetName: " + ParameterSetName);
@@ -154,6 +187,9 @@ namespace Octopus.Cmdlets
                 variable.Scope.Add(ScopeField.Machine, new ScopeValue(ids));
         }
 
+        /// <summary>
+        /// EndProcessing
+        /// </summary>
         protected override void EndProcessing()
         {
             _octopus.VariableSets.Modify(_variableSet);

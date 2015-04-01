@@ -24,29 +24,37 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Find, "VariableSetVariable")]
     public class FindVariableSetVariable : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the variable to retrieve.</para>
+        /// </summary>
         [Parameter(
             Position = 0,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the variable to retrieve."
-            )]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the VariableSet to look in.</para>
+        /// </summary>
         [Parameter(
            Position = 1,
-           Mandatory = false,
-           HelpMessage = "The name of the VariableSet to look in."
-           )]
+           Mandatory = false)]
         public string VariableSetName { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             if (String.IsNullOrWhiteSpace(VariableSetName))

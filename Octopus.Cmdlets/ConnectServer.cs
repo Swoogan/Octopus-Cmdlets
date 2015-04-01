@@ -19,21 +19,39 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Connects your session to the Octopus Deploy server.</para>
+    /// <para type="description">The Connect-OctoServer cmdlet connects your session to the Octopus Deploy server.</para>
+    /// </summary>
+    /// <example>
+    ///   <code>PS C:\>connect-octoserver http://localhost:8080/ API-ABCDEFGHIJKLMNOPQRSTUVWXYZ</code>
+    ///   <para>
+    ///      This command connects to the Octopus Deploy server at http://localhost:8080/ with 
+    ///      the APIKEY API-ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommunications.Connect, "Server")]
     public class ConnectServer : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The address of the Octopus Deploy server you want to connect to.</para>
+        /// </summary>
         [Parameter(
             Mandatory = true,
-            Position = 0,
-            HelpMessage = "The address of the Octopus Deploy server you want to connect to.")]
+            Position = 0)]
         public string Server { get; set; }
 
+        /// <summary>
+        /// <para type="description">The generated ApiKey for the profile you wish to connect as.</para>
+        /// </summary>
         [Parameter(
             Mandatory = true,
-            Position = 1,
-            HelpMessage = "The generated ApiKey for the profile you wish to connect as.")]
+            Position = 1)]
         public string ApiKey { get; set; }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             var octopusServerEndpoint = new OctopusServerEndpoint(Server, ApiKey);

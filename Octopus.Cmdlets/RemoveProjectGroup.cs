@@ -24,32 +24,42 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Remove, "ProjectGroup", DefaultParameterSetName = "ByName")]
     public class RemovedProjectGroup : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project group to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the project group to remove.")]
+            ValueFromPipelineByPropertyName = true)]
         [Alias("GroupName")]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the project group to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the project to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         [Alias("ProjectGroupId")]
         public string[] Id { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)
@@ -77,7 +87,7 @@ namespace Octopus.Cmdlets
             }
         }
 
-        protected void ProcessByName()
+        private void ProcessByName()
         {
             var groups = _octopus.ProjectGroups.FindByNames(Name);
 

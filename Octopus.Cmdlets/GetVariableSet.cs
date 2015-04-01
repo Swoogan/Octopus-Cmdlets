@@ -26,29 +26,39 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "VariableSet", DefaultParameterSetName = "ByName")]
     public class GetVariableSet : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the variable set to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = false,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the action to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the variable set to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the machine to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Id { get; set; }
 
+        /// <summary>
+        /// <para type="description">Tells the command to load and cache all the variable sets.</para>
+        /// </summary>
         [Parameter(Mandatory = false)]
         public SwitchParameter Cache { get; set; }
 
         private IOctopusRepository _octopus;
         private List<LibraryVariableSetResource> _variableSets;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -69,6 +79,9 @@ namespace Octopus.Cmdlets
             WriteDebug("Loaded environments");
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

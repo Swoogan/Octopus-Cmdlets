@@ -26,24 +26,27 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsData.Update, "Variable")]
     public class UpdateVariable : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project containing the variable to update.</para>
+        /// </summary>
          [Parameter(
             Position = 0,
             Mandatory = true,
-            ParameterSetName = "Parts",
-            HelpMessage = "The project to get the variables for."
-            )]
+            ParameterSetName = "Parts")]
 
         //[Parameter(Position = 0, 
         //    Mandatory = true, 
         //    ParameterSetName = "InputObject")]
         public string Project { get; set; }
 
-         [Parameter(
+        /// <summary>
+        /// <para type="description">The id of the variable to update.</para>
+        /// </summary>
+        [Parameter(
              Position = 1,
              Mandatory = true,
-             ParameterSetName = "Parts"
-             )]
-         public string Id { get; set; }
+             ParameterSetName = "Parts")]
+        public string Id { get; set; }
 
         [Parameter(
             Position = 2,
@@ -102,6 +105,9 @@ namespace Octopus.Cmdlets
         private IOctopusRepository _octopus;
         private VariableSetResource _variableSet;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -125,7 +131,9 @@ namespace Octopus.Cmdlets
             WriteDebug("Found variable set" + _variableSet.Id);
         }
 
-
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)
@@ -166,6 +174,9 @@ namespace Octopus.Cmdlets
             //_variableSet.Variables.
         }
 
+        /// <summary>
+        /// EndProcessing
+        /// </summary>
         protected override void EndProcessing()
         {
             // Save the variables

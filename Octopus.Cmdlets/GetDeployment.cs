@@ -24,34 +24,46 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "Deployment", DefaultParameterSetName = "ByProject")]
     public class GetDeployment : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to get deployments for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByProject",
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The name of the project to get deployments for.")]
+            Mandatory = true)]
         public string Project { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the release to get deployments for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByProject",
             Position = 1,
-            Mandatory = true,
-            HelpMessage = "The name of the release to get deployments for.")]
+            Mandatory = true)]
         public string Release { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the release to get deployments for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByRelease",
             Position = 1,
-            Mandatory = true,
-            HelpMessage = "The id of the release to get deployments for.")]
+            Mandatory = true)]
         public string ReleaseId { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

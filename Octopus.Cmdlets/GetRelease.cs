@@ -25,38 +25,45 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "Release", DefaultParameterSetName = "ByProjectName")]
     public class GetRelease : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to get the release for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByProjectName",
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The project to get the release for.")]
+            Mandatory = true)]
         public string Project { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the project to get the release for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByProjectId",
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The project to get the release for.")]
+            Mandatory = true)]
         public string ProjectId { get; set; }
 
+        /// <summary>
+        /// <para type="description">The version number of the release to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByProjectName",
             Position = 1,
-            Mandatory = false,
-            HelpMessage = "The version number of the release to retrieve.")]
+            Mandatory = false)]
         [Parameter(
             ParameterSetName = "ByProjectId",
             Position = 1,
-            Mandatory = false,
-            HelpMessage = "The version number of the release to retrieve.")]
+            Mandatory = false)]
         public string[] Version { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the release to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the project to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         [Alias("Id")]
         public string[] ReleaseId { get; set; }
 
@@ -68,6 +75,9 @@ namespace Octopus.Cmdlets
         private ProjectResource _project;
         //private List<ReleaseResource> _releases;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -99,7 +109,10 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Loaded releases");
         }
-       
+
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

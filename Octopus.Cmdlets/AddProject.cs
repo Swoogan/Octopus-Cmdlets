@@ -5,43 +5,58 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Add a new deployment project.</para>
+    /// <para type="description">The Add-OctoProject cmdlet adds a new deployment project to Octopus.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Add, "Project", DefaultParameterSetName = "ByName")]
     public class AddProject : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the ProjectGroup to create the project in.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The name of the ProjectGroup to create the project in.")]
+            Mandatory = true)]
         [Alias("GroupName", "ProjectGroup")]
         public string ProjectGroupName { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the ProjectGroup to create the project in.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The id of the ProjectGroup to create the project in.")]
+            Mandatory = true)]
         [Alias("GroupId")]
         public string ProjectGroupId { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the project to create.</para>
+        /// </summary>
         [Parameter(
             Position = 1,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the project to create.")]
+            ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The description of the project to create.</para>
+        /// </summary>
         [Parameter(
             Position = 2,
             Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The description of the project to create.")]
+            ValueFromPipelineByPropertyName = true)]
         public string Description { get; set; }
 
         private IOctopusRepository _octopus;
         private string _projectGroupId;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -55,6 +70,9 @@ namespace Octopus.Cmdlets
             _projectGroupId = projectGroup.Id;
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

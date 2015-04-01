@@ -24,18 +24,27 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Add, "Machine", DefaultParameterSetName = "ByName")]
     public class AddMachine : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the environment to add the machine to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = true)]
         public string[] EnvironmentName { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the environment to add the machine to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Position = 0,
             Mandatory = true)]
         public string[] EnvironmentId { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the machine.</para>
+        /// </summary>
         [Parameter(
             Position = 1,
             Mandatory = true,
@@ -43,21 +52,35 @@ namespace Octopus.Cmdlets
             ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The thumbprint of the machine.</para>
+        /// </summary>
         [Parameter(
             Position = 2,
             Mandatory = true)]
         public string Thumbprint { get; set; }
 
+        /// <summary>
+        /// <para type="description">The roles that the machine will perform.</para>
+        /// </summary>
         [Parameter(
             Position = 3,
             Mandatory = true)]
         public string[] Roles { get; set; }
 
+        /// <summary>
+        /// <para type="description">The URI of the machine.</para>
+        /// </summary>
         [Parameter(
             Position = 4,
             Mandatory = true)]
         public string Uri { get; set; }
 
+        /// <summary>
+        /// <para type="description">
+        /// The communicatio style of the server. Either TentacleActive or TentaclePassive.
+        /// </para>
+        /// </summary>
         [Parameter(
             Position = 5,
             Mandatory = true)]
@@ -72,6 +95,9 @@ namespace Octopus.Cmdlets
         private IOctopusRepository _octopus;
         private EnvironmentResource _environment;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -83,6 +109,9 @@ namespace Octopus.Cmdlets
                 throw new Exception(string.Format("Environment '{0}' was not found.", EnvironmentName));
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

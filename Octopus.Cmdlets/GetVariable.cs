@@ -26,41 +26,48 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "Variable", DefaultParameterSetName = "Project")]
     public class GetVariable : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The project to get the variables for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "Project",
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The project to get the variables for."
-            )]
+            Mandatory = true)]
         public string Project { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the variable to retrieve.</para>
+        /// </summary>
         [Parameter(
             Position = 1,
             Mandatory = false,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the variable to retrieve."
-            )]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The library variable set to get the variables for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "VariableSet",
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The library variable set to get the variables for."
-            )]
+            Mandatory = true)]
         public string[] VariableSet { get; set; }
 
+        /// <summary>
+        /// <para type="description">"The id of the library variable set to get the variables for.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "VariableSetId",
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The library variable set to get the variables for."
-            )]
+            Mandatory = true)]
         public string[] VariableSetId { get; set; }
 
         private readonly List<VariableSetResource> _variableSets = new List<VariableSetResource>();
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             var octopus = (OctopusRepository) SessionState.PSVariable.GetValue("OctopusRepository");
@@ -132,6 +139,9 @@ namespace Octopus.Cmdlets
             _variableSets.Add(octopus.VariableSets.Get(project.Link("Variables")));
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             var variables = Name == null

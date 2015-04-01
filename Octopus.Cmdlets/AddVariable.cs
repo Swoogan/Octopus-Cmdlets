@@ -27,13 +27,19 @@ namespace Octopus.Cmdlets
         DefaultParameterSetName = "ByObject")]
     public class AddVariable : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to add the variable to.</para>
+        /// </summary>
         [Parameter(
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The project to add the variable to.")]
         public string Project { get; set; }
-      
+
+        /// <summary>
+        /// <para type="description">The name of the variable to create.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Position = 1,
@@ -41,6 +47,9 @@ namespace Octopus.Cmdlets
             ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The value of the variable to create.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Position = 2,
@@ -48,36 +57,57 @@ namespace Octopus.Cmdlets
             ValueFromPipelineByPropertyName = true)]
         public string Value { get; set; }
 
+        /// <summary>
+        /// <para type="description">The environments to restrict the scope to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string[] Environments { get; set; }
 
+        /// <summary>
+        /// <para type="description">The roles to restrict the scope to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string[] Roles { get; set; }
 
+        /// <summary>
+        /// <para type="description">The machines to restrict the scope to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string[] Machines { get; set; }
 
+        /// <summary>
+        /// <para type="description">The deployment steps to restrict the scope to.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string[] Steps { get; set; }
 
+        /// <summary>
+        /// <para type="description">Specifies whether the variable is sensitive (value should be hidden).</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByParts",
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public SwitchParameter Sensitive { get; set; }
 
+        /// <summary>
+        /// <para type="description">
+        /// Specifies one or more variable objects. Enter a variable that contains the objects, 
+        /// or type a command or expressionthat gets the objects.
+        /// </para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByObject",
             Position = 1,
@@ -89,6 +119,9 @@ namespace Octopus.Cmdlets
         private VariableSetResource _variableSet;
         private DeploymentProcessResource _deploymentProcess;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -123,6 +156,9 @@ namespace Octopus.Cmdlets
             WriteDebug("Loaded the deployment process");
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             WriteDebug("ParameterSetName: " + ParameterSetName);
@@ -188,6 +224,9 @@ namespace Octopus.Cmdlets
                 variable.Scope.Add(ScopeField.Machine, new ScopeValue(steps));
         }
 
+        /// <summary>
+        /// EndProcessing
+        /// </summary>
         protected override void EndProcessing()
         {
             _octopus.VariableSets.Modify(_variableSet);

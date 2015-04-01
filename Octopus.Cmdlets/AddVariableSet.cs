@@ -23,28 +23,38 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Add, "VariableSet")]
     public class AddVariableSet : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the VariableSet to create.</para>
+        /// </summary>
         [Parameter(
             Position = 0,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the VariableSet to create.")]
+            ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The description of the VariableSet to create.</para>
+        /// </summary>
         [Parameter(
             Position = 1,
             Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The description of the VariableSet to create.")]
+            ValueFromPipelineByPropertyName = true)]
         public string Description { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             var variableSet = new LibraryVariableSetResource

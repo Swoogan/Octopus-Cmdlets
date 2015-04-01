@@ -25,22 +25,32 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Remove, "Variable", DefaultParameterSetName = "ByName")]
     public class RemoveVariable : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to remove the variable from.</para>
+        /// </summary>
         [Parameter(
             Position = 0,
-            Mandatory = true,
-            HelpMessage = "The project to remove the variables from.")]
+            Mandatory = true)]
         [Alias("ProjectName")]
         public string Project { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the variable to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true,
-            HelpMessage = "The name of the variable to remove.")]
+            ValueFromPipeline = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">
+        /// Specifies one or more variable objects. Enter a variable that contains the objects, 
+        /// or type a command or expressionthat gets the objects.
+        /// </para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByObject",
             Position = 1,
@@ -52,6 +62,9 @@ namespace Octopus.Cmdlets
         private IOctopusRepository _octopus;
         private VariableSetResource _variableSet;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -66,6 +79,9 @@ namespace Octopus.Cmdlets
             _variableSet = _octopus.VariableSets.Get(project.Link("Variables"));
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             WriteDebug("ParameterSetName: " + ParameterSetName);
@@ -108,6 +124,9 @@ namespace Octopus.Cmdlets
             }
         }
 
+        /// <summary>
+        /// EndProcessing
+        /// </summary>
         protected override void EndProcessing()
         {
             // Save the variables

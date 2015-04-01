@@ -24,38 +24,53 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Remove, "VariableSet", DefaultParameterSetName = "ByName")]
     public class RemoveVariableSet : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the library variable set to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true
-            )]
+            ValueFromPipeline = true)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The Id of the variable set to remove.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true
-            )]
+            ValueFromPipeline = true)]
         public string Id { get; set; }
 
+        /// <summary>
+        /// <para type="description">
+        /// Specifies one or more library variableset objects. Enter a variable that contains the objects, 
+        /// or type a command or expressionthat gets the objects.
+        /// </para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByObject",
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ValueFromPipeline = true
-            )]
+            ValueFromPipeline = true)]
         public LibraryVariableSetResource InputObject { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

@@ -19,32 +19,50 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Gets the external feeds in the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoExternalFeed cmdlet gets the external feeds in the Octopus Deploy server.</para>
+    /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octoexternalfeed</code>
+    ///   <para>This command gets all the external feeds.</para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "ExternalFeed")]
     public class GetExternalFeed : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to get deployments for.</para>
+        /// </summary>
         [Parameter(
            Position = 0,
            Mandatory = false,
            ValueFromPipeline = true,
-           ValueFromPipelineByPropertyName = true,
-           HelpMessage = "The name of the project to get deployments for.")]
+           ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /*
         public GetExternalFeed() {  }
 
         public GetExternalFeed(IOctopusRepository repo)
         {
             _octopus = repo;
         }
+        */
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             if (_octopus == null)
                 _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             var feeds = Name != null ? 

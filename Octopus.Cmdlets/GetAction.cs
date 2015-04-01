@@ -25,33 +25,41 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "Action", DefaultParameterSetName = "ByName")]
     public class GetAction : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The project to get the action for.</para>
+        /// </summary>
         [Parameter(
              Position = 0,
-             Mandatory = true,
-             HelpMessage = "The project to get the action for."
-             )]
+             Mandatory = true)]
         public string Project { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the action to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 1,
             Mandatory = false,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the action to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the action to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the action to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Id { get; set; }
 
         private IOctopusRepository _octopus;
         private DeploymentProcessResource _deploymentProcess;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -69,6 +77,9 @@ namespace Octopus.Cmdlets
             _deploymentProcess = _octopus.DeploymentProcesses.Get(id);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

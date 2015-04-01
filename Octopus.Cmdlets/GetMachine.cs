@@ -24,30 +24,40 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "Machine", DefaultParameterSetName = "ByName")]
     public class GetMachine : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the machine to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = false,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the machine to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the machine to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the machine to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Id { get; set; }
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

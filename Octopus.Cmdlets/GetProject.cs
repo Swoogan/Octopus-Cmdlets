@@ -1,4 +1,20 @@
-﻿using System;
+﻿#region License
+// Copyright 2014 Colin Svingen
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//    http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
@@ -7,45 +23,62 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Gets the projects in the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoProject cmdlet gets the projects in the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "Project", DefaultParameterSetName = "ByName")]
     public class GetProject : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = false,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the project to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the project groups to look in.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
-            Mandatory = false,
-            HelpMessage = "The name of the project groups to look in.")]
+            Mandatory = false)]
         public string[] ProjectGroup { get; set; }
 
+        /// <summary>
+        /// <para type="description">The name of the projects to exclude from the results.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
-            Mandatory = false,
-            HelpMessage = "The name of the projects to exclude from the results.")]
+            Mandatory = false)]
         public string[] Exclude { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the project to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The id of the project to retrieve.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] Id { get; set; }
 
-        [Parameter(Mandatory = false,
-            HelpMessage = "Tells the command to load and cache all the projects")]
+        /// <summary>
+        /// <para type="description">Tells the command to load and cache all the projects.</para>
+        /// </summary>
+        [Parameter(Mandatory = false)]
         public SwitchParameter Cache { get; set; }
 
         private IOctopusRepository _octopus;
         private List<ProjectResource> _projects;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
@@ -67,6 +100,9 @@ namespace Octopus.Cmdlets
             WriteDebug("Loaded projects");
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)

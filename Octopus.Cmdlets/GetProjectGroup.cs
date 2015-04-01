@@ -24,6 +24,9 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsCommon.Get, "ProjectGroup", DefaultParameterSetName = "ByName")]
     public class GetProjectGroup : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The name of the project group to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,
@@ -33,6 +36,9 @@ namespace Octopus.Cmdlets
             HelpMessage = "The name of the project group to retrieve.")]
         public string[] Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The id of the project group to retrieve.</para>
+        /// </summary>
         [Parameter(
             ParameterSetName = "ById",
             Mandatory = true,
@@ -44,11 +50,17 @@ namespace Octopus.Cmdlets
 
         private IOctopusRepository _octopus;
 
+        /// <summary>
+        /// BeginProcessing
+        /// </summary>
         protected override void BeginProcessing()
         {
             _octopus = Session.RetrieveSession(this);
         }
 
+        /// <summary>
+        /// ProcessRecord
+        /// </summary>
         protected override void ProcessRecord()
         {
             switch (ParameterSetName)
@@ -73,7 +85,7 @@ namespace Octopus.Cmdlets
                 WriteObject(group);
         }
 
-        protected void ProcessByName()
+        private void ProcessByName()
         {
             var groups = Name == null ?
                 _octopus.ProjectGroups.FindAll() :
