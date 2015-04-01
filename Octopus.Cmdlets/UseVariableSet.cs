@@ -26,19 +26,23 @@ namespace Octopus.Cmdlets
     [Cmdlet(VerbsOther.Use, "VariableSet")]
     public class UseVariableSet : PSCmdlet
     {
+        /// <summary>
+        /// <para type="description">The project to include the variable set into.</para>
+        /// </summary>
         [Parameter(
             Position = 0,
             Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The project to include the variable set into.")]
+            ValueFromPipelineByPropertyName = true)]
         public string Project { get; set; }
 
+        /// <summary>
+        /// <para type="description">The variable set names to include.</para>
+        /// </summary>
         [Parameter(
             Position = 1,
             Mandatory = true,
             ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The project to include the variable set into.")]
+            ValueFromPipelineByPropertyName = true)]
         public string[] VariableSet { get; set; }
 
         private IOctopusRepository _octopus;

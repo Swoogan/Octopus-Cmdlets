@@ -48,13 +48,18 @@ namespace Octopus.Cmdlets
              ParameterSetName = "Parts")]
         public string Id { get; set; }
 
+        /// <summary>
+        /// <para type="description">The new name of the variable.</para>
+        /// </summary>
         [Parameter(
             Position = 2,
             Mandatory = false,
-            ParameterSetName = "Parts"
-            )]
+            ParameterSetName = "Parts")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// <para type="description">The new value of the variable.</para>
+        /// </summary>
         [Parameter(
             Position = 3,
             Mandatory = true,
@@ -62,11 +67,13 @@ namespace Octopus.Cmdlets
             )]
         public string Value { get; set; }
 
+        /// <summary>
+        /// <para type="description">The updated environments to restrict the scope to.</para>
+        /// </summary>
         [Parameter(
             Position = 4,
             Mandatory = false,
-            ParameterSetName = "Parts"
-            )]
+            ParameterSetName = "Parts")]
         public string[] Environments { get; set; }
 
         //[Parameter(
@@ -87,6 +94,9 @@ namespace Octopus.Cmdlets
         //    )]
         //public string[] Steps { get; set; }
 
+        /// <summary>
+        /// <para type="description">Specifies whether the variable is sensitive (value should be hidden).</para>
+        /// </summary>
         [Parameter(
             Position = 5,
             Mandatory = false,
