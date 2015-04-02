@@ -21,6 +21,10 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Remove an environment from the Octopus Deploy server.</para>
+    /// <para type="description">The Remove-OctoEnvironment cmdlet removes an environment from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Remove, "Environment")]
     public class RemoveEnvironment : PSCmdlet
     {

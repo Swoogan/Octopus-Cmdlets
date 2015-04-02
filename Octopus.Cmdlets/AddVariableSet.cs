@@ -20,6 +20,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Add a new library variable set to the Octopus Deploy server.</para>
+    /// <para type="description">The Add-OctoVariableSet cmdlet adds a new library variable set to the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Add, "VariableSet")]
     public class AddVariableSet : PSCmdlet
     {

@@ -23,6 +23,10 @@ using Octopus.Platform.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Update an existing variable in the Octopus Deploy server.</para>
+    /// <para type="description">The Update-OctoVariable cmdlet updates an existing variable in the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsData.Update, "Variable")]
     public class UpdateVariable : PSCmdlet
     {

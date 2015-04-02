@@ -23,6 +23,10 @@ using Octopus.Extensions;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Include a variable set in your project.</para>
+    /// <para type="description">The Use-OctoVariableSet cmdlet includes a variable set in your project.</para>
+    /// </summary>
     [Cmdlet(VerbsOther.Use, "VariableSet")]
     public class UseVariableSet : PSCmdlet
     {

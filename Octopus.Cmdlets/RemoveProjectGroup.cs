@@ -21,6 +21,10 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Remove a project group from the Octopus Deploy server.</para>
+    /// <para type="description">The Remove-OctoProjectGroup cmdlet removes a project group from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Remove, "ProjectGroup", DefaultParameterSetName = "ByName")]
     public class RemovedProjectGroup : PSCmdlet
     {

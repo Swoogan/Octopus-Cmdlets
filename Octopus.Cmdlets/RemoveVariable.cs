@@ -22,6 +22,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Remove a variable from the Octopus Deploy server.</para>
+    /// <para type="description">The Remove-OctoVariable cmdlet removes a variable from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Remove, "Variable", DefaultParameterSetName = "ByName")]
     public class RemoveVariable : PSCmdlet
     {

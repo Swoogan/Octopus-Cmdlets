@@ -23,6 +23,10 @@ using Octopus.Platform.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Add a new variable to the Octopus Deploy server.</para>
+    /// <para type="description">The Add-OctoVariable cmdlet adds a new variable set to the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Add, "Variable",
         DefaultParameterSetName = "ByObject")]
     public class AddVariable : PSCmdlet

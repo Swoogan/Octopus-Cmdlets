@@ -20,6 +20,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Add a new environment to the Octopus Deploy server.</para>
+    /// <para type="description">The Add-OctoEnvironment cmdlet adds a new environment to the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Add, "Environment")]
     public class AddEnvironment : PSCmdlet
     {

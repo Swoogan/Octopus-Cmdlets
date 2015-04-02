@@ -20,6 +20,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Add a new project group to the Octopus Deploy server.</para>
+    /// <para type="description">The Add-OctoProjectGroup cmdlet adds a new project group to the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Add, "ProjectGroup")]
     public class AddProjectGroup : PSCmdlet
     {
