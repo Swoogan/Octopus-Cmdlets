@@ -22,6 +22,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Get a release from the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoRelease cmdlet gets a release from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "Release", DefaultParameterSetName = "ByProjectName")]
     public class GetRelease : PSCmdlet
     {

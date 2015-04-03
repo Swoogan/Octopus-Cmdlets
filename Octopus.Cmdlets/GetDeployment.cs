@@ -21,6 +21,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Get a deployment from the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoDeployment cmdlet gets a deployment from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "Deployment", DefaultParameterSetName = "ByProject")]
     public class GetDeployment : PSCmdlet
     {

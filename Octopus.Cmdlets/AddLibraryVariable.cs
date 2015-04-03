@@ -24,6 +24,10 @@ using Octopus.Platform.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Add a varaiable to an Octopus Deploy library variable set.</para>
+    /// <para type="description">The Find-OctoVariableSetVariable cmdlet adds a varaiable to an Octopus Deploy library variable set.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Add, "LibraryVariable", 
         DefaultParameterSetName = "ByObject")]
     public class AddLibraryVariable : PSCmdlet

@@ -22,6 +22,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Get an action role from the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoAction cmdlet gets an action from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "Action", DefaultParameterSetName = "ByName")]
     public class GetAction : PSCmdlet
     {

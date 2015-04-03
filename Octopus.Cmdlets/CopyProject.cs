@@ -26,6 +26,10 @@ using Octopus.Platform.Util;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Copy a project in the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoProject cmdlet copies a project in the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Copy, "Project")]
     public class CopyProject : PSCmdlet
     {

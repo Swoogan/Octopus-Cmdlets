@@ -21,6 +21,10 @@ using Octopus.Extensions;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Find a varaiable in an Octopus Deploy library variable set.</para>
+    /// <para type="description">The Find-OctoVariableSetVariable cmdlet finds a varaiable in an Octopus Deploy library variable set</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Find, "VariableSetVariable")]
     public class FindVariableSetVariable : PSCmdlet
     {

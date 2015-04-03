@@ -23,6 +23,10 @@ using System.Management.Automation;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Get a variable from the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoVariable cmdlet gets a variable from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "Variable", DefaultParameterSetName = "Project")]
     public class GetVariable : PSCmdlet
     {

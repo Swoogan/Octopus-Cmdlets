@@ -21,6 +21,10 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Get a machine from the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoMachine cmdlet gets a machine from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "Machine", DefaultParameterSetName = "ByName")]
     public class GetMachine : PSCmdlet
     {

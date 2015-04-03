@@ -21,6 +21,10 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Get a project group from the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoProjectGroup cmdlet gets a project group from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "ProjectGroup", DefaultParameterSetName = "ByName")]
     public class GetProjectGroup : PSCmdlet
     {

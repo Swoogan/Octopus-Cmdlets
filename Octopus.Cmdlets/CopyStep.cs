@@ -23,6 +23,10 @@ using Octopus.Platform.Util;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Copy a deployment process step in an Octopus Deploy project.</para>
+    /// <para type="description">The Get-OctoCopyStep cmdlet copies a deployment process step in an Octopus Deploy project.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Copy, "Step")]
     public class CopyStep : PSCmdlet
     {

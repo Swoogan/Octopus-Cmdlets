@@ -23,6 +23,10 @@ using Octopus.Client.Model;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Get a library variable set from the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoVariableSet cmdlet gets a library variable set from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "VariableSet", DefaultParameterSetName = "ByName")]
     public class GetVariableSet : PSCmdlet
     {

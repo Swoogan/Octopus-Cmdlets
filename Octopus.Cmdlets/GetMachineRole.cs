@@ -22,6 +22,10 @@ using Octopus.Client;
 
 namespace Octopus.Cmdlets
 {
+    /// <summary>
+    /// <para type="synopsis">Get a machine role from the Octopus Deploy server.</para>
+    /// <para type="description">The Get-OctoMachineRole cmdlet gets a machine role from the Octopus Deploy server.</para>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "MachineRole", DefaultParameterSetName = "ByName")]
     public class GetMachineRole : PSCmdlet
     {
