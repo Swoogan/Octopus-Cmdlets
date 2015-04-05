@@ -55,11 +55,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Octopus.Cmdlets\Octopus.Cmdlets.csproj">
+    <ProjectReference Include="..\Octopus-Cmdlets\Octopus-Cmdlets.csproj">
       <Project>{6b556833-c503-48f4-8a0e-26591c6f4bc6}</Project>
       <Name>Octopus.Cmdlets</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Octopus.Extensions\Octopus.Extensions.csproj">
+    <ProjectReference Include="..\Octopus-Cmdlets.Extensions\Octopus-Cmdlets.Extensions.csproj">
       <Project>{60bfab51-da2b-46ce-89d9-652691d6fe54}</Project>
       <Name>Octopus.Extensions</Name>
     </ProjectReference>

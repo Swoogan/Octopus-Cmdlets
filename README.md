@@ -1,44 +1,56 @@
 Octopus-Cmdlets
 ===============
+Yo Dawg, I herd you like automation, so I put cmdlets in your PowerShell so you
+can automate while you automate.
 
-Yo Dawg, I herd you like automation, so I put cmdlets in your PowerShell so you can automate while you automate.
-
-PowerShell cmdlets to simplify and automate working with an Octopus Deploy server.
+Octopus-Cmdlets is a suite of PowerShell cmdlets that enable you to simplify 
+and automate your interactions with an Octopus Deploy server.
 
 <sub>Automate all the things!!!<sub>
 
+Note
+====
+The module name has changed from `Octopus.Cmdlets` to `Octopus-Cmdlets`. Please 
+adjust your process (and scripts) accordingly.
+
 Installation
 ============
+Binary Archive
+--------------
+Download the latest binary: [v0.1.0](https://github.com/Swoogan/Octopus-Cmdlets/releases/download/v0.1.0/Octopus-Cmdlets-v0.1.0.zip)
+
+Extract the zip and copy the `Octopus-Cmdlets` folder into a folder in your
+`$env:PSModulePath`.
+
+Alternatively, you can copy the extracted folder to wherever you like and add
+the full path to your `$env:PSModulePath`.
+
+psake
+-----
 * Option 1:
 	* Open the solution in Visual Studio and build it (this will restore the psake nuget package).
 	* Open the Package Manager Console and run:
 
-		`psake Install`
+		`psake install`
 
 * Option 2 (if you have psake):	
-	* Open a prompt in the solution folder and type `psake Install`
+	* Open a prompt in the solution folder and type `psake install`
 
 * Option 3 (if psake has already been restored):	
 	* Open a PowerShell prompt in the solution folder and type 
 	
-	packages\psake.[version]\tools\psake.ps1 Install
+    `packages\psake.[version]\tools\psake.ps1 install`
 	
 Usage
 =====
-Please see the [wiki](https://github.com/Swoogan/Octopus-Cmdlets/wiki).
+
+    Import-Module Octopus-Cmdlets
+
+Please see the [wiki](https://github.com/Swoogan/Octopus-Cmdlets/wiki) for a 
+description of the individual cmdlets, or type `help [cmdlet]` from PowerShell.
 
 Licence
 =======
 Copyright 2014 Colin Svingen
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+   Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
