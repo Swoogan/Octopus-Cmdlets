@@ -19,6 +19,7 @@ Binary Archive
 --------------
 Download the latest binary from 
 https://github.com/Swoogan/Octopus-Cmdlets/releases/download/v0.1.0/Octopus-Cmdlets-v0.1.0.zip
+
 Extract the zip and copy the `Octopus-Cmdlets` folder into a folder in your
 `$env:PSModulePath`.
 
