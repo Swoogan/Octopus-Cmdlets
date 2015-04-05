@@ -21,7 +21,7 @@ If you don't already have PsGet install, get it from https://github.com/psget/ps
 
 To install Octopus-Cmdlets run
 
-  install-module Octopus-Cmdlets
+    install-module Octopus-Cmdlets
 
 Binary Archive
 --------------
