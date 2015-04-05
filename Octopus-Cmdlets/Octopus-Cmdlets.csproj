@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Octopus_Cmdlets</RootNamespace>
-    <AssemblyName>Octopus.Cmdlets</AssemblyName>
+    <AssemblyName>Octopus-Cmdlets</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Octopus.Cmdlets.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Octopus-Cmdlets.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,7 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\Octopus.Cmdlets.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Octopus-Cmdlets.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -110,7 +110,7 @@
     <None Include="Test.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Octopus.Extensions\Octopus-Cmdlets.Extensions.csproj">
+    <ProjectReference Include="..\Octopus-Cmdlets.Extensions\Octopus-Cmdlets.Extensions.csproj">
       <Project>{60bfab51-da2b-46ce-89d9-652691d6fe54}</Project>
       <Name>Octopus-Cmdlets.Extensions</Name>
     </ProjectReference>
