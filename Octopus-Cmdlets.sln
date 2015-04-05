@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3F8C4A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus-Cmdlets.Extensions", "Octopus-Cmdlets.Extensions\Octopus-Cmdlets.Extensions.csproj", "{60BFAB51-DA2B-46CE-89D9-652691D6FE54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Cmdlets.Tests", "Octopus.Cmdlets.Tests\Octopus.Cmdlets.Tests.csproj", "{1947E428-0C84-482A-8E95-B8C11B804E76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus-Cmdlets.Tests", "Octopus-Cmdlets.Tests\Octopus-Cmdlets.Tests.csproj", "{1947E428-0C84-482A-8E95-B8C11B804E76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
