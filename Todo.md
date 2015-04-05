@@ -1,7 +1,11 @@
 Todo v0.1.0
 ===========
-- Write help file
+- Create zip file
 - Add module to PSGet
+
+Todo
+====
+- Tests
 
 Todo vNext
 ==========
@@ -10,6 +14,7 @@ Todo vNext
 - Remove-Step, Remove-Machine, Remove-Release, Remove-Feed
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
+- Appveyor
 - Chocolaty package
 
 Backlog
@@ -42,6 +47,7 @@ Hold
 
 Done
 ====
+- Write help file
 - Improve online documentation
 - Get-Feed
 - Get-Deployment
