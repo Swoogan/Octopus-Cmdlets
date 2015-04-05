@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Cmdlets", "Octopus.Cmdlets\Octopus.Cmdlets.csproj", "{6B556833-C503-48F4-8A0E-26591C6F4BC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F725B9C-B394-4B80-A1F3-D752B7DC6991}"
@@ -17,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3F8C4A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Extensions", "Octopus.Extensions\Octopus.Extensions.csproj", "{60BFAB51-DA2B-46CE-89D9-652691D6FE54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Cmdlets.Tests", "Octopus.Cmdlets.Tests\Octopus.Cmdlets.Tests.csproj", "{1947E428-0C84-482A-8E95-B8C11B804E76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,10 @@ Global
 		{60BFAB51-DA2B-46CE-89D9-652691D6FE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60BFAB51-DA2B-46CE-89D9-652691D6FE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60BFAB51-DA2B-46CE-89D9-652691D6FE54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1947E428-0C84-482A-8E95-B8C11B804E76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1947E428-0C84-482A-8E95-B8C11B804E76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1947E428-0C84-482A-8E95-B8C11B804E76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1947E428-0C84-482A-8E95-B8C11B804E76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

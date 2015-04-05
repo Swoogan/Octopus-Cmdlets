@@ -14,11 +14,19 @@ namespace Octopus.Cmdlets
            HelpMessage = "The name of the project to get deployments for.")]
         public string[] Name { get; set; }
 
-        private OctopusRepository _octopus;
+        private IOctopusRepository _octopus;
+
+        public GetExternalFeed() { }
+
+        public GetExternalFeed(IOctopusRepository repo)
+        {
+            _octopus = repo;
+        } 
 
         protected override void BeginProcessing()
         {
-            _octopus = Session.RetrieveSession(this);
+            if (_octopus == null)
+                _octopus = Session.RetrieveSession(this);
         }
 
         protected override void ProcessRecord()

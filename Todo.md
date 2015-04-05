@@ -2,6 +2,7 @@ Todo v0.1.0
 -----------
 - Write help file
 - Improve online documentation
+- Need some tests. People are starting to use this thing.
 - Chocolaty package
 - Add module to PSGet
 
@@ -13,7 +14,6 @@ Todo vNext
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Fix removing duplicates from Remove-Variable
 - Add Environments and Retention policy to Add-ProjectGroup
-- Need some tests. People are starting to use this thing.
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Add Step from Template
 - Implement duplicate variable finding algorithm
