@@ -1,21 +1,19 @@
-Todo v0.1.0
+Iteration 1
 ===========
-- Create zip file
-- Add module to PSGet
+- Tests
+
+Iteration 2 (v0.2.0)
+====================
+- Get-Step
+- Add-Step, Add-Machine, Add-Release, Add-Feed
 
 Backlog
 =======
-- Tests
-- Get-Step
-- Add-Step, Add-Machine, Add-Release, Add-Feed
 - Remove-Step, Remove-Machine, Remove-Release, Remove-Feed
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
+- Lifecycles
 - Fix removing duplicates from Remove-Variable
 - Appveyor
-- Chocolaty package
-- InnoSetup installer
-- 
-- Lifecycles
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Add Step from Template
 - Implement duplicate variable finding algorithm
@@ -25,7 +23,8 @@ Backlog
 - Add username/password fields for Connect-Server
 - Add way to connect to more than one server at once?
 - How do we get all deployment processes (just Get-OctoProject | Get-OctoDeploymentProcess ?)
-
+- Chocolaty package
+- InnoSetup installer
 
 Caching
 -------
@@ -42,30 +41,5 @@ Hold
 
 Done
 ====
-- Write help file
-- Improve online documentation
-- Get-Feed
-- Get-Deployment
-- Caching by default is probably the problem. Only really need it for ScriptProperties. Change NoCache? to Cache?
-- Add cmdlet to clone deployment step (Copy-Step)
-- Extend Add-Variable to add library vs variables
-- Add cmdlet to Clone projects (Copy-Project)
-- Add project caching to Get-Project
-- Add project caching
-- Remove-Environment
-- Remove-ProjectGroup
-- Move documentation to wiki
-- Get-DeploymentProcess
-- Remove-Project
-- Add-Environment
-- Have a shared cache?
-- Add-ProjectGroup
-- Added ability to add projects with a project group name instead of Id
-- Add extension method to Release object to get by version
-- Add machines and steps to Add-Variable
-- Add roles to Add-Variable
-- Mention psake method for build and install in documentation
-- Add ScopeName script property to Get-Variable
-- Implement Get-Action
-- Implement Get-MachineRole 
-- Add getting of library variables
+- Create zip file
+- Add module to PSGet
