@@ -15,6 +15,14 @@ adjust your process (and scripts) accordingly.
 
 Installation
 ============
+PsGet (preferred method)
+------------------------
+If you don't already have PsGet install, get it from https://github.com/psget/psget
+
+To install Octopus-Cmdlets run
+
+  install-module Octopus-Cmdlets
+
 Binary Archive
 --------------
 Download the latest binary: [v0.1.0](https://github.com/Swoogan/Octopus-Cmdlets/releases/download/v0.1.0/Octopus-Cmdlets-v0.1.0.zip)
