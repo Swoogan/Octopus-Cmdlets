@@ -12,7 +12,7 @@ function Copy-Files([string]$path) {
 	Move-Item -Path $path/Octopus-Cmdlets.dll-help.xml -Destination $path/en-US/Octopus-Cmdlets.dll-help.xml -Force
 }
 
-function Install([string]$destination) {
+function Install([string]$destination) {	
 	if (-not (Test-Path $destination)) {
 		New-Item -Path $destination -ItemType directory | Out-Null
 		Write-Host "Created directory '$destination'" -ForegroundColor Green

@@ -95,17 +95,15 @@
     <Compile Include="UpdateVariable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Octopus.Cmdlets.psd1">
+    <None Include="Octopus-Cmdlets.Format.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Octopus.Cmdlets.Types.ps1xml">
+    </None>
+    <None Include="Octopus-Cmdlets.psd1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Octopus.Cmdlets.Format.ps1xml">
+    </None>
+    <None Include="Octopus-Cmdlets.Types.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
+    </None>
     <None Include="packages.config" />
     <None Include="Test.ps1" />
   </ItemGroup>

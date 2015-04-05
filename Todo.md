@@ -3,12 +3,9 @@ Todo v0.1.0
 - Create zip file
 - Add module to PSGet
 
-Todo
-====
+Backlog
+=======
 - Tests
-
-Todo vNext
-==========
 - Get-Step
 - Add-Step, Add-Machine, Add-Release, Add-Feed
 - Remove-Step, Remove-Machine, Remove-Release, Remove-Feed
@@ -16,11 +13,9 @@ Todo vNext
 - Fix removing duplicates from Remove-Variable
 - Appveyor
 - Chocolaty package
-
-Backlog
-=======
-- Add Environments and Retention policy to Add-ProjectGroup
-- Need some tests. People are starting to use this thing.
+- InnoSetup installer
+- 
+- Lifecycles
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Add Step from Template
 - Implement duplicate variable finding algorithm
