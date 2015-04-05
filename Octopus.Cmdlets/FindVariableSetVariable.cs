@@ -17,9 +17,9 @@
 using System;
 using System.Management.Automation;
 using Octopus.Client;
-using Octopus.Extensions;
+using Octopus_Cmdlets.Extensions;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Find a varaiable in an Octopus Deploy library variable set.</para>

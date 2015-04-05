@@ -21,7 +21,7 @@ using Octopus.Client;
 using Octopus.Client.Model;
 using Octopus.Platform.Util;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Copy a deployment process step in an Octopus Deploy project.</para>

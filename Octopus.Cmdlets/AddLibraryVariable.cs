@@ -19,10 +19,10 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
-using Octopus.Extensions;
 using Octopus.Platform.Model;
+using Octopus_Cmdlets.Extensions;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Add a varaiable to an Octopus Deploy library variable set.</para>

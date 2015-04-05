@@ -14,7 +14,7 @@
 // limitations under the License.
 #endregion
 
-namespace Octopus.Extensions
+namespace Octopus_Cmdlets.Extensions
 {
     public class Release
     {

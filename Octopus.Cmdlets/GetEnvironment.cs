@@ -22,7 +22,7 @@ using Octopus.Client;
 using Octopus.Client.Model;
 using Octopus.Platform.Model;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Gets the environments in the Octopus Deploy server.</para>
@@ -83,15 +83,15 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Connection established");
 
-            if (!Cache || Extensions.Cache.Environments.IsExpired)
+            if (!Cache || Octopus_Cmdlets.Extensions.Cache.Environments.IsExpired)
                 _environments = _octopus.Environments.FindAll();
 
             if (Cache)
             {
-                if (Extensions.Cache.Environments.IsExpired)
-                    Extensions.Cache.Environments.Set(_environments);
+                if (Octopus_Cmdlets.Extensions.Cache.Environments.IsExpired)
+                    Octopus_Cmdlets.Extensions.Cache.Environments.Set(_environments);
                 else
-                    _environments = Extensions.Cache.Environments.Values;
+                    _environments = Octopus_Cmdlets.Extensions.Cache.Environments.Values;
             }
 
             WriteDebug("Loaded environments");

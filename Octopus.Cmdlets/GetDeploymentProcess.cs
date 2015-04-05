@@ -19,7 +19,7 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Get a deployment process from the Octopus Deploy server.</para>

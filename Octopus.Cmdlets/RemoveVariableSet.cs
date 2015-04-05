@@ -19,7 +19,7 @@ using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Remove a variable set from the Octopus Deploy server.</para>

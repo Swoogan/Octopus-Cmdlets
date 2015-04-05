@@ -21,7 +21,7 @@ using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Get a library variable set from the Octopus Deploy server.</para>
@@ -69,15 +69,15 @@ namespace Octopus.Cmdlets
 
             WriteDebug("Connection established");
 
-            if (!Cache || Extensions.Cache.LibraryVariableSets.IsExpired)
+            if (!Cache || Octopus_Cmdlets.Extensions.Cache.LibraryVariableSets.IsExpired)
                 _variableSets = _octopus.LibraryVariableSets.FindAll();
 
             if (Cache)
             {
-                if (Extensions.Cache.LibraryVariableSets.IsExpired)
-                    Extensions.Cache.LibraryVariableSets.Set(_variableSets);
+                if (Octopus_Cmdlets.Extensions.Cache.LibraryVariableSets.IsExpired)
+                    Octopus_Cmdlets.Extensions.Cache.LibraryVariableSets.Set(_variableSets);
                 else
-                    _variableSets = Extensions.Cache.LibraryVariableSets.Values;
+                    _variableSets = Octopus_Cmdlets.Extensions.Cache.LibraryVariableSets.Values;
             }
 
             WriteDebug("Loaded environments");

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Get a variable from the Octopus Deploy server.</para>

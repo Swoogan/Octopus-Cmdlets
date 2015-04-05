@@ -21,7 +21,7 @@ using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Gets the projects in the Octopus Deploy server.</para>
@@ -86,15 +86,15 @@ namespace Octopus.Cmdlets
             // FIXME: Loading all the projects when you might only
             // be looking for one, isn't exactly efficient
 
-            if (!Cache || Extensions.Cache.Projects.IsExpired)
+            if (!Cache || Octopus_Cmdlets.Extensions.Cache.Projects.IsExpired)
                 _projects = _octopus.Projects.FindAll();
 
             if (Cache)
             {
-                if (Extensions.Cache.Projects.IsExpired)
-                    Extensions.Cache.Projects.Set(_projects);
+                if (Octopus_Cmdlets.Extensions.Cache.Projects.IsExpired)
+                    Octopus_Cmdlets.Extensions.Cache.Projects.Set(_projects);
                 else
-                    _projects = Extensions.Cache.Projects.Values;
+                    _projects = Octopus_Cmdlets.Extensions.Cache.Projects.Values;
             }
 
             WriteDebug("Loaded projects");

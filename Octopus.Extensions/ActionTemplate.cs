@@ -17,7 +17,7 @@
 using Octopus.Client;
 using Octopus.Client.Model;
 
-namespace Octopus.Extensions
+namespace Octopus_Cmdlets.Extensions
 {
     public class ActionTemplate
     {

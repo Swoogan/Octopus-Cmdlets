@@ -18,7 +18,7 @@ using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Add a new project group to the Octopus Deploy server.</para>

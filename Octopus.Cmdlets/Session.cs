@@ -18,7 +18,7 @@ using System;
 using System.Management.Automation;
 using Octopus.Client;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     static class Session
     {

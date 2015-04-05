@@ -17,7 +17,7 @@
 using System.Management.Automation;
 using Octopus.Client;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Connects your session to the Octopus Deploy server.</para>

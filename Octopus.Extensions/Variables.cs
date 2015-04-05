@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using Octopus.Client.Model;
 using Octopus.Platform.Model;
 
-namespace Octopus.Extensions
+namespace Octopus_Cmdlets.Extensions
 {
     public delegate void Warn(string text);
 

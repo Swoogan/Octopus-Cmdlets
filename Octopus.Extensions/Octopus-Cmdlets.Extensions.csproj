@@ -7,8 +7,8 @@
     <ProjectGuid>{60BFAB51-DA2B-46CE-89D9-652691D6FE54}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Octopus.Extensions</RootNamespace>
-    <AssemblyName>Octopus.Extensions</AssemblyName>
+    <RootNamespace>Octopus_Cmdlets.Extensions</RootNamespace>
+    <AssemblyName>Octopus-Cmdlets.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

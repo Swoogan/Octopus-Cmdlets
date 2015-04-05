@@ -19,7 +19,7 @@ using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     [Cmdlet(VerbsCommon.Add, "Machine", DefaultParameterSetName = "ByName")]
     public class AddMachine : PSCmdlet

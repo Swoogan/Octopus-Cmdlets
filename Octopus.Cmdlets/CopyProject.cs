@@ -20,11 +20,11 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
-using Octopus.Extensions;
 using Octopus.Platform.Model;
 using Octopus.Platform.Util;
+using Octopus_Cmdlets.Extensions;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Copy a project in the Octopus Deploy server.</para>

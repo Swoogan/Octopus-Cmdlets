@@ -21,7 +21,7 @@ using Octopus.Client;
 using Octopus.Client.Model;
 using Octopus.Platform.Model;
 
-namespace Octopus.Cmdlets
+namespace Octopus_Cmdlets
 {
     /// <summary>
     /// <para type="synopsis">Add a new variable to the Octopus Deploy server.</para>
