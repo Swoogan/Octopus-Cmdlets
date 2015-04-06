@@ -13,6 +13,7 @@ Backlog
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Lifecycles
 - Fix removing duplicates from Remove-Variable
+- Add Environments and Retention policy to Add-ProjectGroup
 - Appveyor
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Add Step from Template

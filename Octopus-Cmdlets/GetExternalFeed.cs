@@ -41,23 +41,13 @@ namespace Octopus_Cmdlets
         public string[] Name { get; set; }
 
         private IOctopusRepository _octopus;
-
-        /*
-        public GetExternalFeed() {  }
-
-        public GetExternalFeed(IOctopusRepository repo)
-        {
-            _octopus = repo;
-        }
-        */
-
+        
         /// <summary>
         /// BeginProcessing
         /// </summary>
         protected override void BeginProcessing()
         {
-            if (_octopus == null)
-                _octopus = Session.RetrieveSession(this);
+            _octopus = Session.RetrieveSession(this);
         }
 
         /// <summary>

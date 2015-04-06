@@ -38,7 +38,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Octopus.Client">
+    <Reference Include="Octopus.Client, Version=2.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Octopus.Client.2.6.4.951\lib\net40\Octopus.Client.dll</HintPath>
     </Reference>
     <Reference Include="Octopus.Platform">
