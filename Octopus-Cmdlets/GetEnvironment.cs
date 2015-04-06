@@ -83,15 +83,15 @@ namespace Octopus_Cmdlets
 
             WriteDebug("Connection established");
 
-            if (!Cache || Octopus_Cmdlets.Extensions.Cache.Environments.IsExpired)
+            if (!Cache || Extensions.Cache.Environments.IsExpired)
                 _environments = _octopus.Environments.FindAll();
 
             if (Cache)
             {
-                if (Octopus_Cmdlets.Extensions.Cache.Environments.IsExpired)
-                    Octopus_Cmdlets.Extensions.Cache.Environments.Set(_environments);
+                if (Extensions.Cache.Environments.IsExpired)
+                    Extensions.Cache.Environments.Set(_environments);
                 else
-                    _environments = Octopus_Cmdlets.Extensions.Cache.Environments.Values;
+                    _environments = Extensions.Cache.Environments.Values;
             }
 
             WriteDebug("Loaded environments");

@@ -74,12 +74,7 @@ namespace Octopus_Cmdlets
         /// </summary>
         protected override void BeginProcessing()
         {
-            var octopus = (OctopusRepository) SessionState.PSVariable.GetValue("OctopusRepository");
-            if (octopus == null)
-            {
-                throw new Exception(
-                    "Connection not established. Please connect to your Octopus Deploy instance with Connect-OctoServer");
-            }
+            var octopus = Session.RetrieveSession(this);
 
             switch (ParameterSetName)
             {
@@ -149,7 +144,7 @@ namespace Octopus_Cmdlets
         protected override void ProcessRecord()
         {
             var variables = Name == null
-                ? _variableSets.SelectMany(variableSet => variableSet.Variables)
+                ? _variableSets.SelectMany(v => v.Variables)
                 : (from name in Name
                     from variableSet in _variableSets
                     from variable in variableSet.Variables

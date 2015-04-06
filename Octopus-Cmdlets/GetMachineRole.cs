@@ -58,21 +58,15 @@ namespace Octopus_Cmdlets
         /// </summary>
         protected override void ProcessRecord()
         {
-            if (Name == null)
-            {
-                foreach (var role in _roles)
-                    WriteObject(role);
-            }
-            else
-            {
-                var roles = from name in Name
+            var roles = (Name == null)
+                ? _roles
+                : from name in Name
                     from role in _roles
                     where role.Equals(name, StringComparison.InvariantCultureIgnoreCase)
                     select role;
-                
-                foreach (var role in roles)
-                    WriteObject(role);
-            }
+
+            foreach (var role in roles)
+                WriteObject(role);
         }
     }
 }

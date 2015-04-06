@@ -15,9 +15,9 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Exceptions;
 
 namespace Octopus_Cmdlets
 {
@@ -82,11 +82,26 @@ namespace Octopus_Cmdlets
 
         private void ProcessById()
         {
-            var groups = from id in ProjectGroupId
-                         select _octopus.ProjectGroups.Get(id);
+            //var groups = new List<ProjectGroupResource>();
+            //foreach (var id in ProjectGroupId)
+            //    AddGroup(groups, id);
 
-            foreach (var group in groups)
-                WriteObject(group);
+            //foreach (var group in groups)
+            //    WriteObject(group);
+
+            foreach (var id in ProjectGroupId)
+                OutputGroup(id);
+        }
+
+        private void OutputGroup(string id)
+        {
+            try
+            {
+                WriteObject(_octopus.ProjectGroups.Get(id));
+            }
+            catch (OctopusResourceNotFoundException)
+            {
+            }
         }
 
         private void ProcessByName()
@@ -98,5 +113,16 @@ namespace Octopus_Cmdlets
             foreach (var group in groups)
                 WriteObject(group);
         }
+
+        //private void AddGroup(ICollection<ProjectGroupResource> groups, string id)
+        //{
+        //    try
+        //    {
+        //        groups.Add(_octopus.ProjectGroups.Get(id));
+        //    }
+        //    catch (OctopusResourceNotFoundException)
+        //    {
+        //    }
+        //}
     }
 }

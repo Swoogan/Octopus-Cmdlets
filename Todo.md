@@ -2,7 +2,11 @@ Iteration 1
 ===========
 - Tests
 
-Iteration 2 (v0.2.0)
+Iteration 2
+===========
+- Examples
+
+Iteration 3 (v0.2.0)
 ====================
 - Get-Step
 - Add-Step, Add-Machine, Add-Release, Add-Feed

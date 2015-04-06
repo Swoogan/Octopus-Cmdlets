@@ -62,6 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Properties\Version.cs</Link>
+    </Compile>
     <Compile Include="AddLibraryVariable.cs" />
     <Compile Include="CopyStep.cs" />
     <Compile Include="CopyProject.cs" />
@@ -106,7 +109,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="Test.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Octopus-Cmdlets.Extensions\Octopus-Cmdlets.Extensions.csproj">

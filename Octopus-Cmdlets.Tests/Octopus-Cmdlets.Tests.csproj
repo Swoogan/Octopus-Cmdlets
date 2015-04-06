@@ -71,7 +71,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Properties\Version.cs</Link>
+    </Compile>
+    <Compile Include="ConnectServerTests.cs" />
+    <Compile Include="AddEnvironmentTests.cs" />
+    <Compile Include="GetVariableSetTests.cs" />
+    <Compile Include="GetVariableTests.cs" />
+    <Compile Include="GetMachineRoleTests.cs" />
+    <Compile Include="GetProjectGroupTests.cs" />
     <Compile Include="GetExternalFeedTests.cs" />
+    <Compile Include="GetProjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>

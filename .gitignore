@@ -157,7 +157,7 @@ $RECYCLE.BIN/
 
 # Random
 /packages/psake*
-/Octopus.Cmdlets/Run-Test.ps1
 /packages/Newtonsoft.Json*
 /packages/Octopus.Client*
 /packages/Sprache*
+/packages/Moq.*

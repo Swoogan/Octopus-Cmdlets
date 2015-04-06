@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus-Cmdlets", "Octopus-Cmdlets\Octopus-Cmdlets.csproj", "{6B556833-C503-48F4-8A0E-26591C6F4BC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F725B9C-B394-4B80-A1F3-D752B7DC6991}"
@@ -10,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		default.ps1 = default.ps1
 		README.md = README.md
 		Todo.md = Todo.md
+		Version.cs = Version.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3F8C4A63-1CE4-4EBE-BAEC-90E708B83870}"

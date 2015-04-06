@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using System.Management.Automation.Runspaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Octopus.Client;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
 
@@ -13,19 +12,17 @@ namespace Octopus_Cmdlets.Tests
     [TestClass]
     public class GetExternalFeedTests
     {
+        private const string CmdletName = "Get-OctoExternalFeed";
         private PowerShell _ps;
 
         [TestInitialize]
         public void Init()
         {
-            _ps = Utilities.CreatePowerShell("Get-OctoExternalFeed", typeof(GetExternalFeed));
-        }
-        
-        [TestMethod]
-        public void No_Arguments()
-        {
+            _ps = Utilities.CreatePowerShell(CmdletName, typeof (GetExternalFeed));
+
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
 
+            // Create feeds
             var feedRepo = new Mock<IFeedRepository>();
             var feedResources = new List<FeedResource>
             {
@@ -34,31 +31,44 @@ namespace Octopus_Cmdlets.Tests
             };
 
             feedRepo.Setup(f => f.FindAll()).Returns(feedResources);
-            octoRepo.Setup(f => f.Feeds).Returns(feedRepo.Object);
+            feedRepo.Setup(f => f.FindByNames(It.IsAny<string[]>())).Returns(
+                (string[] names) => (from n in names
+                    from f in feedResources
+                    where n.Equals(f.Name, StringComparison.InvariantCultureIgnoreCase)
+                    select f).ToList());
 
-            _ps.AddCommand("Get-OctoExternalFeed");
+            octoRepo.Setup(o => o.Feeds).Returns(feedRepo.Object);
+        }
+
+        [TestMethod]
+        public void No_Arguments()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName);
             var feeds = _ps.Invoke<FeedResource>();
-            Assert.AreEqual(feeds.Count, 2);
+
+            Assert.AreEqual(2, feeds.Count);
         }
 
         [TestMethod]
         public void With_Name()
         {
-            var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
-            var feedRepo = new Mock<IFeedRepository>();
-
-            feedRepo.Setup(f => f.FindByNames(new List<string> {"Octopus"})).Returns(
-                new List<FeedResource>
-                {
-                    new FeedResource {FeedUri = @"\\someshare\octopus", Name = "Octopus"},
-                });
-
-            octoRepo.Setup(f => f.Feeds).Returns(feedRepo.Object);
-
-            _ps.AddCommand("Get-OctoExternalFeed").AddArgument("Octopus");
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var feeds = _ps.Invoke<FeedResource>();
-            Assert.AreEqual(feeds.Count, 1);
-            Assert.AreEqual(feeds[0].Name, "Octopus");
+
+            Assert.AreEqual(1, feeds.Count);
+            Assert.AreEqual("Octopus", feeds[0].Name);
+        }
+
+        [TestMethod]
+        public void With_Invalid_Name()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).AddArgument("Gibberish");
+            var feeds = _ps.Invoke<FeedResource>();
+
+            Assert.AreEqual(0, feeds.Count);
         }
     }
 }

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using Moq;
 using Octopus.Client;
-using Octopus.Client.Model;
-using Octopus.Client.Repositories;
 
 namespace Octopus_Cmdlets.Tests
 {

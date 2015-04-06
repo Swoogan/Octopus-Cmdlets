@@ -86,15 +86,15 @@ namespace Octopus_Cmdlets
             // FIXME: Loading all the projects when you might only
             // be looking for one, isn't exactly efficient
 
-            if (!Cache || Octopus_Cmdlets.Extensions.Cache.Projects.IsExpired)
+            if (!Cache || Extensions.Cache.Projects.IsExpired)
                 _projects = _octopus.Projects.FindAll();
 
             if (Cache)
             {
-                if (Octopus_Cmdlets.Extensions.Cache.Projects.IsExpired)
-                    Octopus_Cmdlets.Extensions.Cache.Projects.Set(_projects);
+                if (Extensions.Cache.Projects.IsExpired)
+                    Extensions.Cache.Projects.Set(_projects);
                 else
-                    _projects = Octopus_Cmdlets.Extensions.Cache.Projects.Values;
+                    _projects = Extensions.Cache.Projects.Values;
             }
 
             WriteDebug("Loaded projects");
@@ -120,13 +120,7 @@ namespace Octopus_Cmdlets
 
         private void ProcessById()
         {
-            //var projects = Cache
-            //    ? (from id in Id
-            //       from p in _projects
-            //        where p.Id == id
-            //        select p)
-            //    : Id.Select(id => _octopus.Projects.Get(id));
-
+            // Filter by project Id
             var projects = from id in Id
                 from p in _projects
                 where p.Id == id
@@ -143,14 +137,12 @@ namespace Octopus_Cmdlets
                 _octopus.Projects.FindByNames(Name);
 
             // Filter by project group
-            var groups = _octopus.ProjectGroups.FindByNames(ProjectGroup);
-
-            var projects = groups.Count > 0
-                ? (from p in projectResources
-                    from g in groups
+            var projects = ProjectGroup == null
+                ? projectResources
+                : (from p in projectResources
+                   from g in _octopus.ProjectGroups.FindByNames(ProjectGroup)
                     where p.ProjectGroupId == g.Id
-                    select p)
-                : projectResources;
+                    select p);
 
             // Filter excludes
             var final = Exclude == null
