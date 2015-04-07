@@ -101,44 +101,30 @@ namespace Octopus_Cmdlets
 
         private void ProcessByName()
         {
-            if (Name == null)
-            {
-                var actions = _deploymentProcess.Steps.SelectMany(step => step.Actions);
-                foreach (var action in actions)
-                    WriteObject(action);
-            }
-            else
-            {
-                var actions = from step in _deploymentProcess.Steps
-                            from action in step.Actions
-                            from name in Name
-                            where action.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
-                            select action;
+            var actions = Name == null
+                ? _deploymentProcess.Steps.SelectMany(step => step.Actions)
+                : (from step in _deploymentProcess.Steps
+                    from action in step.Actions
+                    from name in Name
+                    where action.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
+                    select action);
 
-                foreach (var action in actions)
-                    WriteObject(action);
-            }
+            foreach (var action in actions)
+                WriteObject(action);
         }
 
         private void ProcessById()
         {
-            if (Id == null)
-            {
-                var actions = _deploymentProcess.Steps.SelectMany(step => step.Actions);
-                foreach (var action in actions)
-                    WriteObject(action);
-            }
-            else
-            {
-                var actions = from step in _deploymentProcess.Steps
-                            from action in step.Actions
-                            from id in Id
-                            where action.Id == id
-                            select action;
+            var actions = Id == null
+                ? _deploymentProcess.Steps.SelectMany(step => step.Actions)
+                : (from step in _deploymentProcess.Steps
+                    from action in step.Actions
+                    from id in Id
+                    where action.Id == id
+                    select action);
 
-                foreach (var action in actions)
-                    WriteObject(action);
-            }
+            foreach (var action in actions)
+                WriteObject(action);
         }
     }
 }

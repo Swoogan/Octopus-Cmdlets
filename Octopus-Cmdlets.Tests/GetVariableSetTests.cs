@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -22,40 +20,16 @@ namespace Octopus_Cmdlets.Tests
 
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
 
-            // Create a Project
-            var projectRepo = new Mock<IProjectRepository>();
-            const string pVsId = "/api/variables/variableset-projects-1";
-            var projectResource = new ProjectResource
-            {
-                Name = "Octopus",
-                Links = new LinkCollection { { "Variables", new Href(pVsId) } }
-            };
-
-            projectRepo.Setup(p => p.FindByName("Octopus")).Returns(projectResource);
-            octoRepo.Setup(o => o.Projects).Returns(projectRepo.Object);
-
             // Create a library variable set
             const string vsId = "/api/variables/variableset-LibraryVariableSets-1";
             var libraryResources = new List<LibraryVariableSetResource>
             {
-                new LibraryVariableSetResource
-                {
-                    Id = "variableset-LibraryVariableSets-1",
-                    Name = "Octopus",
-                    Links = new LinkCollection {{"Variables", new Href("/api/variables/variableset-LibraryVariableSets-1")}}
-                },
-                new LibraryVariableSetResource
-                {
-                    Id = "variableset-LibraryVariableSets-2",
-                    Name = "Deploy",
-                }
+                new LibraryVariableSetResource {Id = "LibraryVariableSets-1", Name = "Octopus"},
+                new LibraryVariableSetResource {Id = "LibraryVariableSets-2", Name = "Deploy"},
+                new LibraryVariableSetResource {Id = "LibraryVariableSets-3", Name = "Automation"}
             };
 
-            // Allow the FindOne predicate to operate on the collection
-            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>()))
-                .Returns(
-                    (Func<LibraryVariableSetResource, bool> f) =>
-                        (from l in libraryResources where f(l) select l).First());
+            octoRepo.Setup(o => o.LibraryVariableSets.FindAll()).Returns(libraryResources);
 
             // Create a variableset
             var variableRepo = new Mock<IVariableSetRepository>();
@@ -64,11 +38,10 @@ namespace Octopus_Cmdlets.Tests
                 Variables = new List<VariableResource>
                 {
                     new VariableResource {Name = "Octopus"},
-                    new VariableResource {Name = "Deploy", Value = "To Production"},
+                    new VariableResource {Name = "Deploy"},
                     new VariableResource {Name = "Automation"},
                 }
             };
-            variableRepo.Setup(v => v.Get(pVsId)).Returns(vsResource);
             variableRepo.Setup(v => v.Get(vsId)).Returns(vsResource);
 
             octoRepo.Setup(o => o.VariableSets).Returns(variableRepo.Object);
@@ -79,7 +52,7 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            var variables = _ps.Invoke<VariableSetResource>();
+            var variables = _ps.Invoke<LibraryVariableSetResource>();
 
             Assert.AreEqual(3, variables.Count);
         }
@@ -89,10 +62,20 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
-            var variables = _ps.Invoke<VariableSetResource>();
+            var variables = _ps.Invoke<LibraryVariableSetResource>();
 
             Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("To Production", variables[0].Value);
+            Assert.AreEqual("Octopus", variables[0].Name);
+        }
+
+        [TestMethod]
+        public void With_Invalid_Name()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).AddArgument("Gibberish");
+            var variables = _ps.Invoke<LibraryVariableSetResource>();
+
+            Assert.AreEqual(0, variables.Count);
         }
 
         [TestMethod]
@@ -100,21 +83,31 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus");
-            var variables = _ps.Invoke<VariableSetResource>();
+            var variables = _ps.Invoke<LibraryVariableSetResource>();
 
             Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("To Production", variables[0].Value);
+            Assert.AreEqual("Octopus", variables[0].Name);
         }
 
         [TestMethod]
         public void With_Id()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("Id", "Octopus");
-            var variables = _ps.Invoke<VariableSetResource>();
+            _ps.AddCommand(CmdletName).AddParameter("Id", "LibraryVariableSets-1");
+            var variables = _ps.Invoke<LibraryVariableSetResource>();
 
             Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("To Production", variables[0].Value);
+            Assert.AreEqual("Octopus", variables[0].Name);
+        }
+
+        [TestMethod]
+        public void With_Invalid_Id()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish");
+            var variables = _ps.Invoke<LibraryVariableSetResource>();
+
+            Assert.AreEqual(0, variables.Count);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]

@@ -10,6 +10,7 @@ Iteration 3 (v0.2.0)
 ====================
 - Get-Step
 - Add-Step, Add-Machine, Add-Release, Add-Feed
+- `psake package`
 
 Backlog
 =======

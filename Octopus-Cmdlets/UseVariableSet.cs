@@ -15,6 +15,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
@@ -47,7 +48,7 @@ namespace Octopus_Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
-        public string[] VariableSet { get; set; }
+        public string[] Name { get; set; }
 
         private IOctopusRepository _octopus;
         private ProjectResource _project;
@@ -75,10 +76,20 @@ namespace Octopus_Cmdlets
             if (Cache.LibraryVariableSets.IsExpired)
                 Cache.LibraryVariableSets.Set(_octopus.LibraryVariableSets.FindAll());
 
-            var varSets = from name in VariableSet
-                from v in Cache.LibraryVariableSets.Values
-                where v.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
-                select v;
+            var varSets = new List<LibraryVariableSetResource>();
+
+            foreach (var name in Name)
+            {
+                var nameForClosure = name;
+                var varSet = (from v in Cache.LibraryVariableSets.Values
+                    where v.Name.Equals(nameForClosure, StringComparison.InvariantCultureIgnoreCase)
+                    select v).FirstOrDefault();
+
+                if (varSet == null)
+                    throw new Exception(string.Format("VariableSet '{0}' was not found.", name));
+
+                varSets.Add(varSet);
+            }
 
             foreach (var varSet in varSets)
                 _project.IncludedLibraryVariableSetIds.Add(varSet.Id);

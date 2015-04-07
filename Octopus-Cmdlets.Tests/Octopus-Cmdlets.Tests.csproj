@@ -76,6 +76,8 @@
     </Compile>
     <Compile Include="ConnectServerTests.cs" />
     <Compile Include="AddEnvironmentTests.cs" />
+    <Compile Include="UseVariableSetTests.cs" />
+    <Compile Include="GetActionTests.cs" />
     <Compile Include="GetVariableSetTests.cs" />
     <Compile Include="GetVariableTests.cs" />
     <Compile Include="GetMachineRoleTests.cs" />
