@@ -8,16 +8,15 @@ using Octopus.Client.Repositories;
 namespace Octopus_Cmdlets.Tests
 {
     [TestClass]
-    public class AddEnvironmentTests
+    public class AddMachineTests
     {
-        private const string CmdletName = "Add-OctoEnvironment";
         private PowerShell _ps;
         private readonly List<EnvironmentResource> _envs = new List<EnvironmentResource>();
 
         [TestInitialize]
         public void Init()
         {
-            _ps = Utilities.CreatePowerShell(CmdletName, typeof (AddEnvironment));
+            _ps = Utilities.CreatePowerShell("Add-OctoMachine", typeof (AddMachine));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
 
             _envs.Clear();
@@ -37,7 +36,7 @@ namespace Octopus_Cmdlets.Tests
         public void With_Name()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddArgument("Octopus_Dev");
+            _ps.AddCommand("Add-OctoEnvironment").AddArgument("Octopus_Dev");
             _ps.Invoke();
 
             Assert.AreEqual(1, _envs.Count);
@@ -48,7 +47,7 @@ namespace Octopus_Cmdlets.Tests
         public void With_Description()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("Description", "Octopus Development environment");
+            _ps.AddCommand("Add-OctoEnvironment").AddParameter("Description", "Octopus Development environment");
             _ps.Invoke();
         }
 
@@ -56,7 +55,7 @@ namespace Octopus_Cmdlets.Tests
         public void With_Name_And_Description()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName)
+            _ps.AddCommand("Add-OctoEnvironment")
                 .AddArgument("Octopus_Dev")
                 .AddArgument("Octopus Development environment");
             _ps.Invoke();
@@ -70,7 +69,7 @@ namespace Octopus_Cmdlets.Tests
         public void No_Arguments()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName);
+            _ps.AddCommand("Add-OctoEnvironment");
             _ps.Invoke();
         }
     }

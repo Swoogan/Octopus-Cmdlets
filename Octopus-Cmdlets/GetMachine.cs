@@ -15,9 +15,9 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Exceptions;
 
 namespace Octopus_Cmdlets
 {
@@ -89,11 +89,19 @@ namespace Octopus_Cmdlets
 
         private void ProcessById()
         {
-            var machines = from id in Id
-                select _octopus.Machines.Get(id);
+            foreach (var id in Id)
+                OutputMachine(id);
+        }
 
-            foreach (var machine in machines)
-                WriteObject(machine);
+        private void OutputMachine(string id)
+        {
+            try
+            {
+                WriteObject(_octopus.Machines.Get(id));
+            }
+            catch (OctopusResourceNotFoundException)
+            {
+            }
         }
     }
 }

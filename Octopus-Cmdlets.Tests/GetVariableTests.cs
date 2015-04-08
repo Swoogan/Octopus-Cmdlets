@@ -40,13 +40,13 @@ namespace Octopus_Cmdlets.Tests
             {
                 new LibraryVariableSetResource
                 {
-                    Id = "variableset-LibraryVariableSets-1",
+                    Id = "LibraryVariableSets-1",
                     Name = "Octopus",
                     Links = new LinkCollection {{"Variables", new Href("/api/variables/variableset-LibraryVariableSets-1")}}
                 },
                 new LibraryVariableSetResource
                 {
-                    Id = "variableset-LibraryVariableSets-2",
+                    Id = "LibraryVariableSets-2",
                     Name = "Deploy",
                 }
             };
@@ -55,7 +55,7 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>()))
                 .Returns(
                     (Func<LibraryVariableSetResource, bool> f) =>
-                        (from l in libraryResources where f(l) select l).First());
+                        (from l in libraryResources where f(l) select l).FirstOrDefault());
 
             // Create a variableset
             var variableRepo = new Mock<IVariableSetRepository>();
@@ -95,6 +95,14 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual("To Production", variables[0].Value);
         }
 
+        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        public void With_Invalid_Project()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish").AddArgument("Deploy");
+            _ps.Invoke();
+        }
+
         [TestMethod]
         public void By_VariableSet_No_Arguments()
         {
@@ -105,6 +113,17 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual(3, variables.Count);
         }
 
+        [TestMethod]
+        public void With_Invalid_VariableSet()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).AddParameter("VariableSet", "Gibberish").AddArgument("Deploy");
+            _ps.Invoke();
+
+            Assert.AreEqual(1, _ps.Streams.Warning.Count);
+            Assert.AreEqual("Library variable set 'Gibberish' was not found.", _ps.Streams.Warning[0].ToString());
+        }
+        
         [TestMethod]
         public void By_VariableSet_With_Name()
         {
@@ -120,7 +139,7 @@ namespace Octopus_Cmdlets.Tests
         public void By_VariableSetId_No_Arguments()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("VariableSet", "Octopus");
+            _ps.AddCommand(CmdletName).AddParameter("VariableSetId", "LibraryVariableSets-1");
             var variables = _ps.Invoke<VariableResource>();
 
             Assert.AreEqual(3, variables.Count);
@@ -130,11 +149,22 @@ namespace Octopus_Cmdlets.Tests
         public void By_VariableSetId_With_Name()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("VariableSet", "Octopus").AddArgument("Deploy");
+            _ps.AddCommand(CmdletName).AddParameter("VariableSetId", "LibraryVariableSets-1").AddArgument("Deploy");
             var variables = _ps.Invoke<VariableResource>();
 
             Assert.AreEqual(1, variables.Count);
             Assert.AreEqual("To Production", variables[0].Value);
+        }
+
+        [TestMethod]
+        public void With_Invalid_VariableSetId()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).AddParameter("VariableSetId", "Gibberish").AddArgument("Deploy");
+            _ps.Invoke();
+
+            Assert.AreEqual(1, _ps.Streams.Warning.Count);
+            Assert.AreEqual("Library variable set with id 'Gibberish' was not found.", _ps.Streams.Warning[0].ToString());
         }
     }
 }

@@ -18,6 +18,7 @@ using System;
 using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Exceptions;
 
 namespace Octopus_Cmdlets
 {
@@ -102,7 +103,18 @@ namespace Octopus_Cmdlets
         private void ProcessById()
         {
             foreach (var id in DeploymentProcessId)
+                GetProcess(id);
+        }
+
+        private void GetProcess(string id)
+        {
+            try
+            {
                 WriteObject(_octopus.DeploymentProcesses.Get(id));
+            }
+            catch (OctopusResourceNotFoundException)
+            {
+            }
         }
     }
 }

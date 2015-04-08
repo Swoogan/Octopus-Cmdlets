@@ -81,6 +81,7 @@ namespace Octopus_Cmdlets
                     CreateProject(_projectGroupId);
                     break;
                 case "ById":
+                    _octopus.ProjectGroups.Get(ProjectGroupId);
                     CreateProject(ProjectGroupId);
                     break;
                 default:

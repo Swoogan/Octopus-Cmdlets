@@ -15,9 +15,10 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Exceptions;
+using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets
 {
@@ -80,24 +81,35 @@ namespace Octopus_Cmdlets
 
         private void ProcessById()
         {
-            var environments = from id in Id
-                         select _octopus.Environments.Get(id);
-
-            foreach (var environment in environments)
+            foreach (var id in Id)
             {
-                WriteVerbose("Deleting environment: " + environment.Name);
-                _octopus.Environments.Delete(environment);
+                try
+                {
+                    var env = _octopus.Environments.Get(id);
+                    WriteVerbose("Deleting environment: " + env.Name);
+                    _octopus.Environments.Delete(env);
+                }
+                catch (OctopusResourceNotFoundException)
+                {
+                    WriteWarning(string.Format("An environment with the id '{0}' does not exist.", id));
+                }
             }
         }
 
         private void ProcessByName()
         {
-            var environments = _octopus.Environments.FindByNames(Name);
-
-            foreach (var environment in environments)
+            foreach (var name in Name)
             {
-                WriteVerbose("Deleting environment: " + environment.Name);
-                _octopus.Environments.Delete(environment);
+                var env = _octopus.Environments.FindByName(name);
+                if (env != null)
+                {
+                    WriteVerbose("Deleting environment: " + env.Name);
+                    _octopus.Environments.Delete(env);
+                }
+                else
+                {
+                    WriteWarning(string.Format("The environment '{0}' does not exist.", name));
+                }
             }
         }
     }

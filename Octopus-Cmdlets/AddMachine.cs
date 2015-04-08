@@ -31,7 +31,7 @@ namespace Octopus_Cmdlets
             ParameterSetName = "ByName",
             Position = 0,
             Mandatory = true)]
-        public string[] EnvironmentName { get; set; }
+        public string[] Environment { get; set; }
 
         /// <summary>
         /// <para type="description">The id of the environment to add the machine to.</para>

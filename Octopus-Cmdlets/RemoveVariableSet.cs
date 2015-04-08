@@ -15,8 +15,10 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Exceptions;
 using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets
@@ -95,20 +97,43 @@ namespace Octopus_Cmdlets
 
         private void ProcessByObject()
         {
-            _octopus.LibraryVariableSets.Delete(InputObject);
+            try
+            {
+                _octopus.LibraryVariableSets.Delete(InputObject);
+                WriteVerbose("Deleting variableset: " + InputObject.Name);
+            }
+            catch (KeyNotFoundException)
+            {
+                WriteWarning(string.Format("The library variable set '{0}' does not exist.", InputObject.Name));
+            }
         }
 
         private void ProcessById()
         {
-            var set = _octopus.LibraryVariableSets.Get(Id);
-            _octopus.LibraryVariableSets.Delete(set);
+            try
+            {
+                var set = _octopus.LibraryVariableSets.Get(Id);
+                WriteVerbose("Deleting variableset: " + set.Name);
+                _octopus.LibraryVariableSets.Delete(set);
+            }
+            catch (OctopusResourceNotFoundException)
+            {
+                WriteWarning(string.Format("The library variable set with id '{0}' does not exist.", Id));
+            }
         }
 
         private void ProcessByName()
         {
             var set = _octopus.LibraryVariableSets.FindOne(vs => vs.Name.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
-            WriteVerbose("Deleting variableset: " + set.Name);
-            _octopus.LibraryVariableSets.Delete(set);
+            if (set != null)
+            {
+                WriteVerbose("Deleting variableset: " + set.Name);
+                _octopus.LibraryVariableSets.Delete(set);
+            }
+            else
+            {
+                WriteWarning(string.Format("The library variable set '{0}' does not exist.", Name));
+            }
         }
     }
 }

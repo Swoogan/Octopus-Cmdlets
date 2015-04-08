@@ -115,13 +115,11 @@ namespace Octopus_Cmdlets
 
         private void ProcessById()
         {
-            var actions = Id == null
-                ? _deploymentProcess.Steps.SelectMany(step => step.Actions)
-                : (from step in _deploymentProcess.Steps
+            var actions = from step in _deploymentProcess.Steps
                     from action in step.Actions
                     from id in Id
                     where action.Id == id
-                    select action);
+                    select action;
 
             foreach (var action in actions)
                 WriteObject(action);

@@ -61,13 +61,11 @@ namespace Octopus_Cmdlets
         /// </summary>
         protected override void ProcessRecord()
         {
-            var variableSet = new LibraryVariableSetResource
+            _octopus.LibraryVariableSets.Create(new LibraryVariableSetResource
             {
                 Name = Name,
                 Description = Description
-            };
-
-            _octopus.LibraryVariableSets.Create(variableSet);
+            });
         }
     }
 }

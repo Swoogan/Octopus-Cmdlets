@@ -102,7 +102,7 @@ namespace Octopus_Cmdlets
                     vs.Id == idForClosure);
 
                 if (variableSet == null)
-                    WriteWarning(string.Format("Library variable set '{0}' was not found.", id));
+                    WriteWarning(string.Format("Library variable set with id '{0}' was not found.", id));
                 else
                     _variableSets.Add(octopus.VariableSets.Get(variableSet.Link("Variables")));
             }

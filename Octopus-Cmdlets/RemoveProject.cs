@@ -15,9 +15,9 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Exceptions;
 
 namespace Octopus_Cmdlets
 {
@@ -80,24 +80,35 @@ namespace Octopus_Cmdlets
 
         private void ProcessById()
         {
-             var projects = from id in Id
-                         select _octopus.Projects.Get(id);
-
-            foreach (var project in projects)
+            foreach (var id in Id)
             {
-                WriteVerbose("Deleting project: " + project.Name);
-                _octopus.Projects.Delete(project);
+                try
+                {
+                    var project = _octopus.Projects.Get(id);
+                    WriteVerbose("Deleting project: " + project.Name);
+                    _octopus.Projects.Delete(project);
+                }
+                catch (OctopusResourceNotFoundException)
+                {
+                    WriteWarning(string.Format("A project with the id '{0}' does not exist.", id));
+                }
             }
         }
 
         private void ProcessByName()
         {
-            var projects = _octopus.Projects.FindByNames(Name);
-
-            foreach (var project in projects)
+            foreach (var name in Name)
             {
-                WriteVerbose("Deleting project: " + project.Name);
-                _octopus.Projects.Delete(project);
+                var project = _octopus.Projects.FindByName(name);
+                if (project != null)
+                {
+                    WriteVerbose("Deleting project: " + project.Name);
+                    _octopus.Projects.Delete(project);
+                }
+                else
+                {
+                    WriteWarning(string.Format("The project '{0}' does not exist.", name));
+                }
             }
         }
     }

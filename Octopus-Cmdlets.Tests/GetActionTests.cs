@@ -55,6 +55,14 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual(2, actions.Count);
         }
 
+        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        public void With_Invalid_Project()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).AddArgument("Gibberish");
+            _ps.Invoke();
+        }
+
         [TestMethod]
         public void With_Name()
         {
