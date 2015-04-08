@@ -22,7 +22,7 @@ using Octopus.Client;
 using Octopus.Client.Model;
 using Octopus.Platform.Model;
 using Octopus.Platform.Util;
-using Octopus_Cmdlets.Extensions;
+using Octopus_Cmdlets.Utilities;
 
 namespace Octopus_Cmdlets
 {
@@ -142,13 +142,13 @@ namespace Octopus_Cmdlets
             var newSet = _octopus.VariableSets.Get(_newProject.VariableSetId);
 
             var copier = new Variables(newSet.Variables, WriteWarning);
-            copier.CopyVariables(oldSet.Variables, CopyAction);
+            copier.CopyVariables(oldSet.Variables, CopyActionScope);
 
             WriteVerbose("Saving the variable set.");
             _octopus.VariableSets.Modify(newSet);
         }
 
-        private ScopeValue CopyAction(KeyValuePair<ScopeField, ScopeValue> scope)
+        private ScopeValue CopyActionScope(KeyValuePair<ScopeField, ScopeValue> scope)
         {
             var results = new List<string>();
 

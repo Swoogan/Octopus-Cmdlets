@@ -186,10 +186,15 @@ namespace Octopus_Cmdlets
         private void ProcessByParts()
         {
             var variable = new VariableResource { Name = Name, Value = Value, IsSensitive = Sensitive };
-            
-            AddEnvironments(variable);
-            AddMachines(variable);
-            AddSteps(variable);
+
+            if (Environments != null)
+                AddEnvironments(variable);
+
+            if (Machines != null)
+                AddMachines(variable);
+
+            if (Steps != null) 
+                AddSteps(variable);
 
             if (Roles != null && Roles.Length > 0)
                 variable.Scope.Add(ScopeField.Role, new ScopeValue(Roles));
@@ -217,8 +222,6 @@ namespace Octopus_Cmdlets
 
         private void AddSteps(VariableResource variable)
         {
-            if (Steps == null) return;
-
             var steps = (from step in _deploymentProcess.Steps
                         from s in Steps
                         where step.Name.Equals(s, StringComparison.InvariantCultureIgnoreCase)

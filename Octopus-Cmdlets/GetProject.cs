@@ -86,15 +86,15 @@ namespace Octopus_Cmdlets
             // FIXME: Loading all the projects when you might only
             // be looking for one, isn't exactly efficient
 
-            if (!Cache || Extensions.Cache.Projects.IsExpired)
+            if (!Cache || Utilities.Cache.Projects.IsExpired)
                 _projects = _octopus.Projects.FindAll();
 
             if (Cache)
             {
-                if (Extensions.Cache.Projects.IsExpired)
-                    Extensions.Cache.Projects.Set(_projects);
+                if (Utilities.Cache.Projects.IsExpired)
+                    Utilities.Cache.Projects.Set(_projects);
                 else
-                    _projects = Extensions.Cache.Projects.Values;
+                    _projects = Utilities.Cache.Projects.Values;
             }
 
             WriteDebug("Loaded projects");

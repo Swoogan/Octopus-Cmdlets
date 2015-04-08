@@ -35,7 +35,7 @@ namespace Octopus_Cmdlets
         [Parameter(
             ParameterSetName = "ByProjectName",
             Mandatory = true)]
-        public string[] ProjectName { get; set; }
+        public string[] Project { get; set; }
 
         //[Parameter(
         //    ParameterSetName = "ByProjectId",
@@ -92,7 +92,7 @@ namespace Octopus_Cmdlets
 
         private void ProcessByProjectName()
         {
-            var projects = _octopus.Projects.FindByNames(ProjectName);
+            var projects = _octopus.Projects.FindByNames(Project);
             var processes = projects.Select(p => _octopus.DeploymentProcesses.Get(p.DeploymentProcessId));
 
             foreach (var process in processes)

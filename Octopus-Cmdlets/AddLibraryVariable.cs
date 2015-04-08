@@ -21,6 +21,7 @@ using Octopus.Client;
 using Octopus.Client.Model;
 using Octopus.Platform.Model;
 using Octopus_Cmdlets.Extensions;
+using Octopus_Cmdlets.Utilities;
 
 namespace Octopus_Cmdlets
 {

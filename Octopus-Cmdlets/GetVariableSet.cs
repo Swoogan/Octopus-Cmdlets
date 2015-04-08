@@ -69,15 +69,15 @@ namespace Octopus_Cmdlets
 
             WriteDebug("Connection established");
 
-            if (!Cache || Extensions.Cache.LibraryVariableSets.IsExpired)
+            if (!Cache || Utilities.Cache.LibraryVariableSets.IsExpired)
                 _variableSets = _octopus.LibraryVariableSets.FindAll();
 
             if (Cache)
             {
-                if (Extensions.Cache.LibraryVariableSets.IsExpired)
-                    Extensions.Cache.LibraryVariableSets.Set(_variableSets);
+                if (Utilities.Cache.LibraryVariableSets.IsExpired)
+                    Utilities.Cache.LibraryVariableSets.Set(_variableSets);
                 else
-                    _variableSets = Extensions.Cache.LibraryVariableSets.Values;
+                    _variableSets = Utilities.Cache.LibraryVariableSets.Values;
             }
 
             WriteDebug("Loaded environments");

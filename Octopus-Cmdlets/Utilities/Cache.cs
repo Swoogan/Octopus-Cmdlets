@@ -18,9 +18,9 @@ using System;
 using System.Collections.Generic;
 using Octopus.Client.Model;
 
-namespace Octopus_Cmdlets.Extensions
+namespace Octopus_Cmdlets.Utilities
 {
-    public static class Cache
+    static class Cache
     {
         public const int Duration = 60;
         public static readonly CacheNode<EnvironmentResource> Environments;
@@ -37,7 +37,7 @@ namespace Octopus_Cmdlets.Extensions
         }
     }
 
-    public class CacheNode<T>
+    class CacheNode<T>
     {
         public int Duration { get; private set; }
         public DateTime Age { get; private set; }
@@ -47,7 +47,6 @@ namespace Octopus_Cmdlets.Extensions
         {
             Age = DateTime.MinValue;
             Duration = Cache.Duration;
-            // Values = new List<T>();
         }
 
         public void Set(List<T> values)

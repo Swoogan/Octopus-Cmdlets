@@ -19,7 +19,7 @@ Installation
 ============
 PsGet (preferred method)
 ------------------------
-If you don't already have PsGet install, get it from https://github.com/psget/psget
+If you don't already have PsGet, install it from https://github.com/psget/psget
 
 To install Octopus-Cmdlets run
 
@@ -38,19 +38,19 @@ the full path to your `$env:PSModulePath`.
 psake
 -----
 * Option 1:
-	* Open the solution in Visual Studio and build it (this will restore the psake nuget package).
-	* Open the Package Manager Console and run:
+    * Open the solution in Visual Studio and build it (this will restore the psake nuget package).
+    * Open the Package Manager Console and run:
 
-		`psake install`
+        `psake install`
 
 * Option 2 (if you have psake):	
-	* Open a prompt in the solution folder and type `psake install`
+    * Open a prompt in the solution folder and type `psake install`
 
 * Option 3 (if psake has already been restored):	
-	* Open a PowerShell prompt in the solution folder and type 
-	
+    * Open a PowerShell prompt in the solution folder and type 
+    
     `packages\psake.[version]\tools\psake.ps1 install`
-	
+    
 Usage
 =====
 

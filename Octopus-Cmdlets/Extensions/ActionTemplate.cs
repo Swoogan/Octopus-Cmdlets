@@ -19,7 +19,7 @@ using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets.Extensions
 {
-    public class ActionTemplate
+    class ActionTemplate
     {
         public static ActionTemplateResource GetActionTemplate(OctopusRepository repo, string id)
         {

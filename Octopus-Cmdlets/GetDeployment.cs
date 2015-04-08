@@ -17,7 +17,6 @@
 using System;
 using System.Management.Automation;
 using Octopus.Client;
-using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets
 {
@@ -51,7 +50,6 @@ namespace Octopus_Cmdlets
         /// </summary>
         [Parameter(
             ParameterSetName = "ByRelease",
-            Position = 1,
             Mandatory = true)]
         public string ReleaseId { get; set; }
 
@@ -88,30 +86,25 @@ namespace Octopus_Cmdlets
             var project = _octopus.Projects.FindByName(Project);
 
             if (project == null)
-                throw new Exception(string.Format("Project '{0}' was found.", Project));
+                throw new Exception(string.Format("Project '{0}' was not found.", Project));
 
-            //if (Release != null)
-            //{
             var release = _octopus.Projects.GetReleaseByVersion(project, Release);
-            var link = release.Links["Deployments"];
-            var deployments = _octopus.Client.List<DeploymentResource>(link);
-            foreach (var deployment in deployments.Items)
-                WriteObject(deployment);
-
-            //}
-            //else
-            //{
-            //    var releases = _octopus.Projects.GetReleases(project);
-            //    foreach (var release in releases.Items)
-            //        WriteObject(release);
-            //}
+            if (release != null)
+            {
+                var deployments = _octopus.Releases.GetDeployments(release);
+                foreach (var deployment in deployments.Items)
+                    WriteObject(deployment);
+            }
+            else
+            {
+                WriteVerbose(string.Format("Project '{0}' does not have a release '{1}'", project.Name, Release));
+            }
         }
 
         private void ProcessByRelease()
         {
             var release = _octopus.Releases.Get(ReleaseId);
-            var link = release.Links["Deployments"];
-            var deployments = _octopus.Client.List<DeploymentResource>(link);
+            var deployments = _octopus.Releases.GetDeployments(release);
             foreach (var deployment in deployments.Items)
                 WriteObject(deployment);
         }

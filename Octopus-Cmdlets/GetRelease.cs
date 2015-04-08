@@ -26,14 +26,14 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Get a release from the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoRelease cmdlet gets a release from the Octopus Deploy server.</para>
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "Release", DefaultParameterSetName = "ByProjectName")]
+    [Cmdlet(VerbsCommon.Get, "Release", DefaultParameterSetName = "ByProject")]
     public class GetRelease : PSCmdlet
     {
         /// <summary>
         /// <para type="description">The name of the project to get the release for.</para>
         /// </summary>
         [Parameter(
-            ParameterSetName = "ByProjectName",
+            ParameterSetName = "ByProject",
             Position = 0,
             Mandatory = true)]
         public string Project { get; set; }
@@ -51,7 +51,7 @@ namespace Octopus_Cmdlets
         /// <para type="description">The version number of the release to retrieve.</para>
         /// </summary>
         [Parameter(
-            ParameterSetName = "ByProjectName",
+            ParameterSetName = "ByProject",
             Position = 1,
             Mandatory = false)]
         [Parameter(
@@ -88,15 +88,15 @@ namespace Octopus_Cmdlets
 
             switch (ParameterSetName)
             {
-                case "ByProjectName":
+                case "ByProject":
                     _project = _octopus.Projects.FindByName(Project);
                     if (_project == null)
-                        throw new Exception(string.Format("Project '{0}' was found.", Project));
+                        throw new Exception(string.Format("Project '{0}' was not found.", Project));
                     break;
                 case "ByProjectId":
                     _project = _octopus.Projects.Get(ProjectId);
                     if (_project == null)
-                        throw new Exception(string.Format("Project '{0}' was found.", Project));
+                        throw new Exception(string.Format("Project '{0}' was not found.", Project));
                     break;
             }
 

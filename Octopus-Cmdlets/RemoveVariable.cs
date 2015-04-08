@@ -35,7 +35,6 @@ namespace Octopus_Cmdlets
         [Parameter(
             Position = 0,
             Mandatory = true)]
-        [Alias("ProjectName")]
         public string Project { get; set; }
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace Octopus_Cmdlets
             var project = _octopus.Projects.FindByName(Project);
 
             if (project == null)
-                throw new Exception(string.Format("Project '{0}' was found.", Project));
+                throw new Exception(string.Format("Project '{0}' was not found.", Project));
 
             // Get the variables for editing
             _variableSet = _octopus.VariableSets.Get(project.Link("Variables"));
@@ -95,7 +94,7 @@ namespace Octopus_Cmdlets
                 case "ByName":
                     ProcessByName();
                     break;
-                case "ById":
+                case "ByObject":
                     ProcessByObject();
                     break;
                 default:
@@ -105,16 +104,24 @@ namespace Octopus_Cmdlets
 
         private void ProcessByName()
         {
-            var variables = (from v in _variableSet.Variables
-                            from n in Name
-                            where v.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
-                            select v).ToArray();
-            
-            foreach (var variable in variables)
+            foreach (var name in Name)
             {
-                const string msg = "Removing variable '{0}' from project '{1}'";
-                WriteVerbose(string.Format(msg, variable.Name, Project));
-                _variableSet.Variables.Remove(variable);
+                var found = false;
+                var nameForClosure = name;
+
+                var variables =
+                    _variableSet.Variables.Where(
+                        variable => variable.Name.Equals(nameForClosure, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+
+                foreach (var variable in variables)
+                {
+                    WriteVerbose(string.Format("Removing variable '{0}' from project '{1}'.", variable.Name, Project));
+                    _variableSet.Variables.Remove(variable);
+                    found = true;
+                }
+
+                if (!found)
+                    WriteWarning(string.Format("Variable '{0}' in project '{1}' does not exist.", name, Project));
             }
         }
 
@@ -124,7 +131,8 @@ namespace Octopus_Cmdlets
             {
                 const string msg = "Removing variable '{0}' from project '{1}'";
                 WriteVerbose(string.Format(msg, variable.Name, Project));
-                _variableSet.Variables.Remove(variable);
+                if (!_variableSet.Variables.Remove(variable))
+                    WriteWarning(string.Format("Variable '{0}' in project '{1}' does not exist.", variable.Name, Project));
             }
         }
 

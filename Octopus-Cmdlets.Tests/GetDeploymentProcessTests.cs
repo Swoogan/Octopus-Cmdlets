@@ -68,7 +68,7 @@ namespace Octopus_Cmdlets.Tests
         public void With_ProjectName()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("ProjectName", "Octopus");
+            _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus");
             var projects = _ps.Invoke<DeploymentProcessResource>();
 
             Assert.AreEqual(1, projects.Count);
@@ -78,7 +78,7 @@ namespace Octopus_Cmdlets.Tests
         public void With_Invalid_ProjectName()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("ProjectName", "Gibberish");
+            _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish");
             var projects = _ps.Invoke<DeploymentProcessResource>();
 
             Assert.AreEqual(0, projects.Count);
@@ -99,7 +99,7 @@ namespace Octopus_Cmdlets.Tests
         public void With_Both()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish").AddParameter("ProjectName", "Gibberish");
+            _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish").AddParameter("Project", "Gibberish");
             _ps.Invoke();
         }
     }

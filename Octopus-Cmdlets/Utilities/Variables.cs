@@ -18,13 +18,13 @@ using System.Collections.Generic;
 using Octopus.Client.Model;
 using Octopus.Platform.Model;
 
-namespace Octopus_Cmdlets.Extensions
+namespace Octopus_Cmdlets.Utilities
 {
-    public delegate void Warn(string text);
+    delegate void Warn(string text);
 
-    public delegate ScopeValue CopyScopeValue(KeyValuePair<ScopeField, ScopeValue> scope);
+    delegate ScopeValue CopyScopeValue(KeyValuePair<ScopeField, ScopeValue> scope);
 
-    public class Variables
+    class Variables
     {
         private readonly IList<VariableResource> _variableSet;
         private readonly Warn _writeWarning;

@@ -1,6 +1,6 @@
 Iteration 1
 ===========
-- Tests
+- Basic tests
 
 Iteration 2
 ===========
@@ -14,12 +14,12 @@ Iteration 3 (v0.2.0)
 
 Backlog
 =======
+- Pipeline tests
 - Remove-Step, Remove-Machine, Remove-Release, Remove-Feed
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
 - Lifecycles
 - Fix removing duplicates from Remove-Variable
 - Add Environments and Retention policy to Add-ProjectGroup
-- Appveyor
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Add Step from Template
 - Implement duplicate variable finding algorithm
@@ -49,3 +49,4 @@ Done
 ====
 - Create zip file
 - Add module to PSGet
+- Appveyor
