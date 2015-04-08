@@ -15,9 +15,9 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Exceptions;
 
 namespace Octopus_Cmdlets
 {
@@ -26,7 +26,7 @@ namespace Octopus_Cmdlets
     /// <para type="description">The Remove-OctoProjectGroup cmdlet removes a project group from the Octopus Deploy server.</para>
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "ProjectGroup", DefaultParameterSetName = "ByName")]
-    public class RemovedProjectGroup : PSCmdlet
+    public class RemoveProjectGroup : PSCmdlet
     {
         /// <summary>
         /// <para type="description">The name of the project group to remove.</para>
@@ -37,7 +37,6 @@ namespace Octopus_Cmdlets
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
-        [Alias("GroupName")]
         public string[] Name { get; set; }
 
         /// <summary>
@@ -81,24 +80,35 @@ namespace Octopus_Cmdlets
 
         private void ProcessById()
         {
-            var groups = from id in Id
-                         select _octopus.ProjectGroups.Get(id);
-
-            foreach (var group in groups)
+            foreach (var id in Id)
             {
-                WriteVerbose("Deleting project group: " + group.Name);
-                _octopus.ProjectGroups.Delete(group);
+                try
+                {
+                    var group = _octopus.ProjectGroups.Get(id);
+                    WriteVerbose("Deleting project group: " + group.Name);
+                    _octopus.ProjectGroups.Delete(group);
+                }
+                catch (OctopusResourceNotFoundException)
+                {
+                    WriteWarning(string.Format("A project group with the id '{0}' does not exist.", id));
+                }
             }
         }
 
         private void ProcessByName()
         {
-            var groups = _octopus.ProjectGroups.FindByNames(Name);
-
-            foreach (var group in groups)
+            foreach (var name in Name)
             {
-                WriteVerbose("Deleting project group: " + group.Name);
-                _octopus.ProjectGroups.Delete(group);
+                var group = _octopus.ProjectGroups.FindByName(name);
+                if (group != null)
+                {
+                    WriteVerbose("Deleting project group: " + group.Name);
+                    _octopus.ProjectGroups.Delete(group);
+                }
+                else
+                {
+                    WriteWarning(string.Format("The project group '{0}' does not exist.", name));
+                }
             }
         }
     }

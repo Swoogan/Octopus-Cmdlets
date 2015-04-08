@@ -1,5 +1,7 @@
 Octopus-Cmdlets
 ===============
+[![Build status](https://ci.appveyor.com/api/projects/status/i5xjnh3ar642j05p?svg=true)](https://ci.appveyor.com/project/Swoogan/octopus-cmdlets)
+
 Yo Dawg, I herd you like automation, so I put cmdlets in your PowerShell so you
 can automate while you automate.
 

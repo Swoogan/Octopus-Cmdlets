@@ -68,11 +68,14 @@
     <Compile Include="AddLibraryVariable.cs" />
     <Compile Include="CopyStep.cs" />
     <Compile Include="CopyProject.cs" />
+    <Compile Include="Extensions\ActionTemplate.cs" />
     <Compile Include="GetDeployment.cs" />
     <Compile Include="GetExternalFeed.cs" />
     <Compile Include="UseVariableSet.cs" />
     <Compile Include="RemoveEnvironment.cs" />
     <Compile Include="AddEnvironment.cs" />
+    <Compile Include="Utilities\Cache.cs" />
+    <Compile Include="Utilities\Variables.cs" />
     <None Include="AddMachine.cs" />
     <Compile Include="AddProjectGroup.cs" />
     <Compile Include="ConnectServer.cs" />
@@ -110,12 +113,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Octopus-Cmdlets.Extensions\Octopus-Cmdlets.Extensions.csproj">
-      <Project>{60bfab51-da2b-46ce-89d9-652691d6fe54}</Project>
-      <Name>Octopus-Cmdlets.Extensions</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

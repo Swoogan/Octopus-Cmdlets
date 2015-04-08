@@ -82,6 +82,7 @@
     <Compile Include="AddProjectTests.cs" />
     <Compile Include="GetMachineTests.cs" />
     <Compile Include="RemoveProjectTests.cs" />
+    <Compile Include="RemoveProjectGroupTests.cs" />
     <Compile Include="RemoveVariableSetTests.cs" />
     <Compile Include="GetDeploymentProcessTests.cs" />
     <Compile Include="RemoveEnvironmentTests.cs" />
@@ -100,10 +101,6 @@
     <ProjectReference Include="..\Octopus-Cmdlets\Octopus-Cmdlets.csproj">
       <Project>{6b556833-c503-48f4-8a0e-26591c6f4bc6}</Project>
       <Name>Octopus-Cmdlets</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Octopus-Cmdlets.Extensions\Octopus-Cmdlets.Extensions.csproj">
-      <Project>{60bfab51-da2b-46ce-89d9-652691d6fe54}</Project>
-      <Name>Octopus-Cmdlets.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
