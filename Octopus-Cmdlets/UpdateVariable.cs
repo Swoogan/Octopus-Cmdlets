@@ -66,9 +66,8 @@ namespace Octopus_Cmdlets
         /// </summary>
         [Parameter(
             Position = 3,
-            Mandatory = true,
-            ParameterSetName = "Parts"
-            )]
+            Mandatory = false,
+            ParameterSetName = "Parts")]
         public string Value { get; set; }
 
         /// <summary>
@@ -104,8 +103,7 @@ namespace Octopus_Cmdlets
         [Parameter(
             Position = 5,
             Mandatory = false,
-            ParameterSetName = "Parts"
-            )]
+            ParameterSetName = "Parts")]
         public SwitchParameter Sensitive { get; set; }
 
         //[Parameter(

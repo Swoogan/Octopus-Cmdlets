@@ -75,6 +75,8 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="AddVariableTests.cs" />
+    <Compile Include="AddLibraryVariableTests.cs" />
+    <Compile Include="UpdateVariableTests.cs" />
     <Compile Include="CopyProjectTests.cs" />
     <Compile Include="AddVariableSetTests.cs" />
     <Compile Include="AddProjectGroupTests.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="GetMachineTests.cs" />
     <Compile Include="GetDeploymentTests.cs" />
     <Compile Include="GetEnvironmentTests.cs" />
+    <Compile Include="GetReleaseTests.cs" />
     <Compile Include="RemoveProjectTests.cs" />
     <Compile Include="RemoveProjectGroupTests.cs" />
     <Compile Include="RemoveVariableSetTests.cs" />

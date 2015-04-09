@@ -228,7 +228,7 @@ namespace Octopus_Cmdlets
                         select step.Id).ToList();
 
             if (steps.Any())
-                variable.Scope.Add(ScopeField.Machine, new ScopeValue(steps));
+                variable.Scope.Add(ScopeField.Action, new ScopeValue(steps));
         }
 
         /// <summary>

@@ -20,7 +20,6 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
-using Octopus_Cmdlets.Extensions;
 using Octopus_Cmdlets.Utilities;
 
 namespace Octopus_Cmdlets

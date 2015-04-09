@@ -20,7 +20,6 @@ using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
 using Octopus.Platform.Model;
-using Octopus_Cmdlets.Extensions;
 using Octopus_Cmdlets.Utilities;
 
 namespace Octopus_Cmdlets
@@ -165,8 +164,11 @@ namespace Octopus_Cmdlets
         {
             var variable = new VariableResource { Name = Name, Value = Value, IsSensitive = Sensitive };
             
-            AddEnvironments(variable);
-            AddMachines(variable);
+            if (Environments != null)
+                AddEnvironments(variable);
+
+            if (Machines != null)
+                AddMachines(variable);
 
             if (Roles != null && Roles.Length > 0)
                 variable.Scope.Add(ScopeField.Role, new ScopeValue(Roles));

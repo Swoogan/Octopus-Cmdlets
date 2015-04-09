@@ -15,9 +15,9 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
+using Octopus.Client.Exceptions;
 using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets
@@ -91,12 +91,12 @@ namespace Octopus_Cmdlets
                 case "ByProject":
                     _project = _octopus.Projects.FindByName(Project);
                     if (_project == null)
-                        throw new Exception(string.Format("Project '{0}' was not found.", Project));
+                        throw new Exception(string.Format("The project '{0}' was not found.", Project));
                     break;
                 case "ByProjectId":
                     _project = _octopus.Projects.Get(ProjectId);
                     if (_project == null)
-                        throw new Exception(string.Format("Project '{0}' was not found.", Project));
+                        throw new Exception(string.Format("A project with the id '{0}' was not found.", ProjectId));
                     break;
             }
 
@@ -121,7 +121,7 @@ namespace Octopus_Cmdlets
         {
             switch (ParameterSetName)
             {
-                case "ByProjectName":
+                case "ByProject":
                 case "ByProjectId":
                     ProcessByProject();
                     break;
@@ -137,9 +137,8 @@ namespace Octopus_Cmdlets
         {
             if (Version != null)
             {
-                var releases = Version.Select(v => _octopus.Projects.GetReleaseByVersion(_project, v));
-                foreach (var release in releases)
-                    WriteObject(release);
+                foreach (var version in Version)
+                    OutputReleaseByVersion(version);
             }
             else
             {
@@ -149,10 +148,32 @@ namespace Octopus_Cmdlets
             }
         }
 
+        private void OutputReleaseByVersion(string v)
+        {
+            try
+            {
+                WriteObject(_octopus.Projects.GetReleaseByVersion(_project, v));
+            }
+            catch (OctopusResourceNotFoundException)
+            {
+            }
+        }
+
         private void ProcessById()
         {
             foreach (var id in ReleaseId)
+                OutputRelease(id);
+        }
+
+        private void OutputRelease(string id)
+        {
+            try
+            {
                 WriteObject(_octopus.Releases.Get(id));
+            }
+            catch (OctopusResourceNotFoundException)
+            {
+            }
         }
     }
 }
