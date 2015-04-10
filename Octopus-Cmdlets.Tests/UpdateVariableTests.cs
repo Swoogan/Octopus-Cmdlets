@@ -115,7 +115,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.AreEqual(1, _variableSet.Variables.Count);
-            Assert.AreEqual("Test", _variableSet.Variables[0].Name);
+            Assert.AreEqual("NewName", _variableSet.Variables[0].Name);
             Assert.AreEqual("Test Value", _variableSet.Variables[0].Value);
             Assert.AreEqual(false, _variableSet.Variables[0].IsSensitive);
         }
