@@ -1,16 +1,12 @@
-Iteration 1
-===========
-- Basic tests
-
 Iteration 2
 ===========
 - Examples
+- More detailed tests
 
 Iteration 3 (v0.2.0)
 ====================
 - Get-Step
 - Add-Step, Add-Machine, Add-Release, Add-Feed
-- `psake package`
 
 Backlog
 =======
@@ -47,6 +43,7 @@ Hold
 
 Done
 ====
+- Basic tests
+- Appveyor
 - Create zip file
 - Add module to PSGet
-- Appveyor

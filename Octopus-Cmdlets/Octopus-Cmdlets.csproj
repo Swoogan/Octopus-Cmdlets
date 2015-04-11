@@ -68,7 +68,6 @@
     <Compile Include="AddLibraryVariable.cs" />
     <Compile Include="CopyStep.cs" />
     <Compile Include="CopyProject.cs" />
-    <Compile Include="Extensions\ActionTemplate.cs" />
     <Compile Include="GetDeployment.cs" />
     <Compile Include="GetExternalFeed.cs" />
     <Compile Include="UseVariableSet.cs" />

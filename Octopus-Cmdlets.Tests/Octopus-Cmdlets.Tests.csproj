@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="AddVariableTests.cs" />
     <Compile Include="AddLibraryVariableTests.cs" />
+    <Compile Include="CopyStepTests.cs" />
     <Compile Include="UpdateVariableTests.cs" />
     <Compile Include="CopyProjectTests.cs" />
     <Compile Include="AddVariableSetTests.cs" />
