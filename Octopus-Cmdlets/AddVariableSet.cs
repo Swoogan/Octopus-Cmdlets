@@ -24,6 +24,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Add a new library variable set to the Octopus Deploy server.</para>
     /// <para type="description">The Add-OctoVariableSet cmdlet adds a new library variable set to the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>add-octolibraryvariable -Project Example -Name ConnectionString</code>
+    ///   <para>
+    ///      Add a variable named 'ConnectionString' to the project name 'Example'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Add, "VariableSet")]
     public class AddVariableSet : PSCmdlet
     {

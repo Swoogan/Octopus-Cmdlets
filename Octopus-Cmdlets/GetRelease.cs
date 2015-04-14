@@ -26,6 +26,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Get a release from the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoRelease cmdlet gets a release from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octorelease Project</code>
+    ///   <para>
+    ///      Get all the releases for the project 'Project'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "Release", DefaultParameterSetName = "ByProject")]
     public class GetRelease : PSCmdlet
     {

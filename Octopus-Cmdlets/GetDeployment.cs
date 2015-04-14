@@ -24,6 +24,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Get a deployment from the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoDeployment cmdlet gets a deployment from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octodeployment Project v1.0.1</code>
+    ///   <para>
+    ///      Get all the deployments of the release 'v1.01.' for the project named 'Project'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "Deployment", DefaultParameterSetName = "ByProject")]
     public class GetDeployment : PSCmdlet
     {

@@ -25,6 +25,18 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Get a machine from the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoMachine cmdlet gets a machine from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octomachine</code>
+    ///   <para>
+    ///      Get all the machines.
+    ///   </para>
+    /// </example>
+    /// <example>
+    ///   <code>PS C:\>get-octomachine web-01</code>
+    ///   <para>
+    ///      Get the machine named 'web-01'
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "Machine", DefaultParameterSetName = "ByName")]
     public class GetMachine : PSCmdlet
     {

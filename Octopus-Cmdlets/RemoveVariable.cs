@@ -26,6 +26,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Remove a variable from the Octopus Deploy server.</para>
     /// <para type="description">The Remove-OctoVariable cmdlet removes a variable from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>remove-octovariable Project Variable</code>
+    ///   <para>
+    ///      Remove the variable 'Variable' from the project 'Project'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Remove, "Variable", DefaultParameterSetName = "ByName")]
     public class RemoveVariable : PSCmdlet
     {

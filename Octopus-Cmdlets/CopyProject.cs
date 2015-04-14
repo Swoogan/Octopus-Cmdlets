@@ -30,6 +30,13 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Copy a project in the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoProject cmdlet copies a project in the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>copy-octoproject Example "Example - Copy" ExampleGroup</code>
+    ///   <para>
+    ///      Make a copy of the project 'Example', name it 'Example - Copy' and place
+    ///      it in the project group named 'ExampleGroup'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Copy, "Project")]
     public class CopyProject : PSCmdlet
     {

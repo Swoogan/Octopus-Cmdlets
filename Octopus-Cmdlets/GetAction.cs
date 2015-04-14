@@ -26,6 +26,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Get an action role from the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoAction cmdlet gets an action from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octoaction Project</code>
+    ///   <para>
+    ///      Get all the actions in the project named 'Project'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "Action", DefaultParameterSetName = "ByName")]
     public class GetAction : PSCmdlet
     {

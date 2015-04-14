@@ -27,6 +27,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Gets the projects in the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoProject cmdlet gets the projects in the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octoproject</code>
+    ///   <para>
+    ///      Get all the projects.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "Project", DefaultParameterSetName = "ByName")]
     public class GetProject : PSCmdlet
     {

@@ -26,6 +26,19 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Get a machine role from the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoMachineRole cmdlet gets a machine role from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octomachinerole</code>
+    ///   <para>
+    ///      Get all the machine roles.
+    ///   </para>
+    /// </example>
+    /// <example>
+    ///   <code>PS C:\>get-octomachinerole webserver, databaseserver</code>
+    ///   <para>
+    ///      Get machine roles WebServer and DatabaseServer. Could be used to verify the roles
+    ///      currently exist.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "MachineRole", DefaultParameterSetName = "ByName")]
     public class GetMachineRole : PSCmdlet
     {

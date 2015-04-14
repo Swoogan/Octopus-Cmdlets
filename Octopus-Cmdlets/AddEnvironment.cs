@@ -24,6 +24,18 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Add a new environment to the Octopus Deploy server.</para>
     /// <para type="description">The Add-OctoEnvironment cmdlet adds a new environment to the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>add-octoenvironment DEV</code>
+    ///   <para>
+    ///      Add a new environment named 'DEV'.
+    ///   </para>
+    /// </example>
+    /// <example>
+    ///   <code>PS C:\>add-octoenvironment -Name DEV -Description "Our development environment"</code>
+    ///   <para>
+    ///      Add a new environment named 'DEV' with a description.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Add, "Environment")]
     public class AddEnvironment : PSCmdlet
     {

@@ -128,6 +128,7 @@ namespace Octopus_Cmdlets.Tests
 
             Assert.AreEqual(1, _projects.Count);
             Assert.AreEqual("Octopus", _projects[0].Name);
+            Assert.AreEqual("projectgroups-1", _projects[0].ProjectGroupId);
             Assert.AreEqual("Octopus Development Project", _projects[0].Description);
         }
 
@@ -143,6 +144,7 @@ namespace Octopus_Cmdlets.Tests
 
             Assert.AreEqual(1, _projects.Count);
             Assert.AreEqual("Octopus", _projects[0].Name);
+            Assert.AreEqual("projectgroups-1", _projects[0].ProjectGroupId);
             Assert.AreEqual("Octopus Development Project", _projects[0].Description);
         }
 

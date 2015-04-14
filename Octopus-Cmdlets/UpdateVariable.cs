@@ -27,6 +27,13 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Update an existing variable in the Octopus Deploy server.</para>
     /// <para type="description">The Update-OctoVariable cmdlet updates an existing variable in the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>update-octovariable Project variables-1 NewName</code>
+    ///   <para>
+    ///      Give the variable in the project 'Project', with the id 'variables-1', the 
+    ///      name 'NewName'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsData.Update, "Variable")]
     public class UpdateVariable : PSCmdlet
     {

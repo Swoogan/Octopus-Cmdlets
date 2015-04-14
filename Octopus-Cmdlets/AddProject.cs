@@ -15,6 +15,12 @@ namespace Octopus_Cmdlets
         /// <summary>
         /// <para type="description">The name of the ProjectGroup to create the project in.</para>
         /// </summary>
+        /// <example>
+        ///   <code>PS C:\>add-octoproject ExampleGroup ExampleProject</code>
+        ///   <para>
+        ///      Add a new project named 'ExampleProject' to the group 'ExampleGroup'
+        ///   </para>
+        /// </example>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,

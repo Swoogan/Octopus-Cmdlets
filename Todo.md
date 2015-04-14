@@ -1,21 +1,27 @@
 Iteration 2
 ===========
-- Examples
-- More detailed tests
+- More detailed tests (CopyStep, CopyProject, UpdateVariable, AddVariable, AddLibraryVariable)
 
 Iteration 3 (v0.2.0)
 ====================
 - Get-Step
-- Add-Step, Add-Machine, Add-Release, Add-Feed
+- Add-Feed, Add-Step, Add-Machine, Add-Release
+- More examples
+
+Iteration 4
+===========
+- Pipeline tests
+- Complex Examples
+
+Iteration 5 (v0.3.0)
+====================
+- Remove-Step, Remove-Machine, Remove-MachineRole, Remove-Release, Remove-Feed
 
 Backlog
 =======
-- Pipeline tests
-- Remove-Step, Remove-Machine, Remove-Release, Remove-Feed
-- Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release
+- Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release, Update-Feed
 - Lifecycles
 - Fix removing duplicates from Remove-Variable
-- Add Environments and Retention policy to Add-ProjectGroup
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Add Step from Template
 - Implement duplicate variable finding algorithm
@@ -27,6 +33,7 @@ Backlog
 - How do we get all deployment processes (just Get-OctoProject | Get-OctoDeploymentProcess ?)
 - Chocolaty package
 - InnoSetup installer
+- Add aliases
 
 Caching
 -------
@@ -43,6 +50,7 @@ Hold
 
 Done
 ====
+- Examples
 - Basic tests
 - Appveyor
 - Create zip file

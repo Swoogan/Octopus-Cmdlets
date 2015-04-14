@@ -28,6 +28,26 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Add a varaiable to an Octopus Deploy library variable set.</para>
     /// <para type="description">The Find-OctoVariableSetVariable cmdlet adds a varaiable to an Octopus Deploy library variable set.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>add-octolibraryvariable -VariableSet Database -Name ConnectionString</code>
+    ///   <para>
+    ///      Add a variable named 'ConnectionString' to the library variable named 'Database'.
+    ///   </para>
+    /// </example>
+    /// <example>
+    ///   <code>PS C:\>add-octolibraryvariable Database ConnectionString -Environments DEV</code>
+    ///   <para>
+    ///      Add a variable named 'ConnectionString' to the library variable named 'Database'.
+    ///      Set the variable scope to the 'DEV' environment.
+    ///   </para>
+    /// </example>
+    /// <example>
+    ///   <code>PS C:\>get-octovariable -Project Example -Name ConnectionString | % { add-octolibraryvariable Database $_ }</code>
+    ///   <para>
+    ///      Find all the variables in the project 'Example' with the name 'ConnectionString' and 
+    ///      add them to the library variable set named 'Database'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Add, "LibraryVariable", 
         DefaultParameterSetName = "ByObject")]
     public class AddLibraryVariable : PSCmdlet

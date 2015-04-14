@@ -24,9 +24,15 @@ using Octopus.Platform.Model;
 namespace Octopus_Cmdlets
 {
     /// <summary>
-    /// <para type="synopsis">Add a new variable to the Octopus Deploy server.</para>
-    /// <para type="description">The Add-OctoVariable cmdlet adds a new variable set to the Octopus Deploy server.</para>
+    /// <para type="synopsis">Add a new variable to an Octopus Deploy project.</para>
+    /// <para type="description">The Add-OctoVariable cmdlet adds a new variable to an Octopus Deploy project.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>add-octovariable -Project Example -Name ConnectionString</code>
+    ///   <para>
+    ///      Add a variable named 'ConnectionString' to the project name 'Example'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Add, "Variable",
         DefaultParameterSetName = "ByObject")]
     public class AddVariable : PSCmdlet

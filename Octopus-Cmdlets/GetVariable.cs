@@ -27,6 +27,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Get a variable from the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoVariable cmdlet gets a variable from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octovariable Project</code>
+    ///   <para>
+    ///      Get all the variables for the project 'Project'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "Variable", DefaultParameterSetName = "Project")]
     public class GetVariable : PSCmdlet
     {

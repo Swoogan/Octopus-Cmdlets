@@ -24,6 +24,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Add a new project group to the Octopus Deploy server.</para>
     /// <para type="description">The Add-OctoProjectGroup cmdlet adds a new project group to the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>add-octoprojectgroup ExampleGroup</code>
+    ///   <para>
+    ///      Add a new project group named 'ExampleGroup'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Add, "ProjectGroup")]
     public class AddProjectGroup : PSCmdlet
     {

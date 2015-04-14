@@ -25,6 +25,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Remove a project from the Octopus Deploy server.</para>
     /// <para type="description">The Remove-OctoProject cmdlet removes a project from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>remove-octoproject Project</code>
+    ///   <para>
+    ///      Remove the project named 'Project'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Remove, "Project", DefaultParameterSetName = "ByName")]
     public class RemoveProject : PSCmdlet
     {

@@ -25,6 +25,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Get a project group from the Octopus Deploy server.</para>
     /// <para type="description">The Get-OctoProjectGroup cmdlet gets a project group from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>get-octoprojectgroup</code>
+    ///   <para>
+    ///      Get all the project groups.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Get, "ProjectGroup", DefaultParameterSetName = "ByName")]
     public class GetProjectGroup : PSCmdlet
     {

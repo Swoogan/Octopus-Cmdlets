@@ -27,6 +27,13 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Copy a deployment process step in an Octopus Deploy project.</para>
     /// <para type="description">The Get-OctoCopyStep cmdlet copies a deployment process step in an Octopus Deploy project.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>copy-octostep Example Website</code>
+    ///   <para>
+    ///      Make a copy the step named 'Website' in the project named 'Example'. Since no
+    ///      destination argument was specified, the new step will be named 'Website - Copy'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Copy, "Step")]
     public class CopyStep : PSCmdlet
     {

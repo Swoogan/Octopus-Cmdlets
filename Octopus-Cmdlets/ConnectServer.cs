@@ -27,7 +27,7 @@ namespace Octopus_Cmdlets
     ///   <code>PS C:\>connect-octoserver http://localhost:8080/ API-ABCDEFGHIJKLMNOPQRSTUVWXYZ</code>
     ///   <para>
     ///      This command connects to the Octopus Deploy server at http://localhost:8080/ with 
-    ///      the APIKEY API-ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    ///      the APIKEY API-ABCDEFGHIJKLMNOPQRSTUVWXYZ.
     ///   </para>
     /// </example>
     [Cmdlet(VerbsCommunications.Connect, "Server")]

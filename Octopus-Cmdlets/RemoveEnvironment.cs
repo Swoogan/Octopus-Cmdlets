@@ -25,6 +25,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Remove an environment from the Octopus Deploy server.</para>
     /// <para type="description">The Remove-OctoEnvironment cmdlet removes an environment from the Octopus Deploy server.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>remove-octoenvironment DEV</code>
+    ///   <para>
+    ///      Remove the environment named 'DEV'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Remove, "Environment")]
     public class RemoveEnvironment : PSCmdlet
     {

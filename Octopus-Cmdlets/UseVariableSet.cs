@@ -28,6 +28,12 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Include a variable set in your project.</para>
     /// <para type="description">The Use-OctoVariableSet cmdlet includes a variable set in your project.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>use-octovariableset Project VariableSet</code>
+    ///   <para>
+    ///      Include the library variable set 'VariableSet' in the project 'Project'.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsOther.Use, "VariableSet")]
     public class UseVariableSet : PSCmdlet
     {
