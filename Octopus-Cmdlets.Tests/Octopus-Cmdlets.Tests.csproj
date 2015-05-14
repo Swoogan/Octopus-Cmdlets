@@ -74,6 +74,7 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+    <Compile Include="AddFeedTests.cs" />
     <Compile Include="AddVariableTests.cs" />
     <Compile Include="AddLibraryVariableTests.cs" />
     <Compile Include="CopyStepTests.cs" />

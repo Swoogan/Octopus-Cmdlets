@@ -1,11 +1,11 @@
 Iteration 2
 ===========
-- More detailed tests (CopyStep, CopyProject, UpdateVariable, AddVariable, AddLibraryVariable)
+- More detailed tests (CopyProject, UpdateVariable, AddVariable, AddLibraryVariable)
 
 Iteration 3 (v0.2.0)
 ====================
 - Get-Step
-- Add-Feed, Add-Step, Add-Machine, Add-Release
+- Add-Step, Add-Machine, Add-Release
 - More examples
 
 Iteration 4
@@ -21,6 +21,8 @@ Backlog
 =======
 - Update-Project, Update-ProjectGroup, Update-Step, Update-Machine, Update-Environment, Update-Release, Update-Feed
 - Lifecycles
+- Copy Step to a different project
+- Find-Unreplaced and other utility cmdlets
 - Fix removing duplicates from Remove-Variable
 - Get-DeploymentProcess by project name or id
 - Add cmdlet to Add Step from Template
@@ -50,6 +52,8 @@ Hold
 
 Done
 ====
+- More detailed tests: CopyStep
+- Add-Feed
 - Examples
 - Basic tests
 - Appveyor

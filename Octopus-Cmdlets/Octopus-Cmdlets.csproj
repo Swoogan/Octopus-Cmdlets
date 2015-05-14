@@ -65,6 +65,7 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+    <Compile Include="AddFeed.cs" />
     <Compile Include="AddLibraryVariable.cs" />
     <Compile Include="CopyStep.cs" />
     <Compile Include="CopyProject.cs" />

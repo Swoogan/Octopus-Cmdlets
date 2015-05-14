@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Octopus.Client.Model;
@@ -12,7 +11,6 @@ namespace Octopus_Cmdlets.Tests
     {
         private const string CmdletName = "Copy-OctoStep";
         private PowerShell _ps;
-        private readonly List<ProjectResource> _projects = new List<ProjectResource>();
         private DeploymentProcessResource _process;
 
         [TestInitialize]
@@ -35,8 +33,10 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Projects.FindByName("Gibberish")).Returns((ProjectResource)null);
 
             // Create deployment process
-            var action = new DeploymentActionResource { Name = "NuGet" };
+            var action = new DeploymentActionResource { Name = "NuGet", ActionType = "NuGet" };
             action.Environments.Add("environments-1");
+            action.Properties.Add("Something", "Value");
+            action.SensitiveProperties.Add("SomethingElse", "Secret");
 
             var step = new DeploymentStepResource { Id = "deploymentsteps-1", Name = "Website" };
             step.Actions.Add(action);
@@ -112,7 +112,6 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
         }
 
-        // TODO: add more checks
         [TestMethod]
         public void With_Destination()
         {
@@ -124,7 +123,22 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.AreEqual(2, _process.Steps.Count);
-            Assert.AreEqual("Webservice", _process.Steps[1].Name);
+            
+            var step = _process.Steps[1];
+            Assert.AreEqual("Webservice", step.Name);
+            Assert.AreNotEqual("deploymentsteps-1", step.Id);
+
+            var action = new DeploymentActionResource { Name = "Webservice" };
+            action.Environments.Add("environments-1");
+
+            var actionResource = step.Actions[0];
+            Assert.AreEqual(action.Name, actionResource.Name);
+            Assert.AreEqual("NuGet", actionResource.ActionType);
+
+            Assert.AreEqual(action.Environments.ToString(), actionResource.Environments.ToString());
+            Assert.IsTrue(actionResource.Properties.ContainsKey("Something"));
+            Assert.AreEqual("Value", actionResource.Properties["Something"]);
+            Assert.AreEqual("Secret", actionResource.SensitiveProperties["SomethingElse"]);
         }
 
         [TestMethod]
@@ -138,7 +152,22 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.AreEqual(2, _process.Steps.Count);
-            Assert.AreEqual("Webservice", _process.Steps[1].Name);
+
+            var step = _process.Steps[1];
+            Assert.AreEqual("Webservice", step.Name);
+            Assert.AreNotEqual("deploymentsteps-1", step.Id);
+
+            var action = new DeploymentActionResource { Name = "Webservice" };
+            action.Environments.Add("environments-1");
+
+            var actionResource = step.Actions[0];
+            Assert.AreEqual(action.Name, actionResource.Name);
+            Assert.AreEqual("NuGet", actionResource.ActionType);
+
+            Assert.AreEqual(action.Environments.ToString(), actionResource.Environments.ToString());
+            Assert.IsTrue(actionResource.Properties.ContainsKey("Something"));
+            Assert.AreEqual("Value", actionResource.Properties["Something"]);
+            Assert.AreEqual("Secret", actionResource.SensitiveProperties["SomethingElse"]);
         }
     }
 }

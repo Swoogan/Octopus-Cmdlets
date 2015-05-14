@@ -74,7 +74,6 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.VariableSets.Get(It.IsIn(new[] { "variablesets-2" }))).Returns(new VariableSetResource());
         }
 
-        // TODO: Add a lot more checks here
         [TestMethod]
         public void With_All()
         {
@@ -91,6 +90,16 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual("Copy", copy.Name);
             Assert.AreEqual("Test Source", copy.Description);
             Assert.AreEqual("projectgroups-1", copy.ProjectGroupId);
+            Assert.AreEqual(false, copy.DefaultToSkipIfAlreadyInstalled);
+            CollectionAssert.AreEqual(new List<string>(), copy.IncludedLibraryVariableSetIds);
+            Assert.AreEqual("", copy.VersioningStrategy);
+            Assert.AreEqual("", copy.AutoCreateRelease);
+            Assert.AreEqual("", copy.ReleaseCreationStrategy);
+            Assert.AreEqual("", copy.IsDisabled);
+            Assert.AreEqual("", copy.LifecycleId);
+
+            // TODO: Check variables
+            // TODO: Check step/actions
         }
 
         [TestMethod, ExpectedException(typeof(CmdletInvocationException))]

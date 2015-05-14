@@ -37,7 +37,7 @@ namespace Octopus_Cmdlets.Tests
         public void With_Name()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddArgument("Octopus_Dev");
+            _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus_Dev");
             _ps.Invoke();
 
             Assert.AreEqual(1, _envs.Count);
@@ -54,6 +54,20 @@ namespace Octopus_Cmdlets.Tests
 
         [TestMethod]
         public void With_Name_And_Description()
+        {
+            // Execute cmdlet
+            _ps.AddCommand(CmdletName).
+                AddParameter("Name", "Octopus_Dev").
+                AddParameter("Description", "Octopus Development environment");
+            _ps.Invoke();
+
+            Assert.AreEqual(1, _envs.Count);
+            Assert.AreEqual("Octopus_Dev", _envs[0].Name);
+            Assert.AreEqual("Octopus Development environment", _envs[0].Description);
+        }
+
+        [TestMethod]
+        public void With_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName)
