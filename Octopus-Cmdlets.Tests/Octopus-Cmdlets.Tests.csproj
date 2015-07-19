@@ -84,7 +84,7 @@
     <Compile Include="AddProjectGroupTests.cs" />
     <Compile Include="ConnectServerTests.cs" />
     <Compile Include="AddEnvironmentTests.cs" />
-    <None Include="AddMachineTests.cs" />
+    <Compile Include="AddMachineTests.cs" />
     <Compile Include="AddProjectTests.cs" />
     <Compile Include="GetMachineTests.cs" />
     <Compile Include="GetDeploymentTests.cs" />
