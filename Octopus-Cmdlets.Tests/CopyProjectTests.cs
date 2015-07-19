@@ -92,11 +92,11 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual("projectgroups-1", copy.ProjectGroupId);
             Assert.AreEqual(false, copy.DefaultToSkipIfAlreadyInstalled);
             CollectionAssert.AreEqual(new List<string>(), copy.IncludedLibraryVariableSetIds);
-            Assert.AreEqual("", copy.VersioningStrategy);
-            Assert.AreEqual("", copy.AutoCreateRelease);
-            Assert.AreEqual("", copy.ReleaseCreationStrategy);
-            Assert.AreEqual("", copy.IsDisabled);
-            Assert.AreEqual("", copy.LifecycleId);
+            Assert.AreEqual(null, copy.VersioningStrategy);
+            Assert.AreEqual(false, copy.AutoCreateRelease);
+            Assert.AreEqual(null, copy.ReleaseCreationStrategy);
+            Assert.AreEqual(false, copy.IsDisabled);
+            Assert.AreEqual(null, copy.LifecycleId);
 
             // TODO: Check variables
             // TODO: Check step/actions
