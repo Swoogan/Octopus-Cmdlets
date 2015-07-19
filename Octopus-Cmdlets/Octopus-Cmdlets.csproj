@@ -123,6 +123,6 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-    <Exec Command="$(SolutionDir)\tools\XmlDoc2CmdletDoc\XmlDoc2CmdletDoc.exe $(TargetPath)" />
+    <Exec Command="&quot;$(SolutionDir)\tools\XmlDoc2CmdletDoc\XmlDoc2CmdletDoc.exe&quot; &quot;$(TargetPath)&quot;" />
   </Target>
 </Project>
