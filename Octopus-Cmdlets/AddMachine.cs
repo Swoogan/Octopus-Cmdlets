@@ -18,6 +18,7 @@ using System;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
+using Octopus.Platform.Model;
 using System.Collections.Generic;
 
 namespace Octopus_Cmdlets
@@ -124,37 +125,24 @@ namespace Octopus_Cmdlets
             switch (ParameterSetName)
             {
                 case "ByName":
-                    ProcessByName();
-                    break;
                 case "ById":
-                    ProcessById();
+                    CreateMachine();
                     break;
                 default:
                     throw new ArgumentException("Unknown ParameterSetName: " + ParameterSetName);
             }
         }
 
-        private void ProcessByName()
-        {
-            CreateMachine();
-        }
-
-        private void ProcessById()
-        {
-            CreateMachine();
-        }
-
         private void CreateMachine()
         {
             _octopus.Machines.Create(new MachineResource
             {
-                
-                EnvironmentIds = new Octopus.Platform.Model.ReferenceCollection(EnvironmentId),
+                EnvironmentIds = new ReferenceCollection(EnvironmentId),
                 Name = Name,
                 Thumbprint = Thumbprint,
-                Roles = new Octopus.Platform.Model.ReferenceCollection(Roles),
+                Roles = new ReferenceCollection(Roles),
                 Uri = Uri,
-                CommunicationStyle = (Octopus.Platform.Model.CommunicationStyle)Enum.Parse(typeof(Octopus.Platform.Model.CommunicationStyle), CommunicationStyle, true)
+                CommunicationStyle = (CommunicationStyle)Enum.Parse(typeof(CommunicationStyle), CommunicationStyle, true)
             });
         }
     }
