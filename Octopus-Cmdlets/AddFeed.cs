@@ -36,7 +36,7 @@ namespace Octopus_Cmdlets
     ///      Add a new feed named 'DEV' pointing to the path '\\test'.
     ///   </para>
     /// </example>
-    [Cmdlet(VerbsCommon.Add, "Environment")]
+    [Cmdlet(VerbsCommon.Add, "Feed")]
     public class AddFeed : PSCmdlet
     {
         /// <summary>
