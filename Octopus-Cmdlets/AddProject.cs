@@ -9,18 +9,18 @@ namespace Octopus_Cmdlets
     /// <para type="synopsis">Add a new deployment project.</para>
     /// <para type="description">The Add-OctoProject cmdlet adds a new deployment project to Octopus.</para>
     /// </summary>
+    /// <example>
+    ///   <code>PS C:\>add-octoproject ExampleGroup ExampleProject</code>
+    ///   <para>
+    ///      Add a new project named 'ExampleProject' to the group 'ExampleGroup'
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsCommon.Add, "Project", DefaultParameterSetName = "ByName")]
     public class AddProject : PSCmdlet
     {
         /// <summary>
         /// <para type="description">The name of the ProjectGroup to create the project in.</para>
         /// </summary>
-        /// <example>
-        ///   <code>PS C:\>add-octoproject ExampleGroup ExampleProject</code>
-        ///   <para>
-        ///      Add a new project named 'ExampleProject' to the group 'ExampleGroup'
-        ///   </para>
-        /// </example>
         [Parameter(
             ParameterSetName = "ByName",
             Position = 0,

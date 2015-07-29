@@ -88,13 +88,6 @@ namespace Octopus_Cmdlets
 
         private void ProcessById()
         {
-            //var groups = new List<ProjectGroupResource>();
-            //foreach (var id in ProjectGroupId)
-            //    AddGroup(groups, id);
-
-            //foreach (var group in groups)
-            //    WriteObject(group);
-
             foreach (var id in ProjectGroupId)
                 OutputGroup(id);
         }
@@ -119,16 +112,5 @@ namespace Octopus_Cmdlets
             foreach (var group in groups)
                 WriteObject(group);
         }
-
-        //private void AddGroup(ICollection<ProjectGroupResource> groups, string id)
-        //{
-        //    try
-        //    {
-        //        groups.Add(_octopus.ProjectGroups.Get(id));
-        //    }
-        //    catch (OctopusResourceNotFoundException)
-        //    {
-        //    }
-        //}
     }
 }

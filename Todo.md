@@ -1,11 +1,11 @@
 Iteration 2
 ===========
-- More detailed tests (CopyProject, UpdateVariable, AddVariable, AddLibraryVariable)
+- Add-Step
+- Add-Release
 
 Iteration 3 (v0.2.0)
 ====================
-- Get-Step
-- Add-Step, Add-Machine, Add-Release
+- More detailed tests (CopyProject, UpdateVariable, AddVariable, AddLibraryVariable)
 - More examples
 
 Iteration 4
@@ -52,6 +52,8 @@ Hold
 
 Done
 ====
+- Get-Step
+- Add-Machine
 - More detailed tests: CopyStep
 - Add-Feed
 - Examples

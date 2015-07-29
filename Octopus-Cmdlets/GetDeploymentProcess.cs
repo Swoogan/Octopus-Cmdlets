@@ -120,6 +120,7 @@ namespace Octopus_Cmdlets
             }
             catch (OctopusResourceNotFoundException)
             {
+                WriteDebug(string.Format("Deployment process id '{0}' not found", id));
             }
         }
     }

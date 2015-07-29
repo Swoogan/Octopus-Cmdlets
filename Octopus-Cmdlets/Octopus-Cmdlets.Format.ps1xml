@@ -211,5 +211,28 @@
         </TableRowEntries>
       </TableControl>
     </View>
+    <View>
+      <Name>Steps</Name>
+      <ViewSelectedBy>
+        <TypeName>Octopus.Client.Model.DeploymentStepResource</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>Name</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Roles</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Actions</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
