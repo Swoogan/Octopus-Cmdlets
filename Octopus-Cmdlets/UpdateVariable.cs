@@ -34,6 +34,13 @@ namespace Octopus_Cmdlets
     ///      name 'NewName'.
     ///   </para>
     /// </example>
+    /// <example>
+    ///   <code>PS C:\>update-octovariable -Project Project -Id variables-1 -Name NewName -Value "New Value" -Environments "DEV", "TEST"</code>
+    ///   <para>
+    ///      Give the variable in the project 'Project', with the id 'variables-1', the 
+    ///      name 'NewName', value "New Value" and restrict the scope to the DEV and TEST environments.
+    ///   </para>
+    /// </example>
     [Cmdlet(VerbsData.Update, "Variable")]
     public class UpdateVariable : PSCmdlet
     {
@@ -44,10 +51,6 @@ namespace Octopus_Cmdlets
             Position = 0,
             Mandatory = true,
             ParameterSetName = "Parts")]
-
-        //[Parameter(Position = 0, 
-        //    Mandatory = true, 
-        //    ParameterSetName = "InputObject")]
         public string Project { get; set; }
 
         /// <summary>
@@ -78,7 +81,7 @@ namespace Octopus_Cmdlets
         public string Value { get; set; }
 
         /// <summary>
-        /// <para type="description">The updated environments to restrict the scope to.</para>
+        /// <para type="description">The environments to restrict the scope to.</para>
         /// </summary>
         [Parameter(
             Position = 4,
@@ -86,23 +89,29 @@ namespace Octopus_Cmdlets
             ParameterSetName = "Parts")]
         public string[] Environments { get; set; }
 
-        //[Parameter(
-        //    Mandatory = false,
-        //    Position = 4
-        //    )]
-        //public string[] Roles { get; set; }
+        /// <summary>
+        /// <para type="description">The roles to restrict the scope to.</para>
+        /// </summary>
+        [Parameter(
+            Mandatory = false,
+            Position = 5)]
+        public string[] Roles { get; set; }
 
-        //[Parameter(
-        //    Mandatory = false,
-        //    Position = 5
-        //    )]
-        //public string[] Machines { get; set; }
+        /// <summary>
+        /// <para type="description">The machines to restrict the scope to.</para>
+        /// </summary>
+        [Parameter(
+            Mandatory = false,
+            Position = 6)]
+        public string[] Machines { get; set; }
 
+        /// <summary>
+        /// <para type="description">The actions to restrict the scope to.</para>
+        /// </summary>
         //[Parameter(
         //    Mandatory = false,
-        //    Position = 6
-        //    )]
-        //public string[] Steps { get; set; }
+        //    Position = 7)]
+        //public string[] Actions { get; set; }
 
         /// <summary>
         /// <para type="description">Specifies whether the variable is sensitive (value should be hidden).</para>
@@ -117,8 +126,7 @@ namespace Octopus_Cmdlets
         //    Position = 1,
         //    Mandatory = true,
         //    ValueFromPipeline = true,
-        //    ParameterSetName = "InputObject"
-        //    )]
+        //    ParameterSetName = "InputObject")]
         //public VariableResource[] InputObject { get; set; }
 
         private IOctopusRepository _octopus;
@@ -138,7 +146,7 @@ namespace Octopus_Cmdlets
 
             if (project == null)
             {
-                const string msg = "Project '{0}' was found.";
+                const string msg = "Project '{0}' was not found.";
                 throw new Exception(string.Format(msg, Project));
             }
 
@@ -179,18 +187,31 @@ namespace Octopus_Cmdlets
 
             if (Name != null)
                 variable.Name = Name;
-            else if (Sensitive.IsPresent)
+            if (Sensitive.IsPresent)
                 variable.IsSensitive = Sensitive;
-            else if (Value != null)
+            if (Value != null)
                 variable.Value = Value;
-            else if (Environments != null)
+            
+            if (Environments != null)
             {
                 var environments = _octopus.Environments.FindByNames(Environments);
                 var ids = environments.Select(environment => environment.Id).ToList();
                 variable.Scope[ScopeField.Environment] =  new ScopeValue(ids);
             }
 
-            //_variableSet.Variables.
+            if (Roles != null)
+            {
+                variable.Scope[ScopeField.Role].Clear();
+                foreach (var role in Roles)
+                    variable.Scope[ScopeField.Role].Add(role);
+            }
+
+            if (Machines != null)
+            {
+                var machines = _octopus.Machines.FindByNames(Machines);
+                var ids = machines.Select(m => m.Id).ToList();
+                variable.Scope[ScopeField.Machine] = new ScopeValue(ids);
+            }
         }
 
         /// <summary>
