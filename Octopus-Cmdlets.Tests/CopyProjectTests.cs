@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -13,6 +14,8 @@ namespace Octopus_Cmdlets.Tests
         private const string CmdletName = "Copy-OctoProject";
         private PowerShell _ps;
         private readonly List<ProjectResource> _projects = new List<ProjectResource>();
+        private VariableSetResource _copyVariables;
+        private DeploymentProcessResource _copyProcess;
 
         [TestInitialize]
         public void Init()
@@ -32,11 +35,19 @@ namespace Octopus_Cmdlets.Tests
                 Description = "Test Source",
                 DeploymentProcessId = "deploymentprocesses-1",
                 VariableSetId = "variablesets-1",
+                DefaultToSkipIfAlreadyInstalled = true,
+                IncludedLibraryVariableSetIds = new List<string> { "libraryvariablesets-1" },
+                VersioningStrategy = new VersioningStrategyResource(),
+                AutoCreateRelease = false,
+                ReleaseCreationStrategy = new ReleaseCreationStrategyResource(),
+                IsDisabled = false,
+                LifecycleId = "lifecycle-1"
             };
 
             // Create projects
             _projects.Clear();
             _projects.Add(project);
+
             octoRepo.Setup(o => o.Projects.FindByName("Source")).Returns(project);
             octoRepo.Setup(o => o.Projects.FindByName("Gibberish")).Returns((ProjectResource) null);
             octoRepo.Setup(o => o.Projects.Create(It.IsAny<ProjectResource>())).Returns(
@@ -60,18 +71,20 @@ namespace Octopus_Cmdlets.Tests
             process.Steps.Add(step);
 
             octoRepo.Setup(o => o.DeploymentProcesses.Get(It.IsIn(new[] { "deploymentprocesses-1" }))).Returns(process);
-            octoRepo.Setup(o => o.DeploymentProcesses.Get(It.IsIn(new[] { "deploymentprocesses-2" }))).Returns(new DeploymentProcessResource());
+            _copyProcess = new DeploymentProcessResource();
+            octoRepo.Setup(o => o.DeploymentProcesses.Get(It.IsIn(new[] { "deploymentprocesses-2" }))).Returns(_copyProcess);
 
             // Create variable set
-            var variable = new VariableResource { Name = "Name", Value = "Value"};
-            variable.Scope.Add(ScopeField.Action, "DeploymentsActions-1");
-            variable.Scope.Add(ScopeField.Environment, "Environments-1");
+            var variable = new VariableResource { Name = "Name", Value = "Value" };
+            variable.Scope.Add(ScopeField.Action, "deploymentsactions-1");
+            variable.Scope.Add(ScopeField.Environment, "environments-1");
             
-            var variableSet = new VariableSetResource();
-            variableSet.Variables.Add(variable);
+            var sourceVariables = new VariableSetResource();
+            sourceVariables.Variables.Add(variable);
 
-            octoRepo.Setup(o => o.VariableSets.Get(It.IsIn(new[] { "variablesets-1" }))).Returns(variableSet);
-            octoRepo.Setup(o => o.VariableSets.Get(It.IsIn(new[] { "variablesets-2" }))).Returns(new VariableSetResource());
+            octoRepo.Setup(o => o.VariableSets.Get(It.IsIn(new[] { "variablesets-1" }))).Returns(sourceVariables);
+            _copyVariables = new VariableSetResource();
+            octoRepo.Setup(o => o.VariableSets.Get(It.IsIn(new[] { "variablesets-2" }))).Returns(_copyVariables);
         }
 
         [TestMethod]
@@ -86,20 +99,31 @@ namespace Octopus_Cmdlets.Tests
 
             Assert.AreEqual(2, _projects.Count);
 
+            var source = _projects[0];
             var copy = _projects[1];
             Assert.AreEqual("Copy", copy.Name);
-            Assert.AreEqual("Test Source", copy.Description);
+            Assert.AreEqual(source.Description, copy.Description);
             Assert.AreEqual("projectgroups-1", copy.ProjectGroupId);
-            Assert.AreEqual(false, copy.DefaultToSkipIfAlreadyInstalled);
-            CollectionAssert.AreEqual(new List<string>(), copy.IncludedLibraryVariableSetIds);
-            Assert.AreEqual(null, copy.VersioningStrategy);
-            Assert.AreEqual(false, copy.AutoCreateRelease);
-            Assert.AreEqual(null, copy.ReleaseCreationStrategy);
-            Assert.AreEqual(false, copy.IsDisabled);
-            Assert.AreEqual(null, copy.LifecycleId);
+            Assert.AreEqual(source.DefaultToSkipIfAlreadyInstalled, copy.DefaultToSkipIfAlreadyInstalled);
+            CollectionAssert.AreEqual(source.IncludedLibraryVariableSetIds, copy.IncludedLibraryVariableSetIds);
+            Assert.AreEqual(source.VersioningStrategy, copy.VersioningStrategy);
+            Assert.AreEqual(source.AutoCreateRelease, copy.AutoCreateRelease);
+            Assert.AreEqual(source.ReleaseCreationStrategy, copy.ReleaseCreationStrategy);
+            Assert.AreEqual(source.IsDisabled, copy.IsDisabled);
+            Assert.AreEqual(source.LifecycleId, copy.LifecycleId);
 
-            // TODO: Check variables
-            // TODO: Check step/actions
+            var variable = _copyVariables.Variables.FirstOrDefault(x => x.Name == "Name" && x.Value == "Value");
+            Assert.IsNotNull(variable);
+            Assert.IsTrue(variable.Scope.ContainsKey(ScopeField.Action));
+            Assert.AreEqual(0, variable.Scope[ScopeField.Action].Count);
+            Assert.IsTrue(variable.Scope.ContainsKey(ScopeField.Environment));
+            Assert.AreEqual("environments-1", variable.Scope[ScopeField.Environment].First());
+
+            var steps = _copyProcess.Steps.FirstOrDefault(x => x.Name == "Database");
+            Assert.IsNotNull(steps);
+            Assert.AreEqual(1, steps.Actions.Count);
+            Assert.AreEqual("Action", steps.Actions[0].Name);
+            Assert.AreEqual("environments-1", steps.Actions[0].Environments.First());
         }
 
         [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
@@ -136,9 +160,18 @@ namespace Octopus_Cmdlets.Tests
 
             Assert.AreEqual(2, _projects.Count);
 
+            var source = _projects[0];
             var copy = _projects[1];
             Assert.AreEqual("Copy", copy.Name);
-            Assert.AreEqual("Test Source", copy.Description);
+            Assert.AreEqual(source.Description, copy.Description);
+            Assert.AreEqual("projectgroups-1", copy.ProjectGroupId);
+            Assert.AreEqual(source.DefaultToSkipIfAlreadyInstalled, copy.DefaultToSkipIfAlreadyInstalled);
+            CollectionAssert.AreEqual(source.IncludedLibraryVariableSetIds, copy.IncludedLibraryVariableSetIds);
+            Assert.AreEqual(source.VersioningStrategy, copy.VersioningStrategy);
+            Assert.AreEqual(source.AutoCreateRelease, copy.AutoCreateRelease);
+            Assert.AreEqual(source.ReleaseCreationStrategy, copy.ReleaseCreationStrategy);
+            Assert.AreEqual(source.IsDisabled, copy.IsDisabled);
+            Assert.AreEqual(source.LifecycleId, copy.LifecycleId);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]

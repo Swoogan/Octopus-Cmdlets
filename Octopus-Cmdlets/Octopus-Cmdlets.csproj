@@ -65,6 +65,7 @@
     <Compile Include="CopyStep.cs" />
     <Compile Include="CopyProject.cs" />
     <Compile Include="GetDeployment.cs" />
+    <Compile Include="GetStep.cs" />
     <Compile Include="GetExternalFeed.cs" />
     <Compile Include="UseVariableSet.cs" />
     <Compile Include="RemoveEnvironment.cs" />
