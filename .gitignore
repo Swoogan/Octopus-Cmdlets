@@ -161,3 +161,4 @@ $RECYCLE.BIN/
 /packages/Octopus.Client*
 /packages/Sprache*
 /packages/Moq.*
+/packages/System.Management.Automation*
