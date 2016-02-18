@@ -34,7 +34,7 @@ Backlog
 - Add way to connect to more than one server at once?
 - How do we get all deployment processes (just Get-OctoProject | Get-OctoDeploymentProcess ?)
 - Chocolaty package
-- InnoSetup installer
+- InnoSetup installer?
 - Add aliases
 
 Caching

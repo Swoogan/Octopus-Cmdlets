@@ -83,6 +83,7 @@
     <Compile Include="AddLibraryVariableTests.cs" />
     <Compile Include="CopyStepTests.cs" />
     <Compile Include="GetStepTests.cs" />
+    <Compile Include="UpdateLibraryVariableTests.cs" />
     <Compile Include="UpdateVariableTests.cs" />
     <Compile Include="CopyProjectTests.cs" />
     <Compile Include="AddVariableSetTests.cs" />

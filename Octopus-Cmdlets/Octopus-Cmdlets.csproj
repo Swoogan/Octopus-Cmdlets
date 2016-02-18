@@ -67,6 +67,7 @@
     <Compile Include="GetDeployment.cs" />
     <Compile Include="GetStep.cs" />
     <Compile Include="GetExternalFeed.cs" />
+    <Compile Include="UpdateLibraryVariable.cs" />
     <Compile Include="UseVariableSet.cs" />
     <Compile Include="RemoveEnvironment.cs" />
     <Compile Include="AddEnvironment.cs" />
