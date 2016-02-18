@@ -52,6 +52,7 @@ Hold
 
 Done
 ====
+- Update-LibraryVariable
 - More detailed tests (CopyProject)
 - Get-Step
 - Add-Machine
