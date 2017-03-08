@@ -52,6 +52,7 @@ namespace Octopus_Cmdlets
         /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
+            Position = 1,
             Mandatory = false)]
         public string[] ProjectGroup { get; set; }
 
@@ -60,6 +61,7 @@ namespace Octopus_Cmdlets
         /// </summary>
         [Parameter(
             ParameterSetName = "ByName",
+            Position = 2,
             Mandatory = false)]
         public string[] Exclude { get; set; }
 
@@ -140,7 +142,7 @@ namespace Octopus_Cmdlets
         {
             var projectResources = Name == null ?
                 _projects :
-                _octopus.Projects.FindByNames(Name);
+                _octopus.Projects.FindByNames(Name, null, null);
 
             // Filter by project group
             var projects = ProjectGroup == null

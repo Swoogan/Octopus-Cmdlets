@@ -31,7 +31,7 @@ namespace Octopus_Cmdlets.Tests
                 Links = new LinkCollection { { "Variables", new Href(pVsId) } }
             };
 
-            projectRepo.Setup(p => p.FindByName("Octopus", null, null)).Returns(projectResource);
+            projectRepo.Setup(p => p.FindByName("Octopus", It.IsAny<string>(), It.IsAny<object>())).Returns(projectResource);
             octoRepo.Setup(o => o.Projects).Returns(projectRepo.Object);
 
             // Create a library variable set
@@ -52,9 +52,9 @@ namespace Octopus_Cmdlets.Tests
             };
 
             // Allow the FindOne predicate to operate on the collection
-            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>(), null, null))
+            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>(), It.IsAny<string>(), It.IsAny<object>()))
                 .Returns(
-                    (Func<LibraryVariableSetResource, bool> f) =>
+                    (Func<LibraryVariableSetResource, bool> f, string path, string pathParams) =>
                         (from l in libraryResources where f(l) select l).FirstOrDefault());
 
             // Create a variableset

@@ -31,9 +31,9 @@ namespace Octopus_Cmdlets.Tests
                 new ProjectGroupResource {Name = "Deploy", Id = "projectgroups-2"}
             };
 
-            groupRepo.Setup(p => p.FindAll(null, null)).Returns(groupResources);
-            groupRepo.Setup(p => p.FindByNames(It.IsAny<string[]>(), null, null)).Returns(
-                (string[] names) =>
+            groupRepo.Setup(p => p.FindAll(It.IsAny<string>(), It.IsAny<object>())).Returns(groupResources);
+            groupRepo.Setup(p => p.FindByNames(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<object>())).Returns(
+                (string[] names, string path, object pathParams) =>
                     (from n in names
                         from g in groupResources
                         where g.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)

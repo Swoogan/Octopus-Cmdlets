@@ -42,9 +42,9 @@ namespace Octopus_Cmdlets.Tests
                 .Throws(new OctopusResourceNotFoundException("Not Found"));
 
             // Allow the FindOne predicate to operate on the collection
-            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>(), null, null))
+            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>(), It.IsAny<string>(), It.IsAny<object>()))
                 .Returns(
-                    (Func<LibraryVariableSetResource, bool> f) =>
+                    (Func<LibraryVariableSetResource, bool> f, string path, object pathParams) =>
                         (from l in _sets where f(l) select l).FirstOrDefault());
         }
 

@@ -36,8 +36,8 @@ namespace Octopus_Cmdlets.Tests
 
             var project = new ProjectResource { DeploymentProcessId = "deploymentprocesses-1" };
             project.Links.Add("Variables", "variablesets-1");
-            octoRepo.Setup(o => o.Projects.FindByName("Octopus", null, null)).Returns(project);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource)null);
+            octoRepo.Setup(o => o.Projects.FindByName("Octopus", It.IsAny<string>(), It.IsAny<object>())).Returns(project);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", It.IsAny<string>(), It.IsAny<object>())).Returns((ProjectResource)null);
 
             octoRepo.Setup(o => o.VariableSets.Get("variablesets-1")).Returns(_variableSet);
 
@@ -51,8 +51,8 @@ namespace Octopus_Cmdlets.Tests
                 new EnvironmentResource {Id = "environments-2", Name = "TEST"}
             };
 
-            octoRepo.Setup(o => o.Environments.FindByNames(It.IsAny<string[]>(), null, null))
-                .Returns((string[] names) => (from n in names
+            octoRepo.Setup(o => o.Environments.FindByNames(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<object>()))
+                .Returns((string[] names, string path, string pathParams) => (from n in names
                     from e in envs
                     where e.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
                     select e).ToList());
@@ -62,8 +62,8 @@ namespace Octopus_Cmdlets.Tests
                 new MachineResource {Id = "machines-1", Name = "db-01"},
                 new MachineResource {Id = "machines-2", Name = "web-01"}
             };
-            octoRepo.Setup(o => o.Machines.FindByNames(It.IsAny<string[]>(), null, null)).Returns(
-                (string[] names) => (from n in names
+            octoRepo.Setup(o => o.Machines.FindByNames(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<object>())).Returns(
+                (string[] names, string path, string pathParams) => (from n in names
                                      from m in machines
                                      where m.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
                                      select m).ToList());

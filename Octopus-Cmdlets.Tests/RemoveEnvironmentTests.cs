@@ -39,8 +39,8 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Environments.Get(It.IsNotIn(new[] { "Environments-2" })))
                 .Throws(new OctopusResourceNotFoundException("Not Found"));
 
-            octoRepo.Setup(o => o.Environments.FindByName("Test", null, null)).Returns(_env);
-            octoRepo.Setup(o => o.Environments.FindByName("Gibberish", null, null)).Returns((EnvironmentResource) null);
+            octoRepo.Setup(o => o.Environments.FindByName("Test", It.IsAny<string>(), It.IsAny<object>())).Returns(_env);
+            octoRepo.Setup(o => o.Environments.FindByName("Gibberish", It.IsAny<string>(), It.IsAny<object>())).Returns((EnvironmentResource) null);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]

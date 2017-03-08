@@ -24,8 +24,8 @@ namespace Octopus_Cmdlets.Tests
             {
                 new EnvironmentResource {Name = "Octopus_Dev", Id = "environments-1"}
             };
-            octoRepo.Setup(o => o.Environments.FindAll(null, null)).Returns(environments);
-            octoRepo.Setup(o => o.Environments.FindByName("Octopus_Dev", null, null)).Returns(environments[0]);
+            octoRepo.Setup(o => o.Environments.FindAll(It.IsAny<string>(), It.IsAny<object>())).Returns(environments);
+            octoRepo.Setup(o => o.Environments.FindByName("Octopus_Dev", It.IsAny<string>(), It.IsAny<object>())).Returns(environments[0]);
             _machines.Clear();
 
             var machineRepo = new Mock<IMachineRepository>();

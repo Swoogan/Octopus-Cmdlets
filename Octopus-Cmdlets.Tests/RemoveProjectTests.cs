@@ -39,8 +39,8 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Projects.Get(It.IsNotIn(new[] { "Projects-2" })))
                 .Throws(new OctopusResourceNotFoundException("Not Found"));
 
-            octoRepo.Setup(o => o.Projects.FindByName("Test", null, null)).Returns(_project);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource)null);
+            octoRepo.Setup(o => o.Projects.FindByName("Test", It.IsAny<string>(), It.IsAny<object>())).Returns(_project);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", It.IsAny<string>(), It.IsAny<object>())).Returns((ProjectResource)null);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]

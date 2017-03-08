@@ -41,9 +41,9 @@ namespace Octopus_Cmdlets.Tests
             _variableSet.Variables.Add(variable);
 
             _sets[0].Links.Add("Variables", "variablesets-1");
-            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>(), null, null))
+            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>(), It.IsAny<string>(), It.IsAny<object>()))
                 .Returns(
-                    (Func<LibraryVariableSetResource, bool> f) =>
+                    (Func<LibraryVariableSetResource, bool> f, string path, object pathParams) =>
                         (from l in _sets where f(l) select l).FirstOrDefault());
             octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource)null);
 
@@ -59,8 +59,8 @@ namespace Octopus_Cmdlets.Tests
                 new EnvironmentResource {Id = "environments-2", Name = "TEST"}
             };
 
-            octoRepo.Setup(o => o.Environments.FindByNames(It.IsAny<string[]>(), null, null))
-                .Returns((string[] names) => (from n in names
+            octoRepo.Setup(o => o.Environments.FindByNames(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<object>()))
+                .Returns((string[] names, string path, object pathParams) => (from n in names
                     from e in envs
                     where e.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
                     select e).ToList());
@@ -70,8 +70,8 @@ namespace Octopus_Cmdlets.Tests
                 new MachineResource {Id = "machines-1", Name = "db-01"},
                 new MachineResource {Id = "machines-2", Name = "web-01"}
             };
-            octoRepo.Setup(o => o.Machines.FindByNames(It.IsAny<string[]>(), null, null)).Returns(
-                (string[] names) => (from n in names
+            octoRepo.Setup(o => o.Machines.FindByNames(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<object>())).Returns(
+                (string[] names, string path, object pathParams) => (from n in names
                                      from m in machines
                                      where m.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
                                      select m).ToList());

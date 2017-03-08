@@ -31,8 +31,8 @@ namespace Octopus_Cmdlets.Tests
             };
 
             feedRepo.Setup(f => f.FindAll(null, null)).Returns(feedResources);
-            feedRepo.Setup(f => f.FindByNames(It.IsAny<string[]>(), null, null)).Returns(
-                (string[] names) => (from n in names
+            feedRepo.Setup(f => f.FindByNames(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<object>())).Returns(
+                (string[] names, string path, string pathParams) => (from n in names
                     from f in feedResources
                     where n.Equals(f.Name, StringComparison.InvariantCultureIgnoreCase)
                     select f).ToList());

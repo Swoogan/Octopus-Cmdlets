@@ -28,8 +28,8 @@ namespace Octopus_Cmdlets.Tests
             };
 
             // Create projects
-            octoRepo.Setup(o => o.Projects.FindByName("Octopus", null, null)).Returns(project);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource)null);
+            octoRepo.Setup(o => o.Projects.FindByName("Octopus", It.IsAny<string>(), It.IsAny<object>())).Returns(project);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", It.IsAny<string>(), It.IsAny<object>())).Returns((ProjectResource)null);
 
             // Create deployment process
             var action = new DeploymentActionResource { Name = "NuGet", ActionType = "NuGet" };
