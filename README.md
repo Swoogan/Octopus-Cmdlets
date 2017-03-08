@@ -27,7 +27,7 @@ To install Octopus-Cmdlets run
 
 Binary Archive
 --------------
-Download the latest binary: [v0.2.24](https://github.com/Swoogan/Octopus-Cmdlets/releases/download/v0.2.24/Octopus-Cmdlets-v0.2.24.zipp)
+Download the latest binary: [v0.3.1](https://github.com/Swoogan/Octopus-Cmdlets/releases/download/v0.3.1/Octopus-Cmdlets-v0.3.1.zipp)
 
 Extract the zip and copy the `Octopus-Cmdlets` folder into a folder in your
 `$env:PSModulePath`.
