@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Octopus.Client.Model;
-using Octopus.Platform.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
@@ -29,14 +28,14 @@ namespace Octopus_Cmdlets.Tests
             };
 
             // Create projects
-            octoRepo.Setup(o => o.Projects.FindByName("Octopus")).Returns(project);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish")).Returns((ProjectResource)null);
+            octoRepo.Setup(o => o.Projects.FindByName("Octopus", null, null)).Returns(project);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource)null);
 
             // Create deployment process
             var action = new DeploymentActionResource { Name = "NuGet", ActionType = "NuGet" };
             action.Environments.Add("environments-1");
             action.Properties.Add("Something", "Value");
-            action.SensitiveProperties.Add("SomethingElse", "Secret");
+            action.Properties.Add("SomethingElse", new PropertyValueResource("Secret", true));
 
             var step = new DeploymentStepResource { Id = "deploymentsteps-1", Name = "Website" };
             step.Actions.Add(action);
@@ -138,7 +137,8 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual(action.Environments.ToString(), actionResource.Environments.ToString());
             Assert.IsTrue(actionResource.Properties.ContainsKey("Something"));
             Assert.AreEqual("Value", actionResource.Properties["Something"]);
-            Assert.AreEqual("Secret", actionResource.SensitiveProperties["SomethingElse"]);
+            Assert.AreEqual("Secret", actionResource.Properties["SomethingElse"]);
+            Assert.IsTrue(actionResource.Properties["SomethingElse"].IsSensitive);
         }
 
         [TestMethod]
@@ -167,7 +167,8 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual(action.Environments.ToString(), actionResource.Environments.ToString());
             Assert.IsTrue(actionResource.Properties.ContainsKey("Something"));
             Assert.AreEqual("Value", actionResource.Properties["Something"]);
-            Assert.AreEqual("Secret", actionResource.SensitiveProperties["SomethingElse"]);
+            Assert.AreEqual("Secret", actionResource.Properties["SomethingElse"]);
+            Assert.IsTrue(actionResource.Properties["SomethingElse"].IsSensitive);
         }
     }
 }

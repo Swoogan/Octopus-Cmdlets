@@ -4,7 +4,6 @@ using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Octopus.Client.Model;
-using Octopus.Platform.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
@@ -25,8 +24,8 @@ namespace Octopus_Cmdlets.Tests
 
             // Create a project group
             var groupResource = new ProjectGroupResource {Name = "Octopus", Id = "projectgroups-1"};
-            octoRepo.Setup(o => o.ProjectGroups.FindByName("Octopus")).Returns(groupResource);
-            octoRepo.Setup(o => o.ProjectGroups.FindByName("Gibberish")).Returns((ProjectGroupResource) null);
+            octoRepo.Setup(o => o.ProjectGroups.FindByName("Octopus", null, null)).Returns(groupResource);
+            octoRepo.Setup(o => o.ProjectGroups.FindByName("Gibberish", null, null)).Returns((ProjectGroupResource) null);
 
             // Create project
             var project = new ProjectResource
@@ -48,8 +47,8 @@ namespace Octopus_Cmdlets.Tests
             _projects.Clear();
             _projects.Add(project);
 
-            octoRepo.Setup(o => o.Projects.FindByName("Source")).Returns(project);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish")).Returns((ProjectResource) null);
+            octoRepo.Setup(o => o.Projects.FindByName("Source", null, null)).Returns(project);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource) null);
             octoRepo.Setup(o => o.Projects.Create(It.IsAny<ProjectResource>())).Returns(
                 delegate(ProjectResource p)
                 {

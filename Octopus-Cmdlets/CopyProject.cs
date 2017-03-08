@@ -20,8 +20,6 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
-using Octopus.Platform.Model;
-using Octopus.Platform.Util;
 using Octopus_Cmdlets.Utilities;
 
 namespace Octopus_Cmdlets
@@ -194,8 +192,8 @@ namespace Octopus_Cmdlets
                     RequiresPackagesToBeAcquired = step.RequiresPackagesToBeAcquired,
                 };
 
-                newStep.Properties.AddRange(step.Properties);
-                newStep.SensitiveProperties.AddRange(step.SensitiveProperties);
+                foreach (var property in step.Properties)
+                    newStep.Properties.Add(property.Key, property.Value);
 
                 CopyActions(step, newStep);
 
@@ -213,9 +211,11 @@ namespace Octopus_Cmdlets
                     ActionType = action.ActionType,
                 };
 
-                newAction.Environments.AddRange(action.Environments);
-                newAction.Properties.AddRange(action.Properties);
-                newAction.SensitiveProperties.AddRange(action.SensitiveProperties);
+                foreach (var env in action.Environments)
+                    newAction.Environments.Add(env);
+
+                foreach (var property in action.Properties)
+                    newAction.Properties.Add(property.Key, property.Value);
 
                 newStep.Actions.Add(newAction);
             }

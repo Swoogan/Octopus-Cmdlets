@@ -27,8 +27,8 @@ namespace Octopus_Cmdlets.Tests
                 new ProjectResource {Name = "Octopus", DeploymentProcessId = deploymentProcessId, Id = "projects-1"}
             };
 
-            octoRepo.Setup(o => o.Projects.FindByNames(new[] {"Octopus"})).Returns(projectResources);
-            octoRepo.Setup(o => o.Projects.FindByNames(new[] {"Gibberish"})).Returns(new List<ProjectResource>());
+            octoRepo.Setup(o => o.Projects.FindByNames(new[] {"Octopus"}, null, null)).Returns(projectResources);
+            octoRepo.Setup(o => o.Projects.FindByNames(new[] {"Gibberish"}, null, null)).Returns(new List<ProjectResource>());
             octoRepo.Setup(o => o.Projects.Get("projects-1")).Returns(projectResources[0]);
             octoRepo.Setup(o => o.Projects.Get("Gibberish")).Throws(new OctopusResourceNotFoundException("Not Found"));
 

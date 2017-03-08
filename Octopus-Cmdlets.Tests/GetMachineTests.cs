@@ -27,9 +27,9 @@ namespace Octopus_Cmdlets.Tests
                 new MachineResource {Name = "dbserver-02", Id = "Machines-2"}
             };
             
-            octoRepo.Setup(o => o.Machines.FindAll()).Returns(machines);
-            octoRepo.Setup(o => o.Machines.FindByNames(new[] { "dbserver-01" })).Returns(new List<MachineResource> { machine });
-            octoRepo.Setup(o => o.Machines.FindByNames(new[] { "Gibberish" })).Returns(new List<MachineResource>());
+            octoRepo.Setup(o => o.Machines.FindAll(null, null)).Returns(machines);
+            octoRepo.Setup(o => o.Machines.FindByNames(new[] { "dbserver-01" }, null, null)).Returns(new List<MachineResource> { machine });
+            octoRepo.Setup(o => o.Machines.FindByNames(new[] { "Gibberish" }, null, null)).Returns(new List<MachineResource>());
 
             octoRepo.Setup(o => o.Machines.Get("Machines-1")).Returns(machine);
             octoRepo.Setup(o => o.Machines.Get(It.Is((string s) => s != "Machines-1"))).Throws(new OctopusResourceNotFoundException("Not Found")); 

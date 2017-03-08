@@ -27,8 +27,8 @@ namespace Octopus_Cmdlets.Tests
 
             var project = new ProjectResource();
             project.Links.Add("Variables", "variablesets-1");
-            octoRepo.Setup(o => o.Projects.FindByName("Octopus")).Returns(project);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish")).Returns((ProjectResource) null);
+            octoRepo.Setup(o => o.Projects.FindByName("Octopus", null, null)).Returns(project);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource) null);
 
             _variable = new VariableResource {Name = "Azure"};
             _variableSet.Variables.Add(_variable);

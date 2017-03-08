@@ -24,7 +24,7 @@ namespace Octopus_Cmdlets.Tests
             // Create a project
             _projectResource = new ProjectResource {Name = "Octopus"};
             var projectRepo = new Mock<IProjectRepository>();
-            projectRepo.Setup(p => p.FindByName("Octopus")).Returns(_projectResource);
+            projectRepo.Setup(p => p.FindByName("Octopus", null, null)).Returns(_projectResource);
             projectRepo.Setup(p => p.Modify(It.IsAny<ProjectResource>())).Returns((ProjectResource p) => p);
 
             octoRepo.Setup(o => o.Projects).Returns(projectRepo.Object);
@@ -36,7 +36,7 @@ namespace Octopus_Cmdlets.Tests
                 new LibraryVariableSetResource {Id = "LibraryVariableSets-2", Name = "Azure"},
             };
 
-            octoRepo.Setup(o => o.LibraryVariableSets.FindAll()).Returns(libraryResources);
+            octoRepo.Setup(o => o.LibraryVariableSets.FindAll(null, null)).Returns(libraryResources);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]

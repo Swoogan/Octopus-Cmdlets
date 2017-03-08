@@ -32,10 +32,10 @@ namespace Octopus_Cmdlets.Tests
                 new ProjectResource {Name = "Automation", Id = "projects-3", ProjectGroupId = "ProjectGroups-2"},
                 new ProjectResource {Name = "Server", Id = "projects-4", ProjectGroupId = "ProjectGroups-3"},
             };
-            projectRepo.Setup(p => p.FindAll()).Returns(projectResources);
+            projectRepo.Setup(p => p.FindAll(null, null)).Returns(projectResources);
 
             // Implement filtering by name on the project list
-            projectRepo.Setup(p => p.FindByNames(It.IsAny<string[]>())).Returns(
+            projectRepo.Setup(p => p.FindByNames(It.IsAny<string[]>(), null, null)).Returns(
                 (string[] names) =>
                     (from n in names
                         from p in projectResources
@@ -51,7 +51,7 @@ namespace Octopus_Cmdlets.Tests
                 new ProjectGroupResource {Name = "Octopus", Id = "ProjectGroups-1"},
             };
 
-            projectGroupRepo.Setup(pg => pg.FindByNames(It.IsAny<string[]>())).Returns((string[] names) =>
+            projectGroupRepo.Setup(pg => pg.FindByNames(It.IsAny<string[]>(), null, null)).Returns((string[] names) =>
                 (from n in names
                     from p in projectGroupResources
                     where p.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)

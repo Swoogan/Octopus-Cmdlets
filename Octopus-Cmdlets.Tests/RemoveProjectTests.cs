@@ -33,23 +33,14 @@ namespace Octopus_Cmdlets.Tests
             _projects.Add(_project);
             _projects.Add(new ProjectResource { Id = "Projects-3", Name = "Automation" });
 
-            octoRepo.Setup(o => o.Projects.Delete(It.IsAny<ProjectResource>())).Returns(
-                delegate(ProjectResource set)
-                {
-                    if (_projects.Contains(set))
-                        _projects.Remove(set);
-                    else
-                        throw new KeyNotFoundException("The given key was not present in the dictionary.");
-                    return new TaskResource();
-                }
-                );
+            octoRepo.Setup(o => o.Projects.Delete(It.IsAny<ProjectResource>()));
 
             octoRepo.Setup(o => o.Projects.Get("Projects-2")).Returns(_project);
             octoRepo.Setup(o => o.Projects.Get(It.IsNotIn(new[] { "Projects-2" })))
                 .Throws(new OctopusResourceNotFoundException("Not Found"));
 
-            octoRepo.Setup(o => o.Projects.FindByName("Test")).Returns(_project);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish")).Returns((ProjectResource)null);
+            octoRepo.Setup(o => o.Projects.FindByName("Test", null, null)).Returns(_project);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource)null);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]

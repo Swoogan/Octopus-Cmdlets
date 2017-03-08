@@ -30,8 +30,8 @@ namespace Octopus_Cmdlets.Tests
                 new FeedResource {FeedUri = @"\\someshare\deploy", Name = "Deploy"}
             };
 
-            feedRepo.Setup(f => f.FindAll()).Returns(feedResources);
-            feedRepo.Setup(f => f.FindByNames(It.IsAny<string[]>())).Returns(
+            feedRepo.Setup(f => f.FindAll(null, null)).Returns(feedResources);
+            feedRepo.Setup(f => f.FindByNames(It.IsAny<string[]>(), null, null)).Returns(
                 (string[] names) => (from n in names
                     from f in feedResources
                     where n.Equals(f.Name, StringComparison.InvariantCultureIgnoreCase)

@@ -33,23 +33,14 @@ namespace Octopus_Cmdlets.Tests
             _envs.Add(_env);
             _envs.Add(new EnvironmentResource { Id = "Environments-3", Name = "Prod" });
 
-            octoRepo.Setup(o => o.Environments.Delete(It.IsAny<EnvironmentResource>())).Returns(
-                delegate(EnvironmentResource set)
-                {
-                    if (_envs.Contains(set))
-                        _envs.Remove(set);
-                    else
-                        throw new KeyNotFoundException("The given key was not present in the dictionary.");
-                    return new TaskResource();
-                }
-                );
+            octoRepo.Setup(o => o.Environments.Delete(It.IsAny<EnvironmentResource>()));
 
             octoRepo.Setup(o => o.Environments.Get("Environments-2")).Returns(_env);
             octoRepo.Setup(o => o.Environments.Get(It.IsNotIn(new[] { "Environments-2" })))
                 .Throws(new OctopusResourceNotFoundException("Not Found"));
 
-            octoRepo.Setup(o => o.Environments.FindByName("Test")).Returns(_env);
-            octoRepo.Setup(o => o.Environments.FindByName("Gibberish")).Returns((EnvironmentResource) null);
+            octoRepo.Setup(o => o.Environments.FindByName("Test", null, null)).Returns(_env);
+            octoRepo.Setup(o => o.Environments.FindByName("Gibberish", null, null)).Returns((EnvironmentResource) null);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]

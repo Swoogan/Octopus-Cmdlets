@@ -23,7 +23,7 @@ namespace Octopus_Cmdlets.Tests
 
             // Create a project group
             var groupResource = new ProjectGroupResource {Name = "Octopus", Id = "projectgroups-1"};
-            octoRepo.Setup(o => o.ProjectGroups.FindByName("Octopus")).Returns(groupResource);
+            octoRepo.Setup(o => o.ProjectGroups.FindByName("Octopus", null, null)).Returns(groupResource);
 
             octoRepo.Setup(o => o.ProjectGroups.Get(It.IsIn(new[] { "projectgroups-1" })))
                 .Returns(groupResource);

@@ -19,7 +19,6 @@ using System.Linq;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
-using Octopus.Platform.Model;
 
 namespace Octopus_Cmdlets
 {

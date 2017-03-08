@@ -21,7 +21,7 @@ namespace Octopus_Cmdlets.Tests
 
             // Create a project
             var projectResource = new ProjectResource {Name = "Octopus"};
-            octoRepo.Setup(o => o.Projects.FindByName("Octopus")).Returns(projectResource);
+            octoRepo.Setup(o => o.Projects.FindByName("Octopus", null, null)).Returns(projectResource);
 
             // Create a deployment process
             var stepResource = new DeploymentStepResource();

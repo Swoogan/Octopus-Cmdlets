@@ -35,23 +35,14 @@ namespace Octopus_Cmdlets.Tests
             _sets.Add(_set);
             _sets.Add(new LibraryVariableSetResource {Id = "LibraryVariableSets-3", Name = "Service Endpoints"});
 
-            octoRepo.Setup(o => o.LibraryVariableSets.Delete(It.IsAny<LibraryVariableSetResource>())).Returns(
-                delegate(LibraryVariableSetResource set)
-                {
-                    if (_sets.Contains(set))
-                        _sets.Remove(set);
-                    else
-                        throw new KeyNotFoundException("The given key was not present in the dictionary.");
-                    return new TaskResource();
-                }
-                );
+            octoRepo.Setup(o => o.LibraryVariableSets.Delete(It.IsAny<LibraryVariableSetResource>()));
 
             octoRepo.Setup(o => o.LibraryVariableSets.Get("LibraryVariableSets-2")).Returns(_set);
             octoRepo.Setup(o => o.LibraryVariableSets.Get(It.IsNotIn(new[] {"LibraryVariableSets-2"})))
                 .Throws(new OctopusResourceNotFoundException("Not Found"));
 
             // Allow the FindOne predicate to operate on the collection
-            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>()))
+            octoRepo.Setup(o => o.LibraryVariableSets.FindOne(It.IsAny<Func<LibraryVariableSetResource, bool>>(), null, null))
                 .Returns(
                     (Func<LibraryVariableSetResource, bool> f) =>
                         (from l in _sets where f(l) select l).FirstOrDefault());

@@ -29,7 +29,7 @@ namespace Octopus_Cmdlets.Tests
                 new LibraryVariableSetResource {Id = "LibraryVariableSets-3", Name = "Automation"}
             };
 
-            octoRepo.Setup(o => o.LibraryVariableSets.FindAll()).Returns(libraryResources);
+            octoRepo.Setup(o => o.LibraryVariableSets.FindAll(null, null)).Returns(libraryResources);
 
             // Create a variableset
             var variableRepo = new Mock<IVariableSetRepository>();

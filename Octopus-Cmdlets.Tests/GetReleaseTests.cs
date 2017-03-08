@@ -21,7 +21,7 @@ namespace Octopus_Cmdlets.Tests
 
             // Create a project
             var project = new ProjectResource { Name = "Octopus" };
-            octoRepo.Setup(o => o.Projects.FindByName("Octopus")).Returns(project);
+            octoRepo.Setup(o => o.Projects.FindByName("Octopus", null, null)).Returns(project);
             octoRepo.Setup(o => o.Projects.Get("projects-1")).Returns(project);
             octoRepo.Setup(o => o.Projects.Get("Gibberish")).Throws(new OctopusResourceNotFoundException("Not Found"));
 

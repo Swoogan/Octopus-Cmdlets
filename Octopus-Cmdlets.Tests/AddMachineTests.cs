@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
-using Octopus.Platform.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
@@ -25,8 +24,8 @@ namespace Octopus_Cmdlets.Tests
             {
                 new EnvironmentResource {Name = "Octopus_Dev", Id = "environments-1"}
             };
-            octoRepo.Setup(o => o.Environments.FindAll()).Returns(environments);
-            octoRepo.Setup(o => o.Environments.FindByName("Octopus_Dev")).Returns(environments[0]);
+            octoRepo.Setup(o => o.Environments.FindAll(null, null)).Returns(environments);
+            octoRepo.Setup(o => o.Environments.FindByName("Octopus_Dev", null, null)).Returns(environments[0]);
             _machines.Clear();
 
             var machineRepo = new Mock<IMachineRepository>();
@@ -58,8 +57,8 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual("Tentacle_Name", _machines[0].Name);
             Assert.AreEqual("ThisIsMyThumbprint", _machines[0].Thumbprint);
             Assert.AreEqual(new ReferenceCollection() { "Role1", "Role2" }.ToString(), _machines[0].Roles.ToString());
-            Assert.AreEqual("https://server.domain:port/", _machines[0].Uri);
-            Assert.AreEqual(CommunicationStyle.TentaclePassive, _machines[0].CommunicationStyle);
+            Assert.AreEqual("https://server.domain:port/", _machines[0]);
+            Assert.AreEqual(CommunicationStyle.TentaclePassive, _machines[0].Endpoint.CommunicationStyle);
         }
 
         [TestMethod]
@@ -81,7 +80,7 @@ namespace Octopus_Cmdlets.Tests
             Assert.AreEqual("ThisIsMyThumbprint", _machines[0].Thumbprint);
             Assert.AreEqual(new ReferenceCollection() { "Role1", "Role2" }.ToString(), _machines[0].Roles.ToString());
             Assert.AreEqual("https://server.domain:port/", _machines[0].Uri);
-            Assert.AreEqual(CommunicationStyle.TentaclePassive, _machines[0].CommunicationStyle);
+            Assert.AreEqual(CommunicationStyle.TentaclePassive, _machines[0].Endpoint.CommunicationStyle);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]

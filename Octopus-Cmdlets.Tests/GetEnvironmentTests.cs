@@ -2,7 +2,6 @@
 using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Octopus.Client.Model;
-using Octopus.Platform.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
@@ -27,7 +26,7 @@ namespace Octopus_Cmdlets.Tests
                 new EnvironmentResource {Name = "Automation", Id = "environments-3"},
                 new EnvironmentResource {Name = "Server", Id = "environments-4"},
             };
-            octoRepo.Setup(o => o.Environments.FindAll()).Returns(environments);
+            octoRepo.Setup(o => o.Environments.FindAll(null, null)).Returns(environments);
         }
 
         [TestMethod]

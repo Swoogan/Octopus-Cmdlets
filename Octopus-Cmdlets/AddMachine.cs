@@ -18,8 +18,8 @@ using System;
 using System.Management.Automation;
 using Octopus.Client;
 using Octopus.Client.Model;
-using Octopus.Platform.Model;
 using System.Collections.Generic;
+using Octopus.Client.Model.Endpoints;
 
 namespace Octopus_Cmdlets
 {
@@ -89,9 +89,17 @@ namespace Octopus_Cmdlets
         /// </summary>
         [Parameter(
             Position = 5,
-            Mandatory = true)]
-        [ValidateSet("TentacleActive", "TentaclePassive")]
-        public string CommunicationStyle { get; set; }
+            Mandatory = true)]        
+        public EndpointResource Endpoint { get; set; }
+
+        /// <summary>
+        /// <para type="description">
+        /// The communication style of the server. Either TentacleActive or TentaclePassive.
+        /// </para>
+        /// </summary>
+        [Parameter(Position = 6)]
+        public SwitchParameter IsDisabled { get; set; }
+
 
         private IOctopusRepository _octopus;
         /// <summary>
@@ -139,10 +147,9 @@ namespace Octopus_Cmdlets
             {
                 EnvironmentIds = new ReferenceCollection(EnvironmentId),
                 Name = Name,
-                Thumbprint = Thumbprint,
                 Roles = new ReferenceCollection(Roles),
-                Uri = Uri,
-                CommunicationStyle = (CommunicationStyle)Enum.Parse(typeof(CommunicationStyle), CommunicationStyle, true)
+                IsDisabled = IsDisabled,
+                Endpoint = Endpoint
             });
         }
     }

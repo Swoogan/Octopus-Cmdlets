@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using Octopus.Client.Model;
-using Octopus.Platform.Model;
 
 namespace Octopus_Cmdlets.Utilities
 {

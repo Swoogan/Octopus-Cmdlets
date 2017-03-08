@@ -20,8 +20,8 @@ namespace Octopus_Cmdlets.Tests
 
             // Create a project
             var projectResource = new ProjectResource {Name = "Octopus"};
-            octoRepo.Setup(o => o.Projects.FindByName("Octopus")).Returns(projectResource);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish")).Returns((ProjectResource) null);
+            octoRepo.Setup(o => o.Projects.FindByName("Octopus", null, null)).Returns(projectResource);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource) null);
 
             // Create a Release
             var release = new ReleaseResource { Id = "Releases-1", Links = new LinkCollection()};

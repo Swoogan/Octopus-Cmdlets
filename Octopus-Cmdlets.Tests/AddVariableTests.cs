@@ -2,7 +2,6 @@
 using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Octopus.Client.Model;
-using Octopus.Platform.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
@@ -23,8 +22,8 @@ namespace Octopus_Cmdlets.Tests
 
             var project = new ProjectResource {DeploymentProcessId = "deploymentprocesses-1"};
             project.Links.Add("Variables", "variablesets-1");
-            octoRepo.Setup(o => o.Projects.FindByName("Octopus")).Returns(project);
-            octoRepo.Setup(o => o.Projects.FindByName("Gibberish")).Returns((ProjectResource) null);
+            octoRepo.Setup(o => o.Projects.FindByName("Octopus", null, null)).Returns(project);
+            octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource) null);
 
             octoRepo.Setup(o => o.VariableSets.Get("variablesets-1")).Returns(_variableSet);
 
@@ -37,12 +36,12 @@ namespace Octopus_Cmdlets.Tests
                 new EnvironmentResource {Id = "Environments-1", Name = "DEV"}
             };
 
-            octoRepo.Setup(o => o.Environments.FindByNames(new[] {"DEV"})).Returns(envs);
+            octoRepo.Setup(o => o.Environments.FindByNames(new[] {"DEV"}, null, null)).Returns(envs);
             var machines = new List<MachineResource>
             {
                 new MachineResource {Id = "Machines-1", Name = "web-01"}
             };
-            octoRepo.Setup(o => o.Machines.FindByNames(new[] { "web-01" })).Returns(machines);
+            octoRepo.Setup(o => o.Machines.FindByNames(new[] { "web-01" }, null, null)).Returns(machines);
         }
 
         [TestMethod, ExpectedException(typeof(ParameterBindingException))]
