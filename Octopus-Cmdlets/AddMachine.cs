@@ -59,28 +59,12 @@ namespace Octopus_Cmdlets
         public string Name { get; set; }
 
         /// <summary>
-        /// <para type="description">The thumbprint of the machine.</para>
-        /// </summary>
-        [Parameter(
-            Position = 2,
-            Mandatory = true)]
-        public string Thumbprint { get; set; }
-
-        /// <summary>
         /// <para type="description">The roles that the machine will perform.</para>
         /// </summary>
         [Parameter(
             Position = 3,
             Mandatory = true)]
         public string[] Roles { get; set; }
-
-        /// <summary>
-        /// <para type="description">The URI of the machine.</para>
-        /// </summary>
-        [Parameter(
-            Position = 4,
-            Mandatory = true)]
-        public string Uri { get; set; }
 
         /// <summary>
         /// <para type="description">

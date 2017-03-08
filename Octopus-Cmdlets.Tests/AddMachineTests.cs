@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
+using Octopus.Client.Model.Endpoints;
 
 namespace Octopus_Cmdlets.Tests
 {
@@ -46,18 +47,16 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand("Add-OctoMachine")
                 .AddParameter("Environment", new[] { "Octopus_Dev" })
                 .AddParameter("Name", "Tentacle_Name")
-                .AddParameter("Thumbprint", "ThisIsMyThumbprint")
                 .AddParameter("Roles", new[] { "Role1", "Role2" } )
-                .AddParameter("Uri", "https://server.domain:port/")
-                .AddParameter("CommunicationStyle", "TentaclePassive");
+                .AddParameter("Endpoint", new ListeningTentacleEndpointResource { Uri = "https://server.domain:port/", Thumbprint = "ThisIsMyThumbprint" });
             _ps.Invoke();
 
             Assert.AreEqual(1, _machines.Count);
             Assert.AreEqual(new ReferenceCollection("environments-1").ToString(), _machines[0].EnvironmentIds.ToString());
             Assert.AreEqual("Tentacle_Name", _machines[0].Name);
-            Assert.AreEqual("ThisIsMyThumbprint", _machines[0].Thumbprint);
+            Assert.AreEqual("ThisIsMyThumbprint", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Thumbprint);
             Assert.AreEqual(new ReferenceCollection() { "Role1", "Role2" }.ToString(), _machines[0].Roles.ToString());
-            Assert.AreEqual("https://server.domain:port/", _machines[0]);
+            Assert.AreEqual("https://server.domain:port/", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Uri);
             Assert.AreEqual(CommunicationStyle.TentaclePassive, _machines[0].Endpoint.CommunicationStyle);
         }
 
@@ -68,18 +67,16 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand("Add-OctoMachine")
                 .AddParameter("EnvironmentId", new[] { "environments-1" } )
                 .AddParameter("Name", "Tentacle_Name")
-                .AddParameter("Thumbprint", "ThisIsMyThumbprint")
                 .AddParameter("Roles", new[] { "Role1", "Role2" } )
-                .AddParameter("Uri", "https://server.domain:port/")
-                .AddParameter("CommunicationStyle", "TentaclePassive");
+                .AddParameter("Endpoint", new ListeningTentacleEndpointResource { Uri = "https://server.domain:port/", Thumbprint = "ThisIsMyThumbprint" });
             _ps.Invoke();
 
             Assert.AreEqual(1, _machines.Count);
             Assert.AreEqual(new ReferenceCollection("environments-1").ToString(), _machines[0].EnvironmentIds.ToString());
             Assert.AreEqual("Tentacle_Name", _machines[0].Name);
-            Assert.AreEqual("ThisIsMyThumbprint", _machines[0].Thumbprint);
+            Assert.AreEqual("ThisIsMyThumbprint", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Thumbprint);
             Assert.AreEqual(new ReferenceCollection() { "Role1", "Role2" }.ToString(), _machines[0].Roles.ToString());
-            Assert.AreEqual("https://server.domain:port/", _machines[0].Uri);
+            Assert.AreEqual("https://server.domain:port/", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Uri);
             Assert.AreEqual(CommunicationStyle.TentaclePassive, _machines[0].Endpoint.CommunicationStyle);
         }
 

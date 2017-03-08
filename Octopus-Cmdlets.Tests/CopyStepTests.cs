@@ -136,9 +136,9 @@ namespace Octopus_Cmdlets.Tests
 
             Assert.AreEqual(action.Environments.ToString(), actionResource.Environments.ToString());
             Assert.IsTrue(actionResource.Properties.ContainsKey("Something"));
-            Assert.AreEqual("Value", actionResource.Properties["Something"]);
-            Assert.AreEqual("Secret", actionResource.Properties["SomethingElse"]);
+            Assert.AreEqual("Value", actionResource.Properties["Something"].Value);
             Assert.IsTrue(actionResource.Properties["SomethingElse"].IsSensitive);
+            Assert.AreEqual("Secret", actionResource.Properties["SomethingElse"].SensitiveValue.NewValue);
         }
 
         [TestMethod]
@@ -166,9 +166,9 @@ namespace Octopus_Cmdlets.Tests
 
             Assert.AreEqual(action.Environments.ToString(), actionResource.Environments.ToString());
             Assert.IsTrue(actionResource.Properties.ContainsKey("Something"));
-            Assert.AreEqual("Value", actionResource.Properties["Something"]);
-            Assert.AreEqual("Secret", actionResource.Properties["SomethingElse"]);
+            Assert.AreEqual("Value", actionResource.Properties["Something"].Value);
             Assert.IsTrue(actionResource.Properties["SomethingElse"].IsSensitive);
+            Assert.AreEqual("Secret", actionResource.Properties["SomethingElse"].SensitiveValue.NewValue);
         }
     }
 }

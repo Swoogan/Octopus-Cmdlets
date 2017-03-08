@@ -33,7 +33,15 @@ namespace Octopus_Cmdlets.Tests
             _groups.Add(_group);
             _groups.Add(new ProjectGroupResource { Id = "ProjectGroups-3", Name = "Automation" });
 
-            octoRepo.Setup(o => o.ProjectGroups.Delete(It.IsAny<ProjectGroupResource>()));
+            octoRepo.Setup(o => o.ProjectGroups.Delete(It.IsAny<ProjectGroupResource>())).Callback(
+                delegate (ProjectGroupResource set)
+                {
+                    if (_groups.Contains(set))
+                        _groups.Remove(set);
+                    else
+                        throw new KeyNotFoundException("The given key was not present in the dictionary.");
+                }
+                );
 
             octoRepo.Setup(o => o.ProjectGroups.Get("ProjectGroups-2")).Returns(_group);
             octoRepo.Setup(o => o.ProjectGroups.Get(It.IsNotIn(new[] { "ProjectGroups-2" })))

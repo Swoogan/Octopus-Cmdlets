@@ -33,7 +33,15 @@ namespace Octopus_Cmdlets.Tests
             _envs.Add(_env);
             _envs.Add(new EnvironmentResource { Id = "Environments-3", Name = "Prod" });
 
-            octoRepo.Setup(o => o.Environments.Delete(It.IsAny<EnvironmentResource>()));
+            octoRepo.Setup(o => o.Environments.Delete(It.IsAny<EnvironmentResource>())).Callback(
+                delegate (EnvironmentResource set)
+                {
+                    if (_envs.Contains(set))
+                        _envs.Remove(set);
+                    else
+                        throw new KeyNotFoundException("The given key was not present in the dictionary.");
+                }
+                );
 
             octoRepo.Setup(o => o.Environments.Get("Environments-2")).Returns(_env);
             octoRepo.Setup(o => o.Environments.Get(It.IsNotIn(new[] { "Environments-2" })))
