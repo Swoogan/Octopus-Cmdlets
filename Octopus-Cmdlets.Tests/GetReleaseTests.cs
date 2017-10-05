@@ -32,7 +32,7 @@ namespace Octopus_Cmdlets.Tests
                 new ReleaseResource {Version = "1.1.0"}
             };
 
-            octoRepo.Setup(o => o.Projects.GetReleases(project, 0))
+            octoRepo.Setup(o => o.Projects.GetReleases(project, 0, null, null))
                 .Returns(new ResourceCollection<ReleaseResource>(releases, new LinkCollection()));
 
             octoRepo.Setup(o => o.Projects.GetReleaseByVersion(project, "1.0.0")).Returns(releases[0]);
