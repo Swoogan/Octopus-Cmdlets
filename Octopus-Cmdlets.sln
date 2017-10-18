@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus-Cmdlets", "Octopus-Cmdlets\Octopus-Cmdlets.csproj", "{6B556833-C503-48F4-8A0E-26591C6F4BC6}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus-Cmdlets", "Octopus-Cmdlets\Octopus-Cmdlets.csproj", "{6B556833-C503-48F4-8A0E-26591C6F4BC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F725B9C-B394-4B80-A1F3-D752B7DC6991}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,12 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Version.cs = Version.cs
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3F8C4A63-1CE4-4EBE-BAEC-90E708B83870}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus-Cmdlets.Tests", "Octopus-Cmdlets.Tests\Octopus-Cmdlets.Tests.csproj", "{1947E428-0C84-482A-8E95-B8C11B804E76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus-Cmdlets.Tests", "Octopus-Cmdlets.Tests\Octopus-Cmdlets.Tests.csproj", "{1947E428-0C84-482A-8E95-B8C11B804E76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,5 +32,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2996E3B3-3107-4B42-9BB9-39851B971915}
 	EndGlobalSection
 EndGlobal

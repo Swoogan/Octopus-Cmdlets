@@ -35,7 +35,7 @@ namespace Octopus_Cmdlets.Tests
             {
                 new DeploymentResource {Id = "deployments-1"}
             }, new LinkCollection());
-            octoRepo.Setup(o => o.Releases.GetDeployments(release, 0)).Returns(deployments);
+            octoRepo.Setup(o => o.Releases.GetDeployments(release, 0, null)).Returns(deployments);
             octoRepo.Setup(o => o.Releases.Get("Releases-1")).Returns(release);
         }
 
