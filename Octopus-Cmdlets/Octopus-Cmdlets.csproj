@@ -21,6 +21,15 @@
   </ItemGroup>
 
   <ItemGroup Label="GacReferences">
+    <None Update="Octopus-Cmdlets.Format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Octopus-Cmdlets.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Octopus-Cmdlets.Types.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="GenerateHelpFile" AfterTargets="Build" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
