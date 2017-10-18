@@ -17,8 +17,13 @@ adjust your process (and scripts) accordingly.
 
 Installation
 ============
-PsGet (preferred method)
-------------------------
+Powershell Gallery (preferred method)
+-------------------------------------
+
+    Install-Module -Name Octopus-Cmdlets
+
+PsGet
+-----
 If you don't already have PsGet, install it from https://github.com/psget/psget
 
 To install Octopus-Cmdlets run
