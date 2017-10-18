@@ -3,6 +3,14 @@
   <PropertyGroup Label="ProjectMetadata">
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="ConnectServerTests.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="ConnectServerTests.cs" />
+  </ItemGroup>
 
   <ItemGroup Label="PackageReferences">
     <PackageReference Include="Castle.Core" Version="4.2.0" />
