@@ -28,8 +28,8 @@ namespace Octopus_Cmdlets.Tests
             _machines.Clear();
 
             var machineRepo = new Mock<IMachineRepository>();
-            machineRepo.Setup(m => m.Create(It.IsAny<MachineResource>(), null))
-                .Returns(delegate(MachineResource m)
+            machineRepo.Setup(m => m.Create(It.IsAny<MachineResource>(), It.IsAny<object>()))
+                .Returns((MachineResource m, object o) => 
                 {
                     _machines.Add(m);
                     return m;
@@ -49,7 +49,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Endpoint", new ListeningTentacleEndpointResource { Uri = "https://server.domain:port/", Thumbprint = "ThisIsMyThumbprint" });
             _ps.Invoke();
 
-            Assert.Equal(1, _machines.Count);
+            Assert.Single(_machines);
             Assert.Equal(new ReferenceCollection("environments-1").ToString(), _machines[0].EnvironmentIds.ToString());
             Assert.Equal("Tentacle_Name", _machines[0].Name);
             Assert.Equal("ThisIsMyThumbprint", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Thumbprint);
@@ -69,7 +69,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Endpoint", new ListeningTentacleEndpointResource { Uri = "https://server.domain:port/", Thumbprint = "ThisIsMyThumbprint" });
             _ps.Invoke();
 
-            Assert.Equal(1, _machines.Count);
+            Assert.Single(_machines);
             Assert.Equal(new ReferenceCollection("environments-1").ToString(), _machines[0].EnvironmentIds.ToString());
             Assert.Equal("Tentacle_Name", _machines[0].Name);
             Assert.Equal("ThisIsMyThumbprint", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Thumbprint);

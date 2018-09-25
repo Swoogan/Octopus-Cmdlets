@@ -46,7 +46,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("WebServer");
             var results = _ps.Invoke<string>();
 
-            Assert.Equal(1, results.Count);
+            Assert.Single(results);
             Assert.Equal("WebServer", results[0]);
         }
 
@@ -57,7 +57,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var results = _ps.Invoke<string>();
 
-            Assert.Equal(0, results.Count);
+            Assert.Empty(results);
         }
     }
 }

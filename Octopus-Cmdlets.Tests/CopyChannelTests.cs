@@ -97,9 +97,9 @@ namespace Octopus_Cmdlets.Tests
             ChannelResource createdChannel = null;
 
             _octoRepo
-                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), null))
-                .Callback<ChannelResource>(ch => createdChannel = ch)
-                .Returns<ChannelResource>(ch => ch);
+                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), It.IsAny<object>()))
+                .Callback<ChannelResource, object>((ch, o) => createdChannel = ch)
+                .Returns<ChannelResource, object>((ch, o) => ch);
 
             // Execute cmdlet
             _ps.AddCommand(CmdletName)
@@ -131,7 +131,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName)
                 .AddParameter("Project", "Gibberish")
                 .AddParameter("Name", "Priority");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]
@@ -141,7 +141,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName)
                 .AddParameter("Project", "Octopus")
                 .AddParameter("Name", "Default");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]
@@ -150,9 +150,9 @@ namespace Octopus_Cmdlets.Tests
             ChannelResource createdChannel = null;
 
             _octoRepo
-                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), null))
-                .Callback<ChannelResource>(ch => createdChannel = ch)
-                .Returns<ChannelResource>(ch => ch);
+                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), It.IsAny<object>()))
+                .Callback<ChannelResource, object>((ch, o) => createdChannel = ch)
+                .Returns<ChannelResource, object>((ch, o) => ch);
 
             // Execute cmdlet
             _ps.AddCommand(CmdletName)
@@ -184,9 +184,9 @@ namespace Octopus_Cmdlets.Tests
             ChannelResource createdChannel = null;
 
             _octoRepo
-                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), null))
-                .Callback<ChannelResource>(ch => createdChannel = ch)
-                .Returns<ChannelResource>(ch => ch);
+                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), It.IsAny<object>()))
+                .Callback<ChannelResource, object>((ch, o) => createdChannel = ch)
+                .Returns<ChannelResource, object>((ch, o) => ch);
 
             // Execute cmdlet
             _ps.AddCommand(CmdletName)

@@ -68,7 +68,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("Do Stuff");
             var actions = _ps.Invoke<DeploymentActionResource>();
 
-            Assert.Equal(1, actions.Count);
+            Assert.Single(actions);
             Assert.Equal("Do Stuff", actions[0].Name);
         }
 
@@ -79,7 +79,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddParameter("Name", "Do Stuff");
             var actions = _ps.Invoke<DeploymentActionResource>();
 
-            Assert.Equal(1, actions.Count);
+            Assert.Single(actions);
             Assert.Equal("Do Stuff", actions[0].Name);
         }
 
@@ -90,7 +90,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("Gibberish");
             var actions = _ps.Invoke<DeploymentActionResource>();
 
-            Assert.Equal(0, actions.Count);
+            Assert.Empty(actions);
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddParameter("Id", "Globally unique identifier");
             var actions = _ps.Invoke<DeploymentActionResource>();
 
-            Assert.Equal(1, actions.Count);
+            Assert.Single(actions);
             Assert.Equal("Do Stuff", actions[0].Name);
         }
 
@@ -111,7 +111,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddParameter("Id", "Gibberish");
             var actions = _ps.Invoke<DeploymentActionResource>();
 
-            Assert.Equal(0, actions.Count);
+            Assert.Empty(actions);
         }
     }
 }

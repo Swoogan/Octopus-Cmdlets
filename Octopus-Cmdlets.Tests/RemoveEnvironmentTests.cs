@@ -32,7 +32,7 @@ namespace Octopus_Cmdlets.Tests
             _envs.Add(new EnvironmentResource { Id = "Environments-3", Name = "Prod" });
 
             octoRepo.Setup(o => o.Environments.Delete(It.IsAny<EnvironmentResource>())).Callback(
-                delegate (EnvironmentResource set)
+                (EnvironmentResource set) =>
                 {
                     if (_envs.Contains(set))
                         _envs.Remove(set);
@@ -88,7 +88,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _envs.Count);
-            Assert.False(_envs.Contains(_env));
+            Assert.DoesNotContain(_env, _envs);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _envs.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("An environment with the id 'Gibberish' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -111,7 +111,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _envs.Count);
-            Assert.False(_envs.Contains(_env));
+            Assert.DoesNotContain(_env, _envs);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _envs.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("The environment 'Gibberish' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -134,7 +134,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _envs.Count);
-            Assert.False(_envs.Contains(_env));
+            Assert.DoesNotContain(_env, _envs);
         }
 
         [Fact]
@@ -145,7 +145,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _envs.Count);
-            Assert.False(_envs.Contains(_env));
+            Assert.DoesNotContain(_env, _envs);
         }
 
         [Fact]

@@ -64,7 +64,7 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]
@@ -92,7 +92,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Version", new[] {"1.0.0"});
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.Equal(1, releases.Count);
+            Assert.Single(releases);
             Assert.Equal("1.0.0", releases[0].Version);
         }
 
@@ -103,7 +103,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Version", new[] { "Gibberish" });
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.Equal(0, releases.Count);
+            Assert.Empty(releases);
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "releases-1");
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.Equal(1, releases.Count);
+            Assert.Single(releases);
             Assert.Equal("1.0.0", releases[0].Version);
         }
 
@@ -124,7 +124,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish");
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.Equal(0, releases.Count);
+            Assert.Empty(releases);
         }
     }
 }

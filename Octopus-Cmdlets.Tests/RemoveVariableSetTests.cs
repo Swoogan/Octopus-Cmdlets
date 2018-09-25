@@ -33,7 +33,8 @@ namespace Octopus_Cmdlets.Tests
             _sets.Add(_set);
             _sets.Add(new LibraryVariableSetResource {Id = "LibraryVariableSets-3", Name = "Service Endpoints"});
 
-            octoRepo.Setup(o => o.LibraryVariableSets.Delete(It.IsAny<LibraryVariableSetResource>())).Callback(delegate (LibraryVariableSetResource set)
+            octoRepo.Setup(o => o.LibraryVariableSets.Delete(It.IsAny<LibraryVariableSetResource>())).Callback(
+                (LibraryVariableSetResource set) =>
             {
                 if (_sets.Contains(set))
                     _sets.Remove(set);
@@ -69,7 +70,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _sets.Count);
-            Assert.False(_sets.Contains(_set));
+            Assert.DoesNotContain(_set, _sets);
         }
 
         [Fact]
@@ -80,7 +81,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _sets.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("The library variable set '' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -92,7 +93,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _sets.Count);
-            Assert.False(_sets.Contains(_set));
+            Assert.DoesNotContain(_set, _sets);
         }
 
         [Fact]
@@ -103,7 +104,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _sets.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("The library variable set with id 'Gibberish' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -115,7 +116,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _sets.Count);
-            Assert.False(_sets.Contains(_set));
+            Assert.DoesNotContain(_set, _sets);
         }
 
         [Fact]
@@ -126,7 +127,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _sets.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("The library variable set 'Gibberish' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -138,7 +139,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _sets.Count);
-            Assert.False(_sets.Contains(_set));
+            Assert.DoesNotContain(_set, _sets);
         }
 
         [Fact]

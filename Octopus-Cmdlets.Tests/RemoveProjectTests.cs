@@ -32,7 +32,7 @@ namespace Octopus_Cmdlets.Tests
             _projects.Add(new ProjectResource { Id = "Projects-3", Name = "Automation" });
 
             octoRepo.Setup(o => o.Projects.Delete(It.IsAny<ProjectResource>())).Callback(
-                delegate (ProjectResource set)
+                (ProjectResource set) =>
                 {
                     if (_projects.Contains(set))
                         _projects.Remove(set);
@@ -88,7 +88,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _projects.Count);
-            Assert.False(_projects.Contains(_project));
+            Assert.DoesNotContain(_project, _projects);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _projects.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("A project with the id 'Gibberish' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -111,7 +111,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _projects.Count);
-            Assert.False(_projects.Contains(_project));
+            Assert.DoesNotContain(_project, _projects);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _projects.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("The project 'Gibberish' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -134,7 +134,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _projects.Count);
-            Assert.False(_projects.Contains(_project));
+            Assert.DoesNotContain(_project, _projects);
         }
 
         [Fact]
@@ -145,7 +145,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _projects.Count);
-            Assert.False(_projects.Contains(_project));
+            Assert.DoesNotContain(_project, _projects);
         }
 
         [Fact]

@@ -49,7 +49,7 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.Equal(0, steps.Count);
+            Assert.Empty(steps);
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("ProjectId", "Gibberish");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.Equal(0, steps.Count);
+            Assert.Empty(steps);
         }
 
         [Fact]
@@ -112,7 +112,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("DeploymentProcessId", "Gibberish");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.Equal(0, steps.Count);
+            Assert.Empty(steps);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Name", "Test Step 2");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.Equal(1, steps.Count);
+            Assert.Single(steps);
             Assert.Equal("Test Step 2", steps[0].Name);
         }
 
@@ -133,7 +133,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("ProjectId", "projects-1").AddParameter("Name", "Test Step 2");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.Equal(1, steps.Count);
+            Assert.Single(steps);
             Assert.Equal("Test Step 2", steps[0].Name);
         }
 
@@ -146,7 +146,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Name", "Test Step 2");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.Equal(1, steps.Count);
+            Assert.Single(steps);
             Assert.Equal("Test Step 2", steps[0].Name);
         }
 
@@ -158,20 +158,8 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("Test Step 2");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.Equal(1, steps.Count);
+            Assert.Single(steps);
             Assert.Equal("Test Step 2", steps[0].Name);
-        }
-
-        
-        [Fact]
-        public void With_KitchenSink()
-        {
-            // Execute cmdlet
-            _ps.AddCommand(CmdletName)
-                .AddParameter("Project", "Gibberish")
-                .AddParameter("ProjectId", "Gibberish")
-                .AddParameter("DeploymentProcessId", "Gibberish");
-            _ps.Invoke();
         }
     }
  }

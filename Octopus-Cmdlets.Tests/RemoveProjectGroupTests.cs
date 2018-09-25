@@ -32,7 +32,7 @@ namespace Octopus_Cmdlets.Tests
             _groups.Add(new ProjectGroupResource { Id = "ProjectGroups-3", Name = "Automation" });
 
             octoRepo.Setup(o => o.ProjectGroups.Delete(It.IsAny<ProjectGroupResource>())).Callback(
-                delegate (ProjectGroupResource set)
+                (ProjectGroupResource set) =>
                 {
                     if (_groups.Contains(set))
                         _groups.Remove(set);
@@ -88,7 +88,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _groups.Count);
-            Assert.False(_groups.Contains(_group));
+            Assert.DoesNotContain(_group, _groups);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _groups.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("A project group with the id 'Gibberish' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -111,7 +111,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _groups.Count);
-            Assert.False(_groups.Contains(_group));
+            Assert.DoesNotContain(_group, _groups);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _groups.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("The project group 'Gibberish' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -134,7 +134,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _groups.Count);
-            Assert.False(_groups.Contains(_group));
+            Assert.DoesNotContain(_group, _groups);
         }
 
         [Fact]
@@ -145,7 +145,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(2, _groups.Count);
-            Assert.False(_groups.Contains(_group));
+            Assert.DoesNotContain(_group, _groups);
         }
 
         [Fact]

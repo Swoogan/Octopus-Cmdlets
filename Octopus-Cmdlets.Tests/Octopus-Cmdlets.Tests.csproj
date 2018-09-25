@@ -17,8 +17,9 @@
     <PackageReference Include="NuGet.Versioning" Version="4.8.0" />
     <PackageReference Include="Octopus.Client" Version="4.41.2" />
     <PackageReference Include="System.Management.Automation.dll" Version="10.0.10586.0" />
-    <PackageReference Include="xunit.assert" Version="2.4.0" />
-    <PackageReference Include="xunit.core" Version="2.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -62,7 +62,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _variableSet.Variables.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("Variable '' in project 'Octopus' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 
@@ -108,7 +108,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
 
             Assert.Equal(3, _variableSet.Variables.Count);
-            Assert.Equal(1, _ps.Streams.Warning.Count);
+            Assert.Single(_ps.Streams.Warning);
             Assert.Equal("Variable 'Gibberish' in project 'Octopus' does not exist.", _ps.Streams.Warning[0].ToString());
         }
 

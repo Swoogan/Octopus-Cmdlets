@@ -75,7 +75,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.Equal(1, projects.Count);
+            Assert.Single(projects);
             Assert.Equal("Octopus", projects[0].Name);
         }
 
@@ -86,7 +86,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.Equal(0, projects.Count);
+            Assert.Empty(projects);
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("ProjectGroup", "Gibberish");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.Equal(0, projects.Count);
+            Assert.Empty(projects);
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "projects-1");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.Equal(1, projects.Count);
+            Assert.Single(projects);
             Assert.Equal("Octopus", projects[0].Name);
         }
 
@@ -129,7 +129,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "projects-5000");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.Equal(0, projects.Count);
+            Assert.Empty(projects);
         }
 
         [Fact]

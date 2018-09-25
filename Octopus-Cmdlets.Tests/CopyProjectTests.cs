@@ -47,8 +47,8 @@ namespace Octopus_Cmdlets.Tests
 
             octoRepo.Setup(o => o.Projects.FindByName("Source", null, null)).Returns(project);
             octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource) null);
-            octoRepo.Setup(o => o.Projects.Create(It.IsAny<ProjectResource>(), null)).Returns(
-                delegate(ProjectResource p)
+            octoRepo.Setup(o => o.Projects.Create(It.IsAny<ProjectResource>(), It.IsAny<object>())).Returns(
+                (ProjectResource p, object o) =>
                 {
                     p.VariableSetId = "variablesets-2";
                     p.DeploymentProcessId = "deploymentprocesses-2";
@@ -112,13 +112,13 @@ namespace Octopus_Cmdlets.Tests
             var variable = _copyVariables.Variables.FirstOrDefault(x => x.Name == "Name" && x.Value == "Value");
             Assert.NotNull(variable);
             Assert.True(variable.Scope.ContainsKey(ScopeField.Action));
-            Assert.Equal(0, variable.Scope[ScopeField.Action].Count);
+            Assert.Empty(variable.Scope[ScopeField.Action]);
             Assert.True(variable.Scope.ContainsKey(ScopeField.Environment));
             Assert.Equal("environments-1", variable.Scope[ScopeField.Environment].First());
 
             var steps = _copyProcess.Steps.FirstOrDefault(x => x.Name == "Database");
             Assert.NotNull(steps);
-            Assert.Equal(1, steps.Actions.Count);
+            Assert.Single(steps.Actions);
             Assert.Equal("Action", steps.Actions[0].Name);
             Assert.Equal("environments-1", steps.Actions[0].Environments.First());
         }
@@ -131,7 +131,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Name", "Source")
                 .AddParameter("Destination", "Copy")
                 .AddParameter("ProjectGroup", "Gibberish");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]
@@ -142,7 +142,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Name", "Gibberish")
                 .AddParameter("Destination", "Copy")
                 .AddParameter("ProjectGroup", "Octopus");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]

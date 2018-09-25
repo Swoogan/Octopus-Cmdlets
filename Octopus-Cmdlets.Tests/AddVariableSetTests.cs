@@ -21,8 +21,8 @@ namespace Octopus_Cmdlets.Tests
             _sets.Clear();
 
             var repo = new Mock<ILibraryVariableSetRepository>();
-            repo.Setup(e => e.Create(It.IsAny<LibraryVariableSetResource>(), null))
-                .Returns(delegate(LibraryVariableSetResource e)
+            repo.Setup(e => e.Create(It.IsAny<LibraryVariableSetResource>(), It.IsAny<object>()))
+                .Returns((LibraryVariableSetResource e, object o) =>
                 {
                     _sets.Add(e);
                     return e;
@@ -38,7 +38,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus");
             _ps.Invoke();
 
-            Assert.Equal(1, _sets.Count);
+            Assert.Single(_sets);
             Assert.Equal("Octopus", _sets[0].Name);
         }
 
@@ -59,7 +59,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Description", "VariableSet");
             _ps.Invoke();
 
-            Assert.Equal(1, _sets.Count);
+            Assert.Single(_sets);
             Assert.Equal("Octopus", _sets[0].Name);
             Assert.Equal("VariableSet", _sets[0].Description);
         }
@@ -73,7 +73,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("VariableSet");
             _ps.Invoke();
 
-            Assert.Equal(1, _sets.Count);
+            Assert.Single(_sets);
             Assert.Equal("Octopus", _sets[0].Name);
             Assert.Equal("VariableSet", _sets[0].Description);
         }

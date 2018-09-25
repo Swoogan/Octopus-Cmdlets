@@ -44,7 +44,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.Equal(1, environments.Count);
+            Assert.Single(environments);
             Assert.Equal("Octopus", environments[0].Name);
         }
 
@@ -55,7 +55,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.Equal(0, environments.Count);
+            Assert.Empty(environments);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "environments-1");
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.Equal(1, environments.Count);
+            Assert.Single(environments);
             Assert.Equal("Octopus", environments[0].Name);
         }
 
@@ -76,7 +76,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish");
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.Equal(0, environments.Count);
+            Assert.Empty(environments);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("ScopeValue", new ScopeValue("environments-1"));
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.Equal(1, environments.Count);
+            Assert.Single(environments);
             Assert.Equal("Octopus", environments[0].Name);
         }
 
@@ -97,7 +97,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("ScopeValue", new ScopeValue("Gibberish"));
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.Equal(0, environments.Count);
+            Assert.Empty(environments);
         }
 
         [Fact]

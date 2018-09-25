@@ -74,7 +74,7 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("VariableSet", "Gibberish").AddParameter("Name", "Test");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]

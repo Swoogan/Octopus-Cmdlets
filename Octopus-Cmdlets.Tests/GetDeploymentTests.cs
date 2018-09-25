@@ -61,7 +61,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Release", "1.0.0");
             var deployments = _ps.Invoke<DeploymentResource>();
 
-            Assert.Equal(1, deployments.Count);
+            Assert.Single(deployments);
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Release", "Gibberish");
             var deployments = _ps.Invoke<DeploymentResource>();
 
-            Assert.Equal(0, deployments.Count);
+            Assert.Empty(deployments);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("ReleaseId", "Releases-1");
             var deployments = _ps.Invoke<DeploymentResource>();
 
-            Assert.Equal(1, deployments.Count);
+            Assert.Single(deployments);
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("1.0.0");
             var deployments = _ps.Invoke<DeploymentResource>();
 
-            Assert.Equal(1, deployments.Count);
+            Assert.Single(deployments);
         }
 
 

@@ -21,8 +21,8 @@ namespace Octopus_Cmdlets.Tests
             _groups.Clear();
 
             var repo = new Mock<IProjectGroupRepository>();
-            repo.Setup(e => e.Create(It.IsAny<ProjectGroupResource>(), null))
-                .Returns(delegate(ProjectGroupResource p)
+            repo.Setup(e => e.Create(It.IsAny<ProjectGroupResource>(), It.IsAny<object>()))
+                .Returns((ProjectGroupResource p, object o) => 
                 {
                     _groups.Add(p);
                     return p;
@@ -38,7 +38,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             _ps.Invoke();
 
-            Assert.Equal(1, _groups.Count);
+            Assert.Single(_groups);
             Assert.Equal("Octopus", _groups[0].Name);
         }
 
@@ -49,7 +49,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus");
             _ps.Invoke();
 
-            Assert.Equal(1, _groups.Count);
+            Assert.Single(_groups);
             Assert.Equal("Octopus", _groups[0].Name);
         }
 
@@ -70,7 +70,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("Octopus Development Group");
             _ps.Invoke();
 
-            Assert.Equal(1, _groups.Count);
+            Assert.Single(_groups);
             Assert.Equal("Octopus", _groups[0].Name);
             Assert.Equal("Octopus Development Group", _groups[0].Description);
         }

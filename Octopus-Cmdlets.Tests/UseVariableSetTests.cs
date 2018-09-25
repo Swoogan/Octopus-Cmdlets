@@ -58,7 +58,7 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Gibberish").AddArgument("ConnectionStrings");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("Gibberish");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
     }
 }

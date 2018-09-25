@@ -21,8 +21,8 @@ namespace Octopus_Cmdlets.Tests
             _envs.Clear();
 
             var envRepo = new Mock<IEnvironmentRepository>();
-            envRepo.Setup(e => e.Create(It.IsAny<EnvironmentResource>(), null))
-                .Returns(delegate(EnvironmentResource e)
+            envRepo.Setup(e => e.Create(It.IsAny<EnvironmentResource>(), It.IsAny<object>()))
+                .Returns((EnvironmentResource e, object o) =>
                 {
                     _envs.Add(e);
                     return e;
@@ -38,7 +38,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus_Dev");
             _ps.Invoke();
 
-            Assert.Equal(1, _envs.Count);
+            Assert.Single(_envs);
             Assert.Equal("Octopus_Dev", _envs[0].Name);
         }
 
@@ -59,7 +59,7 @@ namespace Octopus_Cmdlets.Tests
                 AddParameter("Description", "Octopus Development environment");
             _ps.Invoke();
 
-            Assert.Equal(1, _envs.Count);
+            Assert.Single(_envs);
             Assert.Equal("Octopus_Dev", _envs[0].Name);
             Assert.Equal("Octopus Development environment", _envs[0].Description);
         }
@@ -73,7 +73,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("Octopus Development environment");
             _ps.Invoke();
 
-            Assert.Equal(1, _envs.Count);
+            Assert.Single(_envs);
             Assert.Equal("Octopus_Dev", _envs[0].Name);
             Assert.Equal("Octopus Development environment", _envs[0].Description);
         }

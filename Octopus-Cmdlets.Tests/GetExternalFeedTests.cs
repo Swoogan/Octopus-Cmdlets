@@ -55,7 +55,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var feeds = _ps.Invoke<FeedResource>();
 
-            Assert.Equal(1, feeds.Count);
+            Assert.Single(feeds);
             Assert.Equal("Octopus", feeds[0].Name);
         }
 
@@ -66,7 +66,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var feeds = _ps.Invoke<FeedResource>();
 
-            Assert.Equal(0, feeds.Count);
+            Assert.Empty(feeds);
         }
     }
 }

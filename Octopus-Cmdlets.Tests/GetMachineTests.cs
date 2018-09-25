@@ -50,7 +50,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Name", new[] {"dbserver-01"});
             var machines = _ps.Invoke<MachineResource>();
 
-            Assert.Equal(1, machines.Count);
+            Assert.Single(machines);
             Assert.Equal("dbserver-01", machines[0].Name);
         }
 
@@ -61,7 +61,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Name", new[] { "Gibberish" });
             var machines = _ps.Invoke<MachineResource>();
 
-            Assert.Equal(0, machines.Count);
+            Assert.Empty(machines);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", new[] { "Machines-1" });
             var machines = _ps.Invoke<MachineResource>();
 
-            Assert.Equal(1, machines.Count);
+            Assert.Single(machines);
             Assert.Equal("dbserver-01", machines[0].Name);
         }
 
@@ -82,7 +82,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", new[] { "Gibberish" });
             var machines = _ps.Invoke<MachineResource>();
 
-            Assert.Equal(0, machines.Count);
+            Assert.Empty(machines);
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument(new[] { "dbserver-01" });
             var machines = _ps.Invoke<MachineResource>();
 
-            Assert.Equal(1, machines.Count);
+            Assert.Single(machines);
             Assert.Equal("dbserver-01", machines[0].Name);
         }
     }

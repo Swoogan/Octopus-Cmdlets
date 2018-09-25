@@ -32,8 +32,8 @@ namespace Octopus_Cmdlets.Tests
             _projects.Clear();
 
             var repo = new Mock<IProjectRepository>();
-            repo.Setup(e => e.Create(It.IsAny<ProjectResource>(), null))
-                .Returns(delegate(ProjectResource p)
+            repo.Setup(e => e.Create(It.IsAny<ProjectResource>(), It.IsAny<object>()))
+                .Returns((ProjectResource p, object o) =>
                 {
                     _projects.Add(p);
                     return p;
@@ -55,7 +55,7 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectGroup", "Gibberish").AddParameter("Name", "Octopus");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectGroupId", "Gibberish").AddParameter("Name", "Octopus");
-            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("ProjectGroup", "Octopus").AddParameter("Name", "Octopus");
             _ps.Invoke();
 
-            Assert.Equal(1, _projects.Count);
+            Assert.Single(_projects);
             Assert.Equal("Octopus", _projects[0].Name);
         }
 
@@ -92,7 +92,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("ProjectGroupId", "projectgroups-1").AddParameter("Name", "Octopus");
             _ps.Invoke();
 
-            Assert.Equal(1, _projects.Count);
+            Assert.Single(_projects);
             Assert.Equal("Octopus", _projects[0].Name);
         }
 
@@ -124,7 +124,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Description", "Octopus Development Project");
             _ps.Invoke();
 
-            Assert.Equal(1, _projects.Count);
+            Assert.Single(_projects);
             Assert.Equal("Octopus", _projects[0].Name);
             Assert.Equal("projectgroups-1", _projects[0].ProjectGroupId);
             Assert.Equal("Octopus Development Project", _projects[0].Description);
@@ -140,7 +140,7 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("Octopus Development Project");
             _ps.Invoke();
 
-            Assert.Equal(1, _projects.Count);
+            Assert.Single(_projects);
             Assert.Equal("Octopus", _projects[0].Name);
             Assert.Equal("projectgroups-1", _projects[0].ProjectGroupId);
             Assert.Equal("Octopus Development Project", _projects[0].Description);

@@ -44,7 +44,7 @@ namespace Octopus_Cmdlets.Tests
 
         private static Func<string, ProjectGroupResource> CreateGet(IEnumerable<ProjectGroupResource> groupResources)
         {
-            return delegate(string id)
+            return (string id) =>
             {
                 var group = (from g in groupResources
                     where g.Id.Equals(id,
@@ -75,7 +75,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.Equal(1, groups.Count);
+            Assert.Single(groups);
             Assert.Equal("Octopus", groups[0].Name);
         }
 
@@ -86,7 +86,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.Equal(0, groups.Count);
+            Assert.Empty(groups);
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "projectgroups-1");
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.Equal(1, groups.Count);
+            Assert.Single(groups);
             Assert.Equal("Octopus", groups[0].Name);
         }
 
@@ -107,7 +107,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "gibberish");
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.Equal(0, groups.Count);
+            Assert.Empty(groups);
         }
     }
 }

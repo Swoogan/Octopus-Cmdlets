@@ -62,7 +62,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.Equal(1, variables.Count);
+            Assert.Single(variables);
             Assert.Equal("Octopus", variables[0].Name);
         }
 
@@ -73,7 +73,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.Equal(0, variables.Count);
+            Assert.Empty(variables);
         }
 
         [Fact]
@@ -83,7 +83,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.Equal(1, variables.Count);
+            Assert.Single(variables);
             Assert.Equal("Octopus", variables[0].Name);
         }
 
@@ -94,7 +94,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "LibraryVariableSets-1");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.Equal(1, variables.Count);
+            Assert.Single(variables);
             Assert.Equal("Octopus", variables[0].Name);
         }
 
@@ -105,7 +105,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.Equal(0, variables.Count);
+            Assert.Empty(variables);
         }
 
         [Fact]

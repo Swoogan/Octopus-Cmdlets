@@ -116,7 +116,7 @@ namespace Octopus_Cmdlets.Tests
             _ps.AddCommand(CmdletName).AddParameter("VariableSet", "ConnectionStrings").AddParameter("Id", "variables-1").AddParameter("Sensitive", true);
             _ps.Invoke();
 
-            Assert.Equal(true, _variableSet.Variables[0].IsSensitive);
+            Assert.True(_variableSet.Variables[0].IsSensitive);
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace Octopus_Cmdlets.Tests
             Assert.Equal(1, _variableSet.Variables.Count);
             Assert.Equal("NewName", _variableSet.Variables[0].Name);
             Assert.Equal("New Test Value", _variableSet.Variables[0].Value);
-            Assert.Equal(true, _variableSet.Variables[0].IsSensitive);
+            Assert.True(_variableSet.Variables[0].IsSensitive);
             Assert.Equal("environments-2", _variableSet.Variables[0].Scope[ScopeField.Environment].First());
             Assert.Equal("Web", _variableSet.Variables[0].Scope[ScopeField.Role].First());
             Assert.Equal("machines-2", _variableSet.Variables[0].Scope[ScopeField.Machine].First());

@@ -31,7 +31,7 @@ namespace Octopus_Cmdlets
     ///   </para>
     /// </example>
     /// <example>
-    ///   <code>PS C:\>add-octonugetfeed -Name DEV -Uri "\\test"</code>
+    ///   <code>PS C:\>add-octonugetfeed -Name DEV -FeedUri "\\test"</code>
     ///   <para>
     ///      Add a new feed named 'DEV' pointing to the path '\\test'.
     ///   </para>
@@ -46,6 +46,15 @@ namespace Octopus_Cmdlets
             Position = 0,
             Mandatory = true,
             ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// <para type="description">The URI of the feed to create.</para>
+        /// </summary>
+        [Parameter(
+            Position = 1,
+            Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string FeedUri { get; set; }
 
@@ -81,6 +90,7 @@ namespace Octopus_Cmdlets
         {
             _octopus.Feeds.Create(new NuGetFeedResource
             {
+                Name = Name,
                 FeedUri = FeedUri,
                 Username = Username,
                 Password = Password,
