@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Octopus.Client.Model;
+using Octopus.Client.Extensibility;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetDeploymentTests
     {
         private const string CmdletName = "Get-OctoDeployment";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetDeploymentTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(GetDeployment));
 
@@ -39,85 +38,85 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Releases.Get("Releases-1")).Returns(release);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Project_And_Release()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Release", "1.0.0");
             var deployments = _ps.Invoke<DeploymentResource>();
 
-            Assert.AreEqual(1, deployments.Count);
+            Assert.Equal(1, deployments.Count);
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Project_And_Release()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish").AddParameter("Release", "1.0.0");
-            _ps.Invoke();
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Project_And_Invalid_Release()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Release", "Gibberish");
             var deployments = _ps.Invoke<DeploymentResource>();
 
-            Assert.AreEqual(0, deployments.Count);
+            Assert.Equal(0, deployments.Count);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Project_And_ReleaseId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("ReleaseId", "Releases-1");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ReleaseId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ReleaseId", "Releases-1");
             var deployments = _ps.Invoke<DeploymentResource>();
 
-            Assert.AreEqual(1, deployments.Count);
+            Assert.Equal(1, deployments.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("1.0.0");
             var deployments = _ps.Invoke<DeploymentResource>();
 
-            Assert.AreEqual(1, deployments.Count);
+            Assert.Equal(1, deployments.Count);
         }
 
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Both()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish").AddParameter("Project", "Gibberish");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }

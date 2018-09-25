@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class UpdateVariableTests
     {
         private const string CmdletName = "Update-OctoVariable";
         private PowerShell _ps;
         private readonly VariableSetResource _variableSet = new VariableSetResource();
 
-        [TestInitialize]
-        public void Init()
+        public UpdateVariableTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(UpdateVariable));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -69,77 +67,77 @@ namespace Octopus_Cmdlets.Tests
                                      select m).ToList());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Name", "Test");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "variables-1").AddParameter("Name", "Test");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Id", "variables-1").AddParameter("Name", "NewName");
             _ps.Invoke();
 
-            Assert.AreEqual("NewName", _variableSet.Variables[0].Name);
+            Assert.Equal("NewName", _variableSet.Variables[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Sensitive()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Id", "variables-1").AddParameter("Sensitive", true);
             _ps.Invoke();
 
-            Assert.AreEqual(true, _variableSet.Variables[0].IsSensitive);
+            Assert.Equal(true, _variableSet.Variables[0].IsSensitive);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Environments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Id", "variables-1").AddParameter("Environment", "TEST");
             _ps.Invoke();
 
-            Assert.AreEqual("environments-2", _variableSet.Variables[0].Scope[ScopeField.Environment].First());
+            Assert.Equal("environments-2", _variableSet.Variables[0].Scope[ScopeField.Environment].First());
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish").AddParameter("Id", "variables-1");
-            _ps.Invoke();
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Id", "Gibberish");
-            _ps.Invoke();
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_All()
         {
             // Execute cmdlet
@@ -154,16 +152,16 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Sensitive", true);
             _ps.Invoke();
 
-            Assert.AreEqual(1, _variableSet.Variables.Count);
-            Assert.AreEqual("NewName", _variableSet.Variables[0].Name);
-            Assert.AreEqual("New Test Value", _variableSet.Variables[0].Value);
-            Assert.AreEqual(true, _variableSet.Variables[0].IsSensitive);
-            Assert.AreEqual("environments-2", _variableSet.Variables[0].Scope[ScopeField.Environment].First());
-            Assert.AreEqual("Web", _variableSet.Variables[0].Scope[ScopeField.Role].First());
-            Assert.AreEqual("machines-2", _variableSet.Variables[0].Scope[ScopeField.Machine].First());
+            Assert.Equal(1, _variableSet.Variables.Count);
+            Assert.Equal("NewName", _variableSet.Variables[0].Name);
+            Assert.Equal("New Test Value", _variableSet.Variables[0].Value);
+            Assert.Equal(true, _variableSet.Variables[0].IsSensitive);
+            Assert.Equal("environments-2", _variableSet.Variables[0].Scope[ScopeField.Environment].First());
+            Assert.Equal("Web", _variableSet.Variables[0].Scope[ScopeField.Role].First());
+            Assert.Equal("machines-2", _variableSet.Variables[0].Scope[ScopeField.Machine].First());
         }
 
-        //[TestMethod]
+        //[Fact]
         //public void With_Object()
         //{
         //    // Execute cmdlet
@@ -172,8 +170,8 @@ namespace Octopus_Cmdlets.Tests
         //        .AddParameter("InputObject", new VariableResource { Name = "Test" });
         //    _ps.Invoke();
 
-        //    Assert.AreEqual(1, _variableSet.Variables.Count);
-        //    Assert.AreEqual("Test", _variableSet.Variables[0].Name);
+        //    Assert.Equal(1, _variableSet.Variables.Count);
+        //    Assert.Equal("Test", _variableSet.Variables[0].Name);
         //}
     }
 }

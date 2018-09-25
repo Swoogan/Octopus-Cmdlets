@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
@@ -8,14 +8,12 @@ using Octopus.Client.Model.Endpoints;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class AddMachineTests
     {
         private PowerShell _ps;
         private readonly List<MachineResource> _machines = new List<MachineResource>();
 
-        [TestInitialize]
-        public void Init()
+        public AddMachineTests()
         {
             _ps = Utilities.CreatePowerShell("Add-OctoMachine", typeof (AddMachine));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -30,7 +28,7 @@ namespace Octopus_Cmdlets.Tests
             _machines.Clear();
 
             var machineRepo = new Mock<IMachineRepository>();
-            machineRepo.Setup(m => m.Create(It.IsAny<MachineResource>()))
+            machineRepo.Setup(m => m.Create(It.IsAny<MachineResource>(), null))
                 .Returns(delegate(MachineResource m)
                 {
                     _machines.Add(m);
@@ -40,7 +38,7 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Machines).Returns(machineRepo.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_EnvName()
         {
             // Execute cmdlet
@@ -51,16 +49,16 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Endpoint", new ListeningTentacleEndpointResource { Uri = "https://server.domain:port/", Thumbprint = "ThisIsMyThumbprint" });
             _ps.Invoke();
 
-            Assert.AreEqual(1, _machines.Count);
-            Assert.AreEqual(new ReferenceCollection("environments-1").ToString(), _machines[0].EnvironmentIds.ToString());
-            Assert.AreEqual("Tentacle_Name", _machines[0].Name);
-            Assert.AreEqual("ThisIsMyThumbprint", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Thumbprint);
-            Assert.AreEqual(new ReferenceCollection() { "Role1", "Role2" }.ToString(), _machines[0].Roles.ToString());
-            Assert.AreEqual("https://server.domain:port/", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Uri);
-            Assert.AreEqual(CommunicationStyle.TentaclePassive, _machines[0].Endpoint.CommunicationStyle);
+            Assert.Equal(1, _machines.Count);
+            Assert.Equal(new ReferenceCollection("environments-1").ToString(), _machines[0].EnvironmentIds.ToString());
+            Assert.Equal("Tentacle_Name", _machines[0].Name);
+            Assert.Equal("ThisIsMyThumbprint", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Thumbprint);
+            Assert.Equal(new ReferenceCollection() { "Role1", "Role2" }.ToString(), _machines[0].Roles.ToString());
+            Assert.Equal("https://server.domain:port/", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Uri);
+            Assert.Equal(CommunicationStyle.TentaclePassive, _machines[0].Endpoint.CommunicationStyle);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_EnvId()
         {
             // Execute cmdlet
@@ -71,16 +69,16 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Endpoint", new ListeningTentacleEndpointResource { Uri = "https://server.domain:port/", Thumbprint = "ThisIsMyThumbprint" });
             _ps.Invoke();
 
-            Assert.AreEqual(1, _machines.Count);
-            Assert.AreEqual(new ReferenceCollection("environments-1").ToString(), _machines[0].EnvironmentIds.ToString());
-            Assert.AreEqual("Tentacle_Name", _machines[0].Name);
-            Assert.AreEqual("ThisIsMyThumbprint", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Thumbprint);
-            Assert.AreEqual(new ReferenceCollection() { "Role1", "Role2" }.ToString(), _machines[0].Roles.ToString());
-            Assert.AreEqual("https://server.domain:port/", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Uri);
-            Assert.AreEqual(CommunicationStyle.TentaclePassive, _machines[0].Endpoint.CommunicationStyle);
+            Assert.Equal(1, _machines.Count);
+            Assert.Equal(new ReferenceCollection("environments-1").ToString(), _machines[0].EnvironmentIds.ToString());
+            Assert.Equal("Tentacle_Name", _machines[0].Name);
+            Assert.Equal("ThisIsMyThumbprint", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Thumbprint);
+            Assert.Equal(new ReferenceCollection() { "Role1", "Role2" }.ToString(), _machines[0].Roles.ToString());
+            Assert.Equal("https://server.domain:port/", ((ListeningTentacleEndpointResource)_machines[0].Endpoint).Uri);
+            Assert.Equal(CommunicationStyle.TentaclePassive, _machines[0].Endpoint.CommunicationStyle);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void Missing_Arguments1()
         {
             // Execute cmdlet
@@ -91,10 +89,10 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Roles", "Role1,Role2")
                 .AddParameter("Uri", "https://server.domain:port/")
                 .AddParameter("CommunicationStyle", "TentaclePassive");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void Missing_Arguments2()
         {
             // Execute cmdlet
@@ -105,10 +103,10 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Roles", "Role1,Role2")
                 .AddParameter("Uri", "https://server.domain:port/")
                 .AddParameter("CommunicationStyle", "TentaclePassive");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void Missing_Arguments3()
         {
             // Execute cmdlet
@@ -119,10 +117,10 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Roles", "Role1,Role2")
                 .AddParameter("Uri", "https://server.domain:port/")
                 .AddParameter("CommunicationStyle", "TentaclePassive");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void Missing_Arguments4()
         {
             // Execute cmdlet
@@ -133,10 +131,10 @@ namespace Octopus_Cmdlets.Tests
                 //.AddParameter("Roles", "Role1,Role2")
                 .AddParameter("Uri", "https://server.domain:port/")
                 .AddParameter("CommunicationStyle", "TentaclePassive");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void Missing_Arguments5()
         {
             // Execute cmdlet
@@ -147,10 +145,10 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Roles", "Role1,Role2")
                 //.AddParameter("Uri", "https://server.domain:port/")
                 .AddParameter("CommunicationStyle", "TentaclePassive");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void Missing_Arguments6()
         {
             // Execute cmdlet
@@ -162,15 +160,15 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Uri", "https://server.domain:port/")
                 //.AddParameter("CommunicationStyle", "TentaclePassive")
                 ;
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand("Add-OctoMachine");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }

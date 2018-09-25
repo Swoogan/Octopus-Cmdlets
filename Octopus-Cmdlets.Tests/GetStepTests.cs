@@ -1,20 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Exceptions;
 using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetStepTests
     {
         private const string CmdletName = "Get-OctoStep";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetStepTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof (GetStep));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -46,7 +44,7 @@ namespace Octopus_Cmdlets.Tests
                 .Throws(new OctopusResourceNotFoundException("Not Found"));
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
@@ -54,92 +52,92 @@ namespace Octopus_Cmdlets.Tests
             _ps.Invoke();
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ProjectName()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(2, steps.Count);
-            Assert.AreEqual("Test Step", steps[0].Name);
+            Assert.Equal(2, steps.Count);
+            Assert.Equal("Test Step", steps[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_ProjectName()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(0, steps.Count);
+            Assert.Equal(0, steps.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ProjectId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectId", "projects-1");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(2, steps.Count);
-            Assert.AreEqual("Test Step", steps[0].Name);
+            Assert.Equal(2, steps.Count);
+            Assert.Equal("Test Step", steps[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_ProjectId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectId", "Gibberish");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(0, steps.Count);
+            Assert.Equal(0, steps.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ProcessId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("DeploymentProcessId", "deploymentprocess-projects-1");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(2, steps.Count);
-            Assert.AreEqual("Test Step", steps[0].Name);
+            Assert.Equal(2, steps.Count);
+            Assert.Equal("Test Step", steps[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_ProcessId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("DeploymentProcessId", "Gibberish");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(0, steps.Count);
+            Assert.Equal(0, steps.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ProjectAndName()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Name", "Test Step 2");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(1, steps.Count);
-            Assert.AreEqual("Test Step 2", steps[0].Name);
+            Assert.Equal(1, steps.Count);
+            Assert.Equal("Test Step 2", steps[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ProjectIdAndName()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectId", "projects-1").AddParameter("Name", "Test Step 2");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(1, steps.Count);
-            Assert.AreEqual("Test Step 2", steps[0].Name);
+            Assert.Equal(1, steps.Count);
+            Assert.Equal("Test Step 2", steps[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ProcessIdAndName()
         {
             // Execute cmdlet
@@ -148,24 +146,24 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Name", "Test Step 2");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(1, steps.Count);
-            Assert.AreEqual("Test Step 2", steps[0].Name);
+            Assert.Equal(1, steps.Count);
+            Assert.Equal("Test Step 2", steps[0].Name);
         }
 
         
-        [TestMethod]
+        [Fact]
         public void With_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("Test Step 2");
             var steps = _ps.Invoke<DeploymentStepResource>();
 
-            Assert.AreEqual(1, steps.Count);
-            Assert.AreEqual("Test Step 2", steps[0].Name);
+            Assert.Equal(1, steps.Count);
+            Assert.Equal("Test Step 2", steps[0].Name);
         }
 
         
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_KitchenSink()
         {
             // Execute cmdlet

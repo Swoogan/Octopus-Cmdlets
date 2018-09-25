@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class UseVariableSetTests
     {
         private const string CmdletName = "Use-OctoVariableSet";
         private PowerShell _ps;
         private ProjectResource _projectResource;
 
-        [TestInitialize]
-        public void Init()
+        public UseVariableSetTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(UseVariableSet));
 
@@ -39,46 +37,46 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.LibraryVariableSets.FindAll(null, null)).Returns(libraryResources);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Gibberish").AddArgument("ConnectionStrings");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name_Parameter()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddParameter("Name", "ConnectionStrings");
             _ps.Invoke();
 
-            Assert.AreEqual("LibraryVariableSets-1", _projectResource.IncludedLibraryVariableSetIds[0]);
+            Assert.Equal("LibraryVariableSets-1", _projectResource.IncludedLibraryVariableSetIds[0]);
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("Gibberish");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }

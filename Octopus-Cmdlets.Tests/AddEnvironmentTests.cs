@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class AddEnvironmentTests
     {
         private const string CmdletName = "Add-OctoEnvironment";
         private PowerShell _ps;
         private readonly List<EnvironmentResource> _envs = new List<EnvironmentResource>();
 
-        [TestInitialize]
-        public void Init()
+        public AddEnvironmentTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof (AddEnvironment));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -23,7 +21,7 @@ namespace Octopus_Cmdlets.Tests
             _envs.Clear();
 
             var envRepo = new Mock<IEnvironmentRepository>();
-            envRepo.Setup(e => e.Create(It.IsAny<EnvironmentResource>()))
+            envRepo.Setup(e => e.Create(It.IsAny<EnvironmentResource>(), null))
                 .Returns(delegate(EnvironmentResource e)
                 {
                     _envs.Add(e);
@@ -33,26 +31,26 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Environments).Returns(envRepo.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus_Dev");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _envs.Count);
-            Assert.AreEqual("Octopus_Dev", _envs[0].Name);
+            Assert.Equal(1, _envs.Count);
+            Assert.Equal("Octopus_Dev", _envs[0].Name);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Description()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Description", "Octopus Development environment");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name_And_Description()
         {
             // Execute cmdlet
@@ -61,12 +59,12 @@ namespace Octopus_Cmdlets.Tests
                 AddParameter("Description", "Octopus Development environment");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _envs.Count);
-            Assert.AreEqual("Octopus_Dev", _envs[0].Name);
-            Assert.AreEqual("Octopus Development environment", _envs[0].Description);
+            Assert.Equal(1, _envs.Count);
+            Assert.Equal("Octopus_Dev", _envs[0].Name);
+            Assert.Equal("Octopus Development environment", _envs[0].Description);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Arguments()
         {
             // Execute cmdlet
@@ -75,17 +73,17 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("Octopus Development environment");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _envs.Count);
-            Assert.AreEqual("Octopus_Dev", _envs[0].Name);
-            Assert.AreEqual("Octopus Development environment", _envs[0].Description);
+            Assert.Equal(1, _envs.Count);
+            Assert.Equal("Octopus_Dev", _envs[0].Name);
+            Assert.Equal("Octopus Development environment", _envs[0].Description);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }

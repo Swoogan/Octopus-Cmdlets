@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetEnvironmentTests
     {
         private const string CmdletName = "Get-OctoEnvironment";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetEnvironmentTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(GetEnvironment));
 
@@ -29,85 +27,85 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Environments.FindAll(null, null)).Returns(environments);
         }
 
-        [TestMethod]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.AreEqual(4, environments.Count);
+            Assert.Equal(4, environments.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.AreEqual(1, environments.Count);
-            Assert.AreEqual("Octopus", environments[0].Name);
+            Assert.Equal(1, environments.Count);
+            Assert.Equal("Octopus", environments[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.AreEqual(0, environments.Count);
+            Assert.Equal(0, environments.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "environments-1");
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.AreEqual(1, environments.Count);
-            Assert.AreEqual("Octopus", environments[0].Name);
+            Assert.Equal(1, environments.Count);
+            Assert.Equal("Octopus", environments[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish");
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.AreEqual(0, environments.Count);
+            Assert.Equal(0, environments.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ScopeValue()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ScopeValue", new ScopeValue("environments-1"));
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.AreEqual(1, environments.Count);
-            Assert.AreEqual("Octopus", environments[0].Name);
+            Assert.Equal(1, environments.Count);
+            Assert.Equal("Octopus", environments[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_ScopeValue()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ScopeValue", new ScopeValue("Gibberish"));
             var environments = _ps.Invoke<EnvironmentResource>();
 
-            Assert.AreEqual(0, environments.Count);
+            Assert.Equal(0, environments.Count);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Id_And_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Name", "Name").AddParameter("Id", "Id");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }

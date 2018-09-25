@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class CopyProjectTests
     {
         private const string CmdletName = "Copy-OctoProject";
@@ -16,8 +15,7 @@ namespace Octopus_Cmdlets.Tests
         private VariableSetResource _copyVariables;
         private DeploymentProcessResource _copyProcess;
 
-        [TestInitialize]
-        public void Init()
+        public CopyProjectTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof (CopyProject));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -49,7 +47,7 @@ namespace Octopus_Cmdlets.Tests
 
             octoRepo.Setup(o => o.Projects.FindByName("Source", null, null)).Returns(project);
             octoRepo.Setup(o => o.Projects.FindByName("Gibberish", null, null)).Returns((ProjectResource) null);
-            octoRepo.Setup(o => o.Projects.Create(It.IsAny<ProjectResource>())).Returns(
+            octoRepo.Setup(o => o.Projects.Create(It.IsAny<ProjectResource>(), null)).Returns(
                 delegate(ProjectResource p)
                 {
                     p.VariableSetId = "variablesets-2";
@@ -86,7 +84,7 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.VariableSets.Get(It.IsIn(new[] { "variablesets-2" }))).Returns(_copyVariables);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_All()
         {
             // Execute cmdlet
@@ -96,36 +94,36 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("ProjectGroup", "Octopus");
             _ps.Invoke();
 
-            Assert.AreEqual(2, _projects.Count);
+            Assert.Equal(2, _projects.Count);
 
             var source = _projects[0];
             var copy = _projects[1];
-            Assert.AreEqual("Copy", copy.Name);
-            Assert.AreEqual(source.Description, copy.Description);
-            Assert.AreEqual("projectgroups-1", copy.ProjectGroupId);
-            Assert.AreEqual(source.DefaultToSkipIfAlreadyInstalled, copy.DefaultToSkipIfAlreadyInstalled);
-            CollectionAssert.AreEqual(source.IncludedLibraryVariableSetIds, copy.IncludedLibraryVariableSetIds);
-            Assert.AreEqual(source.VersioningStrategy, copy.VersioningStrategy);
-            Assert.AreEqual(source.AutoCreateRelease, copy.AutoCreateRelease);
-            Assert.AreEqual(source.ReleaseCreationStrategy, copy.ReleaseCreationStrategy);
-            Assert.AreEqual(source.IsDisabled, copy.IsDisabled);
-            Assert.AreEqual(source.LifecycleId, copy.LifecycleId);
+            Assert.Equal("Copy", copy.Name);
+            Assert.Equal(source.Description, copy.Description);
+            Assert.Equal("projectgroups-1", copy.ProjectGroupId);
+            Assert.Equal(source.DefaultToSkipIfAlreadyInstalled, copy.DefaultToSkipIfAlreadyInstalled);
+            Assert.Equal(source.IncludedLibraryVariableSetIds, copy.IncludedLibraryVariableSetIds);
+            Assert.Equal(source.VersioningStrategy, copy.VersioningStrategy);
+            Assert.Equal(source.AutoCreateRelease, copy.AutoCreateRelease);
+            Assert.Equal(source.ReleaseCreationStrategy, copy.ReleaseCreationStrategy);
+            Assert.Equal(source.IsDisabled, copy.IsDisabled);
+            Assert.Equal(source.LifecycleId, copy.LifecycleId);
 
             var variable = _copyVariables.Variables.FirstOrDefault(x => x.Name == "Name" && x.Value == "Value");
-            Assert.IsNotNull(variable);
-            Assert.IsTrue(variable.Scope.ContainsKey(ScopeField.Action));
-            Assert.AreEqual(0, variable.Scope[ScopeField.Action].Count);
-            Assert.IsTrue(variable.Scope.ContainsKey(ScopeField.Environment));
-            Assert.AreEqual("environments-1", variable.Scope[ScopeField.Environment].First());
+            Assert.NotNull(variable);
+            Assert.True(variable.Scope.ContainsKey(ScopeField.Action));
+            Assert.Equal(0, variable.Scope[ScopeField.Action].Count);
+            Assert.True(variable.Scope.ContainsKey(ScopeField.Environment));
+            Assert.Equal("environments-1", variable.Scope[ScopeField.Environment].First());
 
             var steps = _copyProcess.Steps.FirstOrDefault(x => x.Name == "Database");
-            Assert.IsNotNull(steps);
-            Assert.AreEqual(1, steps.Actions.Count);
-            Assert.AreEqual("Action", steps.Actions[0].Name);
-            Assert.AreEqual("environments-1", steps.Actions[0].Environments.First());
+            Assert.NotNull(steps);
+            Assert.Equal(1, steps.Actions.Count);
+            Assert.Equal("Action", steps.Actions[0].Name);
+            Assert.Equal("environments-1", steps.Actions[0].Environments.First());
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Group()
         {
             // Execute cmdlet
@@ -133,10 +131,10 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Name", "Source")
                 .AddParameter("Destination", "Copy")
                 .AddParameter("ProjectGroup", "Gibberish");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Project()
         {
             // Execute cmdlet
@@ -144,10 +142,10 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Name", "Gibberish")
                 .AddParameter("Destination", "Copy")
                 .AddParameter("ProjectGroup", "Octopus");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Arguments()
         {
             // Execute cmdlet
@@ -157,28 +155,28 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("Octopus");
             _ps.Invoke();
 
-            Assert.AreEqual(2, _projects.Count);
+            Assert.Equal(2, _projects.Count);
 
             var source = _projects[0];
             var copy = _projects[1];
-            Assert.AreEqual("Copy", copy.Name);
-            Assert.AreEqual(source.Description, copy.Description);
-            Assert.AreEqual("projectgroups-1", copy.ProjectGroupId);
-            Assert.AreEqual(source.DefaultToSkipIfAlreadyInstalled, copy.DefaultToSkipIfAlreadyInstalled);
-            CollectionAssert.AreEqual(source.IncludedLibraryVariableSetIds, copy.IncludedLibraryVariableSetIds);
-            Assert.AreEqual(source.VersioningStrategy, copy.VersioningStrategy);
-            Assert.AreEqual(source.AutoCreateRelease, copy.AutoCreateRelease);
-            Assert.AreEqual(source.ReleaseCreationStrategy, copy.ReleaseCreationStrategy);
-            Assert.AreEqual(source.IsDisabled, copy.IsDisabled);
-            Assert.AreEqual(source.LifecycleId, copy.LifecycleId);
+            Assert.Equal("Copy", copy.Name);
+            Assert.Equal(source.Description, copy.Description);
+            Assert.Equal("projectgroups-1", copy.ProjectGroupId);
+            Assert.Equal(source.DefaultToSkipIfAlreadyInstalled, copy.DefaultToSkipIfAlreadyInstalled);
+            Assert.Equal(source.IncludedLibraryVariableSetIds, copy.IncludedLibraryVariableSetIds);
+            Assert.Equal(source.VersioningStrategy, copy.VersioningStrategy);
+            Assert.Equal(source.AutoCreateRelease, copy.AutoCreateRelease);
+            Assert.Equal(source.ReleaseCreationStrategy, copy.ReleaseCreationStrategy);
+            Assert.Equal(source.IsDisabled, copy.IsDisabled);
+            Assert.Equal(source.LifecycleId, copy.LifecycleId);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }

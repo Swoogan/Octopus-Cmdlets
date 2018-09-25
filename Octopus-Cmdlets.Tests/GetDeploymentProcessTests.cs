@@ -1,20 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Exceptions;
 using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetDeploymentProcessTests
     {
         private const string CmdletName = "Get-OctoDeploymentProcess";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetDeploymentProcessTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(GetDeploymentProcess));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -36,71 +34,71 @@ namespace Octopus_Cmdlets.Tests
                 .Throws(new OctopusResourceNotFoundException("Not Found"));
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "DeploymentProcesses-1");
             var projects = _ps.Invoke<DeploymentProcessResource>();
 
-            Assert.AreEqual(1, projects.Count);
+            Assert.Equal(1, projects.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish");
             var projects = _ps.Invoke<DeploymentProcessResource>();
 
-            Assert.AreEqual(0, projects.Count);
+            Assert.Equal(0, projects.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ProjectName()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus");
             var projects = _ps.Invoke<DeploymentProcessResource>();
 
-            Assert.AreEqual(1, projects.Count);
+            Assert.Equal(1, projects.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_ProjectName()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish");
             var projects = _ps.Invoke<DeploymentProcessResource>();
 
-            Assert.AreEqual(0, projects.Count);
+            Assert.Equal(0, projects.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("DeploymentProcesses-1");
             var projects = _ps.Invoke<DeploymentProcessResource>();
 
-            Assert.AreEqual(1, projects.Count);
+            Assert.Equal(1, projects.Count);
         }
 
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Both()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish").AddParameter("Project", "Gibberish");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
  }

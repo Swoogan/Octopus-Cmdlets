@@ -1,19 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Repositories;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetMachineRoleTests
     {
         private const string CmdletName = "Get-OctoMachineRole";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetMachineRoleTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(GetMachineRole));
 
@@ -31,35 +29,35 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.MachineRoles).Returns(machineRepo.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
             var results = _ps.Invoke<string>();
 
-            Assert.AreEqual(2, results.Count);
+            Assert.Equal(2, results.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("WebServer");
             var results = _ps.Invoke<string>();
 
-            Assert.AreEqual(1, results.Count);
-            Assert.AreEqual("WebServer", results[0]);
+            Assert.Equal(1, results.Count);
+            Assert.Equal("WebServer", results[0]);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var results = _ps.Invoke<string>();
 
-            Assert.AreEqual(0, results.Count);
+            Assert.Equal(0, results.Count);
         }
     }
 }

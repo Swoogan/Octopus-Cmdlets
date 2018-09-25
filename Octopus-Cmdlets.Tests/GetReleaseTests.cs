@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Octopus.Client.Exceptions;
 using Octopus.Client.Model;
+using Octopus.Client.Extensibility;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetReleaseTests
     {
         private const string CmdletName = "Get-OctoRelease";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetReleaseTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(GetRelease));
 
@@ -42,90 +41,90 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Releases.Get("Gibberish")).Throws(new OctopusResourceNotFoundException("Not found"));
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus");
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.AreEqual(3, releases.Count);
+            Assert.Equal(3, releases.Count);
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_ProjectId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectId", "projects-1");
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.AreEqual(3, releases.Count);
+            Assert.Equal(3, releases.Count);
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_ProjectId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectId", "Gibberish");
-            _ps.Invoke();
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Project_And_Version()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Version", new[] {"1.0.0"});
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.AreEqual(1, releases.Count);
-            Assert.AreEqual("1.0.0", releases[0].Version);
+            Assert.Equal(1, releases.Count);
+            Assert.Equal("1.0.0", releases[0].Version);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Project_And_Invalid_Version()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Version", new[] { "Gibberish" });
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.AreEqual(0, releases.Count);
+            Assert.Equal(0, releases.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "releases-1");
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.AreEqual(1, releases.Count);
-            Assert.AreEqual("1.0.0", releases[0].Version);
+            Assert.Equal(1, releases.Count);
+            Assert.Equal("1.0.0", releases[0].Version);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish");
             var releases = _ps.Invoke<ReleaseResource>();
 
-            Assert.AreEqual(0, releases.Count);
+            Assert.Equal(0, releases.Count);
         }
     }
 }

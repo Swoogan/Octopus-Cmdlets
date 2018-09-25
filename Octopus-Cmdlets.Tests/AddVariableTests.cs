@@ -1,19 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Octopus.Client.Model;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class AddVariableTests
     {
         private const string CmdletName = "Add-OctoVariable";
         private PowerShell _ps;
         private readonly VariableSetResource _variableSet = new VariableSetResource();
 
-        [TestInitialize]
-        public void Init()
+        public AddVariableTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(AddVariable));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -44,34 +42,34 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.Machines.FindByNames(new[] { "web-01" }, null, null)).Returns(machines);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
         
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus").AddParameter("Name", "Test");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _variableSet.Variables.Count);
-            Assert.AreEqual("Test", _variableSet.Variables[0].Name);
+            Assert.Equal(1, _variableSet.Variables.Count);
+            Assert.Equal("Test", _variableSet.Variables[0].Name);
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish").AddParameter("Name", "Test");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_All()
         {
             // Execute cmdlet
@@ -86,15 +84,15 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Sensitive", false);
             _ps.Invoke();
 
-            Assert.AreEqual(1, _variableSet.Variables.Count);
-            Assert.AreEqual("Test", _variableSet.Variables[0].Name);
-            Assert.AreEqual("Test Value", _variableSet.Variables[0].Value);
+            Assert.Equal(1, _variableSet.Variables.Count);
+            Assert.Equal("Test", _variableSet.Variables[0].Name);
+            Assert.Equal("Test Value", _variableSet.Variables[0].Value);
 
             var scopeValue = _variableSet.Variables[0].Scope[ScopeField.Action];
-            Assert.AreEqual("Step-1", scopeValue.ToString());
+            Assert.Equal("Step-1", scopeValue.ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Object()
         {
             // Execute cmdlet
@@ -103,8 +101,8 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("InputObject", new VariableResource {Name = "Test"});
             _ps.Invoke();
 
-            Assert.AreEqual(1, _variableSet.Variables.Count);
-            Assert.AreEqual("Test", _variableSet.Variables[0].Name);
+            Assert.Equal(1, _variableSet.Variables.Count);
+            Assert.Equal("Test", _variableSet.Variables[0].Name);
         }
     }
 }

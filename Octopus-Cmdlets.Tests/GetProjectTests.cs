@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetProjectTests
     {
         private const string CmdletName = "Get-OctoProject";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetProjectTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof (GetProject));
 
@@ -60,108 +58,108 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.ProjectGroups).Returns(projectGroupRepo.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(4, projects.Count);
+            Assert.Equal(4, projects.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(1, projects.Count);
-            Assert.AreEqual("Octopus", projects[0].Name);
+            Assert.Equal(1, projects.Count);
+            Assert.Equal("Octopus", projects[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(0, projects.Count);
+            Assert.Equal(0, projects.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Group()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectGroup", "Octopus");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(2, projects.Count);
-            Assert.AreEqual(1, projects.Count(p => p.Name == "Octopus"));
-            Assert.AreEqual(1, projects.Count(p => p.Name == "Deploy"));
+            Assert.Equal(2, projects.Count);
+            Assert.Equal(1, projects.Count(p => p.Name == "Octopus"));
+            Assert.Equal(1, projects.Count(p => p.Name == "Deploy"));
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Group()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("ProjectGroup", "Gibberish");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(0, projects.Count);
+            Assert.Equal(0, projects.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "projects-1");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(1, projects.Count);
-            Assert.AreEqual("Octopus", projects[0].Name);
+            Assert.Equal(1, projects.Count);
+            Assert.Equal("Octopus", projects[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "projects-5000");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(0, projects.Count);
+            Assert.Equal(0, projects.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Exclude()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Exclude", new[]{"Deploy", "Server"});
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(2, projects.Count);
-            Assert.AreEqual(1, projects.Count(p => p.Name == "Octopus"));
-            Assert.AreEqual(1, projects.Count(p => p.Name == "Automation"));
+            Assert.Equal(2, projects.Count);
+            Assert.Equal(1, projects.Count(p => p.Name == "Octopus"));
+            Assert.Equal(1, projects.Count(p => p.Name == "Automation"));
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Exclude()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Exclude", "Gibberish");
             var projects = _ps.Invoke<ProjectResource>();
 
-            Assert.AreEqual(4, projects.Count);
+            Assert.Equal(4, projects.Count);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Id_And_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Name", "Name").AddParameter("Id", "Id");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }

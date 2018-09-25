@@ -13,10 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup Label="PackageReferences">
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="NuGet.Versioning" Version="4.3.0" />
-    <PackageReference Include="Octopus.Client" Version="4.24.0" />
-    <PackageReference Include="Sprache" Version="2.1.0" />
+    <PackageReference Include="NuGet.Versioning" Version="4.5.0" />
+    <PackageReference Include="Octopus.Client" Version="4.41.2" />
     <PackageReference Include="System.Management.Automation.dll" Version="10.0.10586.0" />
   </ItemGroup>
 

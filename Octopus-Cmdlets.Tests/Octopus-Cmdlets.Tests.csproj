@@ -13,17 +13,12 @@
   </ItemGroup>
 
   <ItemGroup Label="PackageReferences">
-    <PackageReference Include="Castle.Core" Version="4.2.0" />
-    <PackageReference Include="Moq" Version="4.7.137" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="NuGet.Versioning" Version="4.3.0" />
-    <PackageReference Include="Octopus.Client" Version="4.24.0" />
-    <PackageReference Include="Sprache" Version="2.1.0" />
+    <PackageReference Include="Moq" Version="4.10.0" />
+    <PackageReference Include="NuGet.Versioning" Version="4.8.0" />
+    <PackageReference Include="Octopus.Client" Version="4.41.2" />
     <PackageReference Include="System.Management.Automation.dll" Version="10.0.10586.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="15.3.0" />
+    <PackageReference Include="xunit.assert" Version="2.4.0" />
+    <PackageReference Include="xunit.core" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
