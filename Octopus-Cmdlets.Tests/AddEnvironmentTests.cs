@@ -35,7 +35,8 @@ namespace Octopus_Cmdlets.Tests
         public void With_Name()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus_Dev");
+            _ps.AddCommand(CmdletName)
+                .AddParameter(nameof(AddEnvironment.Name), "Octopus_Dev");
             _ps.Invoke();
 
             Assert.Single(_envs);
@@ -46,7 +47,8 @@ namespace Octopus_Cmdlets.Tests
         public void With_Description()
         {
             // Execute cmdlet
-            _ps.AddCommand(CmdletName).AddParameter("Description", "Octopus Development environment");
+            _ps.AddCommand(CmdletName)
+                .AddParameter(nameof(AddEnvironment.Description), "Octopus Development environment");
             Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
@@ -55,8 +57,8 @@ namespace Octopus_Cmdlets.Tests
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).
-                AddParameter("Name", "Octopus_Dev").
-                AddParameter("Description", "Octopus Development environment");
+                AddParameter(nameof(AddEnvironment.Name), "Octopus_Dev").
+                AddParameter(nameof(AddEnvironment.Description), "Octopus Development environment");
             _ps.Invoke();
 
             Assert.Single(_envs);
