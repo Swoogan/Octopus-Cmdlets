@@ -1,20 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetVariableSetTests
     {
         private const string CmdletName = "Get-OctoVariableSet";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetVariableSetTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(GetVariableSet));
 
@@ -47,75 +45,75 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.VariableSets).Returns(variableRepo.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.AreEqual(3, variables.Count);
+            Assert.Equal(3, variables.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("Octopus", variables[0].Name);
+            Assert.Single(variables);
+            Assert.Equal("Octopus", variables[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.AreEqual(0, variables.Count);
+            Assert.Empty(variables);
         }
 
-        [TestMethod]
+        [Fact]
         public void By_Name_With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("Octopus", variables[0].Name);
+            Assert.Single(variables);
+            Assert.Equal("Octopus", variables[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "LibraryVariableSets-1");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("Octopus", variables[0].Name);
+            Assert.Single(variables);
+            Assert.Equal("Octopus", variables[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "Gibberish");
             var variables = _ps.Invoke<LibraryVariableSetResource>();
 
-            Assert.AreEqual(0, variables.Count);
+            Assert.Empty(variables);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Id_And_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus").AddParameter("Id", "Id");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }

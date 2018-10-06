@@ -8,8 +8,6 @@ can automate while you automate.
 Octopus-Cmdlets is a suite of PowerShell cmdlets that enable you to simplify 
 and automate your interactions with an Octopus Deploy server.
 
-<sub>Automate all the things!!!<sub>
-
 Note
 ====
 The module name has changed from `Octopus.Cmdlets` to `Octopus-Cmdlets`. Please 
@@ -22,13 +20,6 @@ Powershell Gallery (preferred method)
 
     Install-Module -Name Octopus-Cmdlets
 
-PsGet
------
-If you don't already have PsGet, install it from https://github.com/psget/psget
-
-To install Octopus-Cmdlets run
-
-    install-module Octopus-Cmdlets
 
 Binary Archive
 --------------
@@ -66,6 +57,6 @@ description of the individual cmdlets, or type `help [cmdlet]` from PowerShell.
 
 Licence
 =======
-Copyright 2014 Colin Svingen
+Copyright 2018 Colin Svingen
 
    Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)

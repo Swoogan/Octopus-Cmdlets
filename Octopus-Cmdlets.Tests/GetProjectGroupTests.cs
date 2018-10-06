@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Exceptions;
 using Octopus.Client.Model;
@@ -10,14 +10,12 @@ using Octopus.Client.Repositories;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetProjectGroupTests
     {
         private const string CmdletName = "Get-OctoProjectGroup";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetProjectGroupTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof (GetProjectGroup));
 
@@ -46,7 +44,7 @@ namespace Octopus_Cmdlets.Tests
 
         private static Func<string, ProjectGroupResource> CreateGet(IEnumerable<ProjectGroupResource> groupResources)
         {
-            return delegate(string id)
+            return (string id) =>
             {
                 var group = (from g in groupResources
                     where g.Id.Equals(id,
@@ -60,56 +58,56 @@ namespace Octopus_Cmdlets.Tests
             };
         }
 
-        [TestMethod]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.AreEqual(2, groups.Count);
+            Assert.Equal(2, groups.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.AreEqual(1, groups.Count);
-            Assert.AreEqual("Octopus", groups[0].Name);
+            Assert.Single(groups);
+            Assert.Equal("Octopus", groups[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Gibberish");
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.AreEqual(0, groups.Count);
+            Assert.Empty(groups);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "projectgroups-1");
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.AreEqual(1, groups.Count);
-            Assert.AreEqual("Octopus", groups[0].Name);
+            Assert.Single(groups);
+            Assert.Equal("Octopus", groups[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_Id()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Id", "gibberish");
             var groups = _ps.Invoke<ProjectGroupResource>();
 
-            Assert.AreEqual(0, groups.Count);
+            Assert.Empty(groups);
         }
     }
 }

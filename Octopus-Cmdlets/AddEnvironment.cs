@@ -77,7 +77,7 @@ namespace Octopus_Cmdlets
             {
                 Name = Name,
                 Description = Description
-            });
+            }, null);
         }
     }
 }

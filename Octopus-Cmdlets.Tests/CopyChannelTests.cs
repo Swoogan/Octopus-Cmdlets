@@ -1,13 +1,13 @@
 ﻿using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 using System.Collections.Generic;
 using Octopus.Client;
+using Octopus.Client.Extensibility;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class CopyChannelTests
     {
         private const string CmdletName = "Copy-OctoChannel";
@@ -15,8 +15,7 @@ namespace Octopus_Cmdlets.Tests
         private Mock<IOctopusRepository> _octoRepo;
         private ChannelResource _channel;
 
-        [TestInitialize]
-        public void Init()
+        public CopyChannelTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(CopyChannel));
             _octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -68,39 +67,39 @@ namespace Octopus_Cmdlets.Tests
             _octoRepo.Setup(o => o.Channels.FindByName(It.IsAny<ProjectResource>(), "Default")).Returns((ChannelResource)null);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void Just_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Octopus");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void Just_Name()
         {
             // Execute cmdlet
            _ps.AddCommand(CmdletName).AddParameter("Name", "Priority");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Project_And_Name()
         {
             ChannelResource createdChannel = null;
 
             _octoRepo
-                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>()))
-                .Callback<ChannelResource>(ch => createdChannel = ch)
-                .Returns<ChannelResource>(ch => ch);
+                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), It.IsAny<object>()))
+                .Callback<ChannelResource, object>((ch, o) => createdChannel = ch)
+                .Returns<ChannelResource, object>((ch, o) => ch);
 
             // Execute cmdlet
             _ps.AddCommand(CmdletName)
@@ -108,52 +107,52 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Name", "Priority");
             _ps.Invoke();
 
-            Assert.IsNotNull(createdChannel);
-            Assert.IsNull(createdChannel.Id);
-            Assert.AreEqual(_channel.LifecycleId, createdChannel.LifecycleId);
-            Assert.AreEqual(_channel.ProjectId, createdChannel.ProjectId);
-            Assert.AreEqual($"{_channel.Name} - Copy", createdChannel.Name);
-            Assert.AreEqual(_channel.Description, createdChannel.Description);
-            Assert.IsFalse(createdChannel.IsDefault);
-            Assert.IsNull(createdChannel.LastModifiedBy);
-            Assert.IsNull(createdChannel.LastModifiedOn);
-            Assert.IsNotNull(createdChannel.Links);
-            Assert.AreNotSame(_channel.Links, createdChannel.Links);
-            Assert.IsNotNull(createdChannel.Rules);
-            Assert.AreNotSame(_channel.Rules, createdChannel.Rules);
-            Assert.IsNotNull(createdChannel.TenantTags);
-            Assert.AreNotSame(_channel.TenantTags, createdChannel.TenantTags);
+            Assert.NotNull(createdChannel);
+            Assert.Null(createdChannel.Id);
+            Assert.Equal(_channel.LifecycleId, createdChannel.LifecycleId);
+            Assert.Equal(_channel.ProjectId, createdChannel.ProjectId);
+            Assert.Equal($"{_channel.Name} - Copy", createdChannel.Name);
+            Assert.Equal(_channel.Description, createdChannel.Description);
+            Assert.False(createdChannel.IsDefault);
+            Assert.Null(createdChannel.LastModifiedBy);
+            Assert.Null(createdChannel.LastModifiedOn);
+            Assert.NotNull(createdChannel.Links);
+            Assert.NotSame(_channel.Links, createdChannel.Links);
+            Assert.NotNull(createdChannel.Rules);
+            Assert.NotSame(_channel.Rules, createdChannel.Rules);
+            Assert.NotNull(createdChannel.TenantTags);
+            Assert.NotSame(_channel.TenantTags, createdChannel.TenantTags);
         }
         
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName)
                 .AddParameter("Project", "Gibberish")
                 .AddParameter("Name", "Priority");
-            _ps.Invoke();
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Project_And_Invalid_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName)
                 .AddParameter("Project", "Octopus")
                 .AddParameter("Name", "Default");
-            _ps.Invoke();
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Destination()
         {
             ChannelResource createdChannel = null;
 
             _octoRepo
-                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>()))
-                .Callback<ChannelResource>(ch => createdChannel = ch)
-                .Returns<ChannelResource>(ch => ch);
+                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), It.IsAny<object>()))
+                .Callback<ChannelResource, object>((ch, o) => createdChannel = ch)
+                .Returns<ChannelResource, object>((ch, o) => ch);
 
             // Execute cmdlet
             _ps.AddCommand(CmdletName)
@@ -162,32 +161,32 @@ namespace Octopus_Cmdlets.Tests
                 .AddParameter("Destination", "Passthrough");
             _ps.Invoke();
 
-            Assert.IsNotNull(createdChannel);
-            Assert.IsNull(createdChannel.Id);
-            Assert.AreEqual(_channel.LifecycleId, createdChannel.LifecycleId);
-            Assert.AreEqual(_channel.ProjectId, createdChannel.ProjectId);
-            Assert.AreEqual("Passthrough", createdChannel.Name);
-            Assert.AreEqual(_channel.Description, createdChannel.Description);
-            Assert.IsFalse(createdChannel.IsDefault);
-            Assert.IsNull(createdChannel.LastModifiedBy);
-            Assert.IsNull(createdChannel.LastModifiedOn);
-            Assert.IsNotNull(createdChannel.Links);
-            Assert.AreNotSame(_channel.Links, createdChannel.Links);
-            Assert.IsNotNull(createdChannel.Rules);
-            Assert.AreNotSame(_channel.Rules, createdChannel.Rules);
-            Assert.IsNotNull(createdChannel.TenantTags);
-            Assert.AreNotSame(_channel.TenantTags, createdChannel.TenantTags);
+            Assert.NotNull(createdChannel);
+            Assert.Null(createdChannel.Id);
+            Assert.Equal(_channel.LifecycleId, createdChannel.LifecycleId);
+            Assert.Equal(_channel.ProjectId, createdChannel.ProjectId);
+            Assert.Equal("Passthrough", createdChannel.Name);
+            Assert.Equal(_channel.Description, createdChannel.Description);
+            Assert.False(createdChannel.IsDefault);
+            Assert.Null(createdChannel.LastModifiedBy);
+            Assert.Null(createdChannel.LastModifiedOn);
+            Assert.NotNull(createdChannel.Links);
+            Assert.NotSame(_channel.Links, createdChannel.Links);
+            Assert.NotNull(createdChannel.Rules);
+            Assert.NotSame(_channel.Rules, createdChannel.Rules);
+            Assert.NotNull(createdChannel.TenantTags);
+            Assert.NotSame(_channel.TenantTags, createdChannel.TenantTags);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Arguments()
         {
             ChannelResource createdChannel = null;
 
             _octoRepo
-                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>()))
-                .Callback<ChannelResource>(ch => createdChannel = ch)
-                .Returns<ChannelResource>(ch => ch);
+                .Setup(o => o.Channels.Create(It.IsAny<ChannelResource>(), It.IsAny<object>()))
+                .Callback<ChannelResource, object>((ch, o) => createdChannel = ch)
+                .Returns<ChannelResource, object>((ch, o) => ch);
 
             // Execute cmdlet
             _ps.AddCommand(CmdletName)
@@ -196,21 +195,21 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("Passthrough");
             _ps.Invoke();
 
-            Assert.IsNotNull(createdChannel);
-            Assert.IsNull(createdChannel.Id);
-            Assert.AreEqual(_channel.LifecycleId, createdChannel.LifecycleId);
-            Assert.AreEqual(_channel.ProjectId, createdChannel.ProjectId);
-            Assert.AreEqual("Passthrough", createdChannel.Name);
-            Assert.AreEqual(_channel.Description, createdChannel.Description);
-            Assert.IsFalse(createdChannel.IsDefault);
-            Assert.IsNull(createdChannel.LastModifiedBy);
-            Assert.IsNull(createdChannel.LastModifiedOn);
-            Assert.IsNotNull(createdChannel.Links);
-            Assert.AreNotSame(_channel.Links, createdChannel.Links);
-            Assert.IsNotNull(createdChannel.Rules);
-            Assert.AreNotSame(_channel.Rules, createdChannel.Rules);
-            Assert.IsNotNull(createdChannel.TenantTags);
-            Assert.AreNotSame(_channel.TenantTags, createdChannel.TenantTags);
+            Assert.NotNull(createdChannel);
+            Assert.Null(createdChannel.Id);
+            Assert.Equal(_channel.LifecycleId, createdChannel.LifecycleId);
+            Assert.Equal(_channel.ProjectId, createdChannel.ProjectId);
+            Assert.Equal("Passthrough", createdChannel.Name);
+            Assert.Equal(_channel.Description, createdChannel.Description);
+            Assert.False(createdChannel.IsDefault);
+            Assert.Null(createdChannel.LastModifiedBy);
+            Assert.Null(createdChannel.LastModifiedOn);
+            Assert.NotNull(createdChannel.Links);
+            Assert.NotSame(_channel.Links, createdChannel.Links);
+            Assert.NotNull(createdChannel.Rules);
+            Assert.NotSame(_channel.Rules, createdChannel.Rules);
+            Assert.NotNull(createdChannel.TenantTags);
+            Assert.NotSame(_channel.TenantTags, createdChannel.TenantTags);
         }
     }
 }

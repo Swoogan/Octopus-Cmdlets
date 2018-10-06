@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
+using Octopus.Client.Extensibility;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class GetVariableTests
     {
         private const string CmdletName = "Get-OctoVariable";
         private PowerShell _ps;
 
-        [TestInitialize]
-        public void Init()
+        public GetVariableTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(GetVariable));
 
@@ -74,97 +73,97 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.VariableSets).Returns(variableRepo.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void By_Project_No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             var variables = _ps.Invoke<VariableResource>();
 
-            Assert.AreEqual(3, variables.Count);
+            Assert.Equal(3, variables.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void By_Project_With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus").AddArgument("Deploy");
             var variables = _ps.Invoke<VariableResource>();
 
-            Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("To Production", variables[0].Value);
+            Assert.Single(variables);
+            Assert.Equal("To Production", variables[0].Value);
         }
 
-        [TestMethod, ExpectedException(typeof(CmdletInvocationException))]
+        [Fact]
         public void With_Invalid_Project()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Project", "Gibberish").AddArgument("Deploy");
-            _ps.Invoke();
+            Assert.Throws<CmdletInvocationException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void By_VariableSet_No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("VariableSet", "Octopus");
             var variables = _ps.Invoke<VariableResource>();
 
-            Assert.AreEqual(3, variables.Count);
+            Assert.Equal(3, variables.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_VariableSet()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("VariableSet", "Gibberish").AddArgument("Deploy");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _ps.Streams.Warning.Count);
-            Assert.AreEqual("Library variable set 'Gibberish' was not found.", _ps.Streams.Warning[0].ToString());
+            Assert.Single(_ps.Streams.Warning);
+            Assert.Equal("Library variable set 'Gibberish' was not found.", _ps.Streams.Warning[0].ToString());
         }
         
-        [TestMethod]
+        [Fact]
         public void By_VariableSet_With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("VariableSet", "Octopus").AddArgument("Deploy"); 
             var variables = _ps.Invoke<VariableResource>();
 
-            Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("To Production", variables[0].Value);
+            Assert.Single(variables);
+            Assert.Equal("To Production", variables[0].Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void By_VariableSetId_No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("VariableSetId", "LibraryVariableSets-1");
             var variables = _ps.Invoke<VariableResource>();
 
-            Assert.AreEqual(3, variables.Count);
+            Assert.Equal(3, variables.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void By_VariableSetId_With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("VariableSetId", "LibraryVariableSets-1").AddArgument("Deploy");
             var variables = _ps.Invoke<VariableResource>();
 
-            Assert.AreEqual(1, variables.Count);
-            Assert.AreEqual("To Production", variables[0].Value);
+            Assert.Single(variables);
+            Assert.Equal("To Production", variables[0].Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Invalid_VariableSetId()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("VariableSetId", "Gibberish").AddArgument("Deploy");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _ps.Streams.Warning.Count);
-            Assert.AreEqual("Library variable set with id 'Gibberish' was not found.", _ps.Streams.Warning[0].ToString());
+            Assert.Single(_ps.Streams.Warning);
+            Assert.Equal("Library variable set with id 'Gibberish' was not found.", _ps.Streams.Warning[0].ToString());
         }
     }
 }

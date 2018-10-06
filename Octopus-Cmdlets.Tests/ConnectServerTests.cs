@@ -1,10 +1,9 @@
 ﻿using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Octopus.Client;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class ConnectServerTests
     {
         private PowerShell _ps;
@@ -16,7 +15,7 @@ namespace Octopus_Cmdlets.Tests
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(ConnectServer));
         }
 
-        [TestMethod]
+        [Fact]
         public void Connection()
         {
             _ps.AddCommand(CmdletName)
@@ -24,12 +23,12 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("API-ABCDEFGHIJKLMNOP");
             _ps.Invoke();
 
-            Assert.IsNotNull(_ps.Runspace.SessionStateProxy.PSVariable.GetValue("OctopusRepository"));
+            Assert.NotNull(_ps.Runspace.SessionStateProxy.PSVariable.GetValue("OctopusRepository"));
             Assert.IsInstanceOfType(_ps.Runspace.SessionStateProxy.PSVariable.GetValue("OctopusRepository"),
                 typeof (OctopusRepository));
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact, ExpectedException(typeof(ParameterBindingException))]
         public void Missing_Key()
         {
             _ps.AddCommand(CmdletName).AddArgument("http://localhost:8081");

@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Octopus.Client.Model;
 using Octopus.Client.Repositories;
 
 namespace Octopus_Cmdlets.Tests
 {
-    [TestClass]
     public class AddProjectGroupTests
     {
         private const string CmdletName = "Add-OctoProjectGroup";
         private PowerShell _ps;
         private readonly List<ProjectGroupResource> _groups = new List<ProjectGroupResource>();
 
-        [TestInitialize]
-        public void Init()
+        public AddProjectGroupTests()
         {
             _ps = Utilities.CreatePowerShell(CmdletName, typeof(AddProjectGroup));
             var octoRepo = Utilities.AddOctopusRepo(_ps.Runspace.SessionStateProxy.PSVariable);
@@ -23,8 +21,8 @@ namespace Octopus_Cmdlets.Tests
             _groups.Clear();
 
             var repo = new Mock<IProjectGroupRepository>();
-            repo.Setup(e => e.Create(It.IsAny<ProjectGroupResource>()))
-                .Returns(delegate(ProjectGroupResource p)
+            repo.Setup(e => e.Create(It.IsAny<ProjectGroupResource>(), It.IsAny<object>()))
+                .Returns((ProjectGroupResource p, object o) => 
                 {
                     _groups.Add(p);
                     return p;
@@ -33,37 +31,37 @@ namespace Octopus_Cmdlets.Tests
             octoRepo.Setup(o => o.ProjectGroups).Returns(repo.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddArgument("Octopus");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _groups.Count);
-            Assert.AreEqual("Octopus", _groups[0].Name);
+            Assert.Single(_groups);
+            Assert.Equal("Octopus", _groups[0].Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name_Parameter()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Name", "Octopus");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _groups.Count);
-            Assert.AreEqual("Octopus", _groups[0].Name);
+            Assert.Single(_groups);
+            Assert.Equal("Octopus", _groups[0].Name);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void With_Description()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName).AddParameter("Description", "Octopus Development Group");
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
 
-        [TestMethod]
+        [Fact]
         public void With_Name_And_Description()
         {
             // Execute cmdlet
@@ -72,17 +70,17 @@ namespace Octopus_Cmdlets.Tests
                 .AddArgument("Octopus Development Group");
             _ps.Invoke();
 
-            Assert.AreEqual(1, _groups.Count);
-            Assert.AreEqual("Octopus", _groups[0].Name);
-            Assert.AreEqual("Octopus Development Group", _groups[0].Description);
+            Assert.Single(_groups);
+            Assert.Equal("Octopus", _groups[0].Name);
+            Assert.Equal("Octopus Development Group", _groups[0].Description);
         }
 
-        [TestMethod, ExpectedException(typeof(ParameterBindingException))]
+        [Fact]
         public void No_Arguments()
         {
             // Execute cmdlet
             _ps.AddCommand(CmdletName);
-            _ps.Invoke();
+            Assert.Throws<ParameterBindingException>(() => _ps.Invoke());
         }
     }
 }
