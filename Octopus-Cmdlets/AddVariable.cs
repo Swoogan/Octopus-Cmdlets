@@ -67,6 +67,15 @@ namespace Octopus_Cmdlets
         public string Value { get; set; }
 
         /// <summary>
+        /// <para type="description">The type of the variable to create.</para>
+        /// </summary>
+        [Parameter(
+            ParameterSetName = "ByParts",
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public VariableType Type { get; set; }
+
+        /// <summary>
         /// <para type="description">The environments to restrict the scope to.</para>
         /// </summary>
         [Parameter(
@@ -190,7 +199,7 @@ namespace Octopus_Cmdlets
 
         private void ProcessByParts()
         {
-            var variable = new VariableResource { Name = Name, Value = Value, IsSensitive = Sensitive };
+            var variable = new VariableResource { Name = Name, Value = Value, Type = Type, IsSensitive = Sensitive };
 
             if (Environments != null)
                 AddEnvironments(variable);
