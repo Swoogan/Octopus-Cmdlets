@@ -80,6 +80,15 @@ namespace Octopus_Cmdlets
         public string Value { get; set; }
 
         /// <summary>
+        /// <para type="description">The type of the variable to create.</para>
+        /// </summary>
+        [Parameter(
+            ParameterSetName = "Parts",
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public VariableType? Type { get; set; }
+
+        /// <summary>
         /// <para type="description">The environments to restrict the scope to.</para>
         /// </summary>
         [Parameter(
@@ -190,6 +199,8 @@ namespace Octopus_Cmdlets
                 variable.IsSensitive = Sensitive;
             if (Value != null)
                 variable.Value = Value;
+            if (Type.HasValue)
+                variable.Type = Type.Value;
             
             if (Environments != null)
             {
