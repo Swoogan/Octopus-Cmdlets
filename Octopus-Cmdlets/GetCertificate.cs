@@ -56,11 +56,19 @@ namespace Octopus_Cmdlets
         public string[] CertificateId { get; set; }
 
         /// <summary>
+        /// <para type="description">The thumbprint of the certificate to retrieve.</para>
+        /// </summary>
+        [Parameter(
+            ParameterSetName = "ByThumbprint",
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true)]
+        public string[] Thumbprint { get; set; }
+
+        /// <summary>
         /// <para type="description">The environments of the certificates to retrieve.</para>
         /// </summary>
         [Parameter(
-            ParameterSetName = "ByEnvironment",
-            Mandatory = true,
+            Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string[] Environment { get; set; }
 
@@ -106,26 +114,12 @@ namespace Octopus_Cmdlets
                 case "ById":
                     ProcessById();
                     break;
-                case "ByEnvironment":
-                    ProcessByEnvironment();
+                case "ByThumbprint":
+                    ProcessByThumbprint();
                     break;
                 default:
                     throw new Exception("Unknown ParameterSetName: " + ParameterSetName);
             }
-        }
-
-        private void ProcessByEnvironment()
-        {
-            var certs = Environment == null
-                ? _certificates
-                : (from c in _certificates
-                   from cenv in c.EnvironmentIds
-                   from env in Environment
-                   where cenv == env
-                   select c);
-
-            foreach (var cert in certs)
-                WriteObject(cert);
         }
 
         private void ProcessByName()
@@ -133,9 +127,11 @@ namespace Octopus_Cmdlets
             var certs = Name == null
                 ? _certificates
                 : (from c in _certificates
-                    from n in Name
-                    where c.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
-                    select c);
+                   from n in Name
+                   where c.Name.Equals(n, StringComparison.InvariantCultureIgnoreCase)
+                   select c);
+
+            certs = FilterEnvironment(certs);
 
             foreach (var cert in certs)
                 WriteObject(cert);
@@ -144,12 +140,40 @@ namespace Octopus_Cmdlets
         private void ProcessById()
         {
             var certs = from c in _certificates
-                       from id in CertificateId
-                       where id == c.Id
-                       select c;
+                        from id in CertificateId
+                        where id == c.Id
+                        select c;
+
+            certs = FilterEnvironment(certs);
 
             foreach (var cert in certs)
                 WriteObject(cert);
+        }
+
+        private void ProcessByThumbprint()
+        {
+            var certs = from c in _certificates
+                        from thumb in Thumbprint
+                        where thumb == c.Thumbprint
+                        select c;
+
+            certs = FilterEnvironment(certs);
+
+            foreach (var cert in certs)
+                WriteObject(cert);
+        }
+
+        private IEnumerable<CertificateResource> FilterEnvironment(IEnumerable<CertificateResource> certs)
+        {
+            if (Environment == null || Environment.Length == 0)
+            {
+                return certs;
+            }
+
+            return from c in certs
+                   from e in Environment
+                   where c.EnvironmentIds.Contains(e, StringComparer.OrdinalIgnoreCase)
+                   select c;
         }
     }
 }
