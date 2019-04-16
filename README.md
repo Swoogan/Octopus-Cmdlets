@@ -23,7 +23,7 @@ Powershell Gallery (preferred method)
 
 Binary Archive
 --------------
-Download the latest binary: [v0.6.0](https://github.com/Swoogan/Octopus-Cmdlets/releases/download/v0.6.0/Octopus-Cmdlets-v0.6.0.zip)
+Download the latest binary: [v0.7.0](https://github.com/Swoogan/Octopus-Cmdlets/releases/download/v0.7.0/Octopus-Cmdlets-v0.7.0.zip)
 
 Extract the zip and copy the `Octopus-Cmdlets` folder into a folder in your
 `$env:PSModulePath`.
